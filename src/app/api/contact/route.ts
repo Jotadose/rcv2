@@ -38,7 +38,7 @@ export async function POST(request: Request) {
     // Datos para guardar en BD (solo columnas que existen en el schema)
     // NOTA: en la tabla contact_submissions el campo email es NOT NULL, así que usamos
     // un placeholder si no se proporcionó uno real para evitar error de inserción.
-    const contactData = {
+  const contactData = {
       name: data.name.trim(),
       phone: data.phone.trim(),
       email: data.email?.trim() || "sin-email@placeholder.local",
@@ -47,6 +47,9 @@ export async function POST(request: Request) {
       message: data.message?.trim() || "",
       budget_range: data.budgetRange || null,
     };
+
+  // Campo no persistido (no existe en la tabla) pero útil para email
+  const preferredContact: string = data.preferredContact || "whatsapp";
 
     // Guardar en Supabase solo si está configurado
     let savedData = null;
@@ -80,12 +83,8 @@ export async function POST(request: Request) {
           }</p>
           <p><strong>Tipo de Proyecto:</strong> ${contactData.project_type}</p>
           <p><strong>Ubicación:</strong> ${contactData.location}</p>
-          <p><strong>Presupuesto:</strong> ${
-            contactData.budget_range || "No especificado"
-          }</p>
-          <p><strong>Contacto Preferido:</strong> ${
-            contactData.preferred_contact
-          }</p>
+          <p><strong>Presupuesto:</strong> ${contactData.budget_range || "No especificado"}</p>
+          <p><strong>Contacto Preferido:</strong> ${preferredContact}</p>
           <p><strong>Mensaje:</strong></p>
           <p>${contactData.message}</p>
           
