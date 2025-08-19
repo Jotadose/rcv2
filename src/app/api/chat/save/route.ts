@@ -1,9 +1,18 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 
 export async function POST(request: Request) {
   try {
     const { sessionData } = await request.json();
+
+    // Si Supabase no está configurado, solo retornar éxito sin guardar
+    if (!isSupabaseConfigured() || !supabase) {
+      console.log("Supabase no configurado - datos del chat:", sessionData);
+      return NextResponse.json({ 
+        success: true, 
+        message: "Chat procesado correctamente" 
+      });
+    }
 
     // Guardar sesión de chat completa
     const { data, error } = await supabase
