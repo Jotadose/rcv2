@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://rcreformas.cl/sitemap.xml
+
+# RC Reformas - Construcción y Reformas en Coquimbo
+# https://rcreformas.cl
