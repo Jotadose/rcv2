@@ -4,9 +4,8 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 // Crear cliente de Supabase solo si las variables están disponibles
-export const supabase = supabaseUrl && supabaseKey 
-  ? createClient(supabaseUrl, supabaseKey)
-  : null;
+export const supabase =
+  supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
 
 // Helper para verificar si Supabase está disponible
 export const isSupabaseConfigured = () => Boolean(supabaseUrl && supabaseKey);

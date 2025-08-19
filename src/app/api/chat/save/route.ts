@@ -8,9 +8,9 @@ export async function POST(request: Request) {
     // Si Supabase no está configurado, solo retornar éxito sin guardar
     if (!isSupabaseConfigured() || !supabase) {
       console.log("Supabase no configurado - datos del chat:", sessionData);
-      return NextResponse.json({ 
-        success: true, 
-        message: "Chat procesado correctamente" 
+      return NextResponse.json({
+        success: true,
+        message: "Chat procesado correctamente",
       });
     }
 
@@ -28,7 +28,7 @@ export async function POST(request: Request) {
       estimated_min: sessionData.estimatedMin || null,
       estimated_max: sessionData.estimatedMax || null,
       messages: sessionData.messages || [],
-      status: 'complete',
+      status: "complete",
     };
 
     const { data, error } = await supabase

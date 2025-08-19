@@ -3,22 +3,26 @@
 ## **Paso 1: Crear App en Facebook Developers**
 
 ### 1.1 Ir a Facebook Developers
+
 - Visita: https://developers.facebook.com/
 - Hacer clic en "Mis Apps" → "Crear App"
 
 ### 1.2 Configurar App
+
 - **Tipo de App:** "Consumidor"
 - **Nombre:** "REFORMAS Website"
 - **Email de contacto:** tu email
 - **Propósito:** "Yo mismo o mi empresa"
 
 ### 1.3 Agregar Producto Instagram
+
 - En el dashboard de tu app, buscar "Instagram Basic Display"
 - Hacer clic en "Configurar"
 
 ## **Paso 2: Configurar Instagram Basic Display**
 
 ### 2.1 URLs de Redirect
+
 ```
 OAuth Redirect URI: https://tu-dominio.vercel.app/api/instagram/auth/callback
 Deauthorize Callback URL: https://tu-dominio.vercel.app/api/instagram/auth
@@ -26,6 +30,7 @@ Data Deletion Request URL: https://tu-dominio.vercel.app/data-deletion
 ```
 
 ### 2.2 Obtener Client ID y Secret
+
 - En "Instagram Basic Display" → "Configuración básica"
 - Copiar:
   - **Instagram App ID**
@@ -34,16 +39,19 @@ Data Deletion Request URL: https://tu-dominio.vercel.app/data-deletion
 ## **Paso 3: Obtener Access Token**
 
 ### 3.1 Usar nuestro script automático
+
 ```bash
 node scripts/instagram-token.js
 ```
 
 ### 3.2 O manual:
+
 1. Ir a: `https://api.instagram.com/oauth/authorize?client_id={APP_ID}&redirect_uri=https://tu-dominio.vercel.app/api/instagram/auth/callback&scope=user_profile,user_media&response_type=code`
 
 2. Autorizar y copiar el código de la URL
 
 3. Intercambiar por token:
+
 ```bash
 curl -X POST "https://api.instagram.com/oauth/access_token" \
   -F client_id={APP_ID} \
@@ -54,6 +62,7 @@ curl -X POST "https://api.instagram.com/oauth/access_token" \
 ```
 
 ## **Variables para Vercel:**
+
 ```
 INSTAGRAM_ACCESS_TOKEN=tu_token_aqui
 INSTAGRAM_ACCOUNT_ID=tu_user_id
@@ -66,11 +75,13 @@ INSTAGRAM_ACCOUNT_ID=tu_user_id
 ## **Paso 1: Crear Proyecto Supabase**
 
 ### 1.1 Crear Cuenta
+
 - Ir a: https://supabase.com
 - Crear cuenta con GitHub/Google
 - Hacer clic en "New Project"
 
 ### 1.2 Configurar Proyecto
+
 - **Nombre:** "reformas-website"
 - **Database Password:** (genera una segura)
 - **Región:** "South America (São Paulo)" - la más cercana
@@ -79,6 +90,7 @@ INSTAGRAM_ACCOUNT_ID=tu_user_id
 ## **Paso 2: Configurar Base de Datos**
 
 ### 2.1 Ejecutar SQL
+
 - Ir a "SQL Editor" en Supabase
 - Copiar y ejecutar este SQL:
 
@@ -134,6 +146,7 @@ CREATE POLICY "Enable read for authenticated users only" ON chat_sessions FOR SE
 ```
 
 ### 2.2 Obtener Keys
+
 - Ir a "Settings" → "API"
 - Copiar:
   - **Project URL**
@@ -141,6 +154,7 @@ CREATE POLICY "Enable read for authenticated users only" ON chat_sessions FOR SE
   - **Project API Key (service_role)** - ¡Mantener secreta!
 
 ## **Variables para Vercel:**
+
 ```
 NEXT_PUBLIC_SUPABASE_URL=https://tu-proyecto.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_anon_key
@@ -154,16 +168,19 @@ SUPABASE_SERVICE_ROLE_KEY=tu_service_role_key
 ## **Paso 1: Preparar Gmail**
 
 ### 1.1 Habilitar 2FA
+
 - Ir a: https://myaccount.google.com/security
 - Activar "Verificación en 2 pasos"
 
 ### 1.2 Generar App Password
+
 - En la misma página de seguridad
 - "Contraseñas de aplicaciones"
 - Seleccionar "Correo" y "Otro dispositivo"
 - Generar y copiar la contraseña
 
 ## **Variables para Vercel:**
+
 ```
 EMAIL_USER=tu_email@gmail.com
 EMAIL_PASS=la_app_password_generada
@@ -175,26 +192,31 @@ EMAIL_TO=contacto@reformas.cl
 # ⚙️ **CONFIGURAR EN VERCEL**
 
 ## **Paso 1: Ir al Dashboard de Vercel**
+
 - https://vercel.com/dashboard
 - Seleccionar tu proyecto
 
 ## **Paso 2: Agregar Variables**
+
 - Ir a "Settings" → "Environment Variables"
 - Agregar una por una:
 
 ### Variables Básicas:
+
 ```
 NEXT_PUBLIC_SITE_URL=https://tu-dominio.vercel.app
 NODE_ENV=production
 ```
 
 ### Variables Instagram (opcional):
+
 ```
 INSTAGRAM_ACCESS_TOKEN=tu_token
 INSTAGRAM_ACCOUNT_ID=tu_user_id
 ```
 
 ### Variables Supabase (recomendado):
+
 ```
 NEXT_PUBLIC_SUPABASE_URL=https://tu-proyecto.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_anon_key
@@ -202,6 +224,7 @@ SUPABASE_SERVICE_ROLE_KEY=tu_service_role_key
 ```
 
 ### Variables Email (opcional):
+
 ```
 EMAIL_USER=tu_email@gmail.com
 EMAIL_PASS=tu_app_password
@@ -209,6 +232,7 @@ EMAIL_TO=contacto@reformas.cl
 ```
 
 ## **Paso 3: Redeploy**
+
 - Después de agregar variables, hacer clic en "Redeploy"
 - O hacer un nuevo commit para trigger automático
 
@@ -217,14 +241,17 @@ EMAIL_TO=contacto@reformas.cl
 # 🎯 **PRIORIDADES DE CONFIGURACIÓN**
 
 ## **🔥 CRÍTICO (Configurar primero):**
+
 1. **Supabase** - Para guardar leads y cotizaciones
 2. **EMAIL_TO** - Para recibir notificaciones
 
 ## **📈 IMPORTANTE (Configurar después):**
+
 3. **Gmail** - Para notificaciones automáticas
 4. **Instagram API** - Para feed dinámico real
 
 ## **✨ OPCIONAL:**
+
 5. Dominio personalizado
 6. Analytics avanzadas
 
@@ -233,6 +260,7 @@ EMAIL_TO=contacto@reformas.cl
 # 📞 **SOPORTE**
 
 Si necesitas ayuda con algún paso:
+
 1. **Instagram:** Error común es la URL de callback incorrecta
 2. **Supabase:** Asegurar región South America para mejor latencia
 3. **Gmail:** App Password es diferente a la contraseña normal

@@ -585,9 +585,10 @@ export default function ReformasOptimized() {
         // También abrir WhatsApp como backup
         const whatsappMessage = `Hola ${businessConfig.name}, soy ${formData.name}. Me interesa cotizar un proyecto de ${formData.projectType} en ${formData.location}. ${formData.message}`;
         window.open(
-          `https://wa.me/${businessConfig.contact.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(
-            whatsappMessage
-          )}`,
+          `https://wa.me/${businessConfig.contact.whatsapp.replace(
+            /\D/g,
+            ""
+          )}?text=${encodeURIComponent(whatsappMessage)}`,
           "_blank"
         );
 
@@ -597,9 +598,10 @@ export default function ReformasOptimized() {
         // Si falla la API, solo usar WhatsApp
         const whatsappMessage = `Hola ${businessConfig.name}, soy ${formData.name}. Me interesa cotizar un proyecto de ${formData.projectType} en ${formData.location}. ${formData.message}`;
         window.open(
-          `https://wa.me/${businessConfig.contact.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(
-            whatsappMessage
-          )}`,
+          `https://wa.me/${businessConfig.contact.whatsapp.replace(
+            /\D/g,
+            ""
+          )}?text=${encodeURIComponent(whatsappMessage)}`,
           "_blank"
         );
       }
@@ -608,7 +610,10 @@ export default function ReformasOptimized() {
       // En caso de error, usar WhatsApp como fallback
       const whatsappMessage = `Hola ${businessConfig.name}, soy ${formData.name}. Me interesa cotizar un proyecto de ${formData.projectType} en ${formData.location}. ${formData.message}`;
       window.open(
-        `https://wa.me/${businessConfig.contact.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(whatsappMessage)}`,
+        `https://wa.me/${businessConfig.contact.whatsapp.replace(
+          /\D/g,
+          ""
+        )}?text=${encodeURIComponent(whatsappMessage)}`,
         "_blank"
       );
     }

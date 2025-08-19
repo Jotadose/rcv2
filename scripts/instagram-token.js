@@ -12,10 +12,10 @@ class InstagramTokenManager {
   constructor() {
     this.clientId = process.env.INSTAGRAM_CLIENT_ID;
     this.clientSecret = process.env.INSTAGRAM_CLIENT_SECRET;
-    this.redirectUri = process.env.NEXT_PUBLIC_SITE_URL 
+    this.redirectUri = process.env.NEXT_PUBLIC_SITE_URL
       ? `${process.env.NEXT_PUBLIC_SITE_URL}/api/instagram/auth/callback`
       : "https://reformas.vercel.app/api/instagram/auth/callback";
-    
+
     console.log(`🔗 Redirect URI configurado: ${this.redirectUri}`);
   }
 
@@ -27,8 +27,16 @@ class InstagramTokenManager {
     console.log("3. Agregar producto 'Instagram Basic Display'");
     console.log("4. En configuración, agregar estas URLs:");
     console.log(`   - OAuth Redirect URI: ${this.redirectUri}`);
-    console.log(`   - Deauthorize Callback: ${process.env.NEXT_PUBLIC_SITE_URL || 'https://reformas.vercel.app'}/api/instagram/auth`);
-    console.log(`   - Data Deletion Request: ${process.env.NEXT_PUBLIC_SITE_URL || 'https://reformas.vercel.app'}/data-deletion`);
+    console.log(
+      `   - Deauthorize Callback: ${
+        process.env.NEXT_PUBLIC_SITE_URL || "https://reformas.vercel.app"
+      }/api/instagram/auth`
+    );
+    console.log(
+      `   - Data Deletion Request: ${
+        process.env.NEXT_PUBLIC_SITE_URL || "https://reformas.vercel.app"
+      }/data-deletion`
+    );
     console.log("5. Copiar Client ID y Client Secret");
     console.log("6. Agregar variables de entorno:");
     console.log("   INSTAGRAM_CLIENT_ID=tu_client_id");
@@ -249,7 +257,9 @@ async function main() {
             )} días)`
           );
           console.log("\n📝 AGREGAR A VERCEL:");
-          console.log("1. Ir a vercel.com → tu proyecto → Settings → Environment Variables");
+          console.log(
+            "1. Ir a vercel.com → tu proyecto → Settings → Environment Variables"
+          );
           console.log("2. Agregar estas variables:");
           console.log(`INSTAGRAM_ACCESS_TOKEN=${longToken.access_token}`);
           console.log(`INSTAGRAM_ACCOUNT_ID=${shortToken.user_id}`);

@@ -7,7 +7,7 @@ const createEmailTransporter = () => {
   if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
     return null;
   }
-  
+
   return nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -41,7 +41,7 @@ export async function POST(request: Request) {
     const contactData = {
       name: data.name.trim(),
       phone: data.phone.trim(),
-      email: (data.email?.trim() || "sin-email@placeholder.local"),
+      email: data.email?.trim() || "sin-email@placeholder.local",
       project_type: data.project_type,
       location: data.location.trim(),
       message: data.message?.trim() || "",
@@ -91,7 +91,9 @@ export async function POST(request: Request) {
           
           <hr>
           <p><strong>ID de Solicitud:</strong> ${savedData?.id || "N/A"}</p>
-          <p><strong>Fecha:</strong> ${new Date().toLocaleDateString("es-CL")}</p>
+          <p><strong>Fecha:</strong> ${new Date().toLocaleDateString(
+            "es-CL"
+          )}</p>
           
           <p>
             <a href="https://wa.me/${contactData.phone.replace(/\D/g, "")}" 
