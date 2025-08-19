@@ -35,16 +35,17 @@ export async function POST(request: Request) {
     }
 
     // Limpiar y formatear datos
+    // Datos para guardar en BD (solo columnas que existen en el schema)
+    // NOTA: en la tabla contact_submissions el campo email es NOT NULL, así que usamos
+    // un placeholder si no se proporcionó uno real para evitar error de inserción.
     const contactData = {
       name: data.name.trim(),
       phone: data.phone.trim(),
-      email: data.email?.trim() || null,
+      email: (data.email?.trim() || "sin-email@placeholder.local"),
       project_type: data.project_type,
       location: data.location.trim(),
       message: data.message?.trim() || "",
       budget_range: data.budgetRange || null,
-      preferred_contact: data.preferredContact || "whatsapp",
-      status: "new" as const,
     };
 
     // Guardar en Supabase solo si está configurado

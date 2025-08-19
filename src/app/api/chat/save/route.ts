@@ -15,22 +15,25 @@ export async function POST(request: Request) {
     }
 
     // Guardar sesión de chat completa
+    // Insert solo en columnas que existen en el schema actual (supabase-setup.sql)
+    // Campos disponibles: session_id, name, email, phone, project_type, area, quality, budget,
+    // estimated_min, estimated_max, estimated_duration, status, messages
+    const payload = {
+      session_id: sessionData.sessionId,
+      name: sessionData.name || null,
+      phone: sessionData.phone || null,
+      project_type: sessionData.projectType || null,
+      area: sessionData.area || null,
+      quality: sessionData.quality || null,
+      estimated_min: sessionData.estimatedMin || null,
+      estimated_max: sessionData.estimatedMax || null,
+      messages: sessionData.messages || [],
+      status: 'complete',
+    };
+
     const { data, error } = await supabase
       .from("chat_sessions")
-      .insert([
-        {
-          session_id: sessionData.sessionId,
-          name: sessionData.name,
-          phone: sessionData.phone,
-          project_type: sessionData.projectType,
-          area: sessionData.area,
-          quality: sessionData.quality,
-          estimated_min: sessionData.estimatedMin,
-          estimated_max: sessionData.estimatedMax,
-          messages: sessionData.messages,
-          completed: true,
-        },
-      ])
+      .insert([payload])
       .select()
       .single();
 

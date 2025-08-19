@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Instagram Token Manager
+ * Instagram Token Manager - REFORMAS
  * Script para gestionar tokens de Instagram API
  */
 
@@ -12,7 +12,27 @@ class InstagramTokenManager {
   constructor() {
     this.clientId = process.env.INSTAGRAM_CLIENT_ID;
     this.clientSecret = process.env.INSTAGRAM_CLIENT_SECRET;
-    this.redirectUri = "https://localhost:3001/auth/instagram/callback";
+    this.redirectUri = process.env.NEXT_PUBLIC_SITE_URL 
+      ? `${process.env.NEXT_PUBLIC_SITE_URL}/api/instagram/auth/callback`
+      : "https://reformas.vercel.app/api/instagram/auth/callback";
+    
+    console.log(`🔗 Redirect URI configurado: ${this.redirectUri}`);
+  }
+
+  // Mostrar instrucciones de configuración
+  showSetupInstructions() {
+    console.log("\n📋 INSTRUCCIONES DE CONFIGURACIÓN:");
+    console.log("1. Ir a: https://developers.facebook.com/apps/");
+    console.log("2. Crear nueva app tipo 'Consumidor'");
+    console.log("3. Agregar producto 'Instagram Basic Display'");
+    console.log("4. En configuración, agregar estas URLs:");
+    console.log(`   - OAuth Redirect URI: ${this.redirectUri}`);
+    console.log(`   - Deauthorize Callback: ${process.env.NEXT_PUBLIC_SITE_URL || 'https://reformas.vercel.app'}/api/instagram/auth`);
+    console.log(`   - Data Deletion Request: ${process.env.NEXT_PUBLIC_SITE_URL || 'https://reformas.vercel.app'}/data-deletion`);
+    console.log("5. Copiar Client ID y Client Secret");
+    console.log("6. Agregar variables de entorno:");
+    console.log("   INSTAGRAM_CLIENT_ID=tu_client_id");
+    console.log("   INSTAGRAM_CLIENT_SECRET=tu_client_secret\n");
   }
 
   // Paso 1: Generar URL de autorización
@@ -177,7 +197,14 @@ async function main() {
   }
 
   try {
-    console.log("🔧 Instagram Token Manager para RC Reformas\n");
+    console.log("🔧 Instagram Token Manager - REFORMAS\n");
+
+    // Verificar configuración
+    if (!manager.clientId || !manager.clientSecret) {
+      console.log("⚠️  Variables de entorno no configuradas");
+      manager.showSetupInstructions();
+      return;
+    }
 
     const action = await question(
       "Selecciona una acción:\n" +
@@ -185,6 +212,7 @@ async function main() {
         "2. Intercambiar código por token\n" +
         "3. Verificar token actual\n" +
         "4. Renovar token\n" +
+        "5. Ver instrucciones de configuración\n" +
         "Opción: "
     );
 
@@ -192,9 +220,11 @@ async function main() {
       case "1": {
         console.log("\n📱 URL de autorización:");
         console.log(manager.getAuthorizationUrl());
-        console.log("\n1. Abre esta URL en tu navegador");
+        console.log("\n📋 PASOS:");
+        console.log("1. Abre esta URL en tu navegador");
         console.log("2. Autoriza la aplicación");
         console.log("3. Copia el código de la URL de redirección");
+        console.log("4. Ejecuta este script nuevamente y elige opción 2");
         break;
       }
 
@@ -218,8 +248,12 @@ async function main() {
               longToken.expires_in / 86400
             )} días)`
           );
-          console.log("\n📝 Agrega esto a tu archivo .env.local:");
+          console.log("\n📝 AGREGAR A VERCEL:");
+          console.log("1. Ir a vercel.com → tu proyecto → Settings → Environment Variables");
+          console.log("2. Agregar estas variables:");
           console.log(`INSTAGRAM_ACCESS_TOKEN=${longToken.access_token}`);
+          console.log(`INSTAGRAM_ACCOUNT_ID=${shortToken.user_id}`);
+          console.log("3. Hacer Redeploy del sitio");
         } catch (error) {
           console.error("❌ Error:", error);
         }
@@ -250,9 +284,16 @@ async function main() {
               newToken.expires_in / 86400
             )} días)`
           );
+          console.log("\n📝 Actualizar en Vercel:");
+          console.log(`INSTAGRAM_ACCESS_TOKEN=${newToken.access_token}`);
         } catch (error) {
           console.error("❌ Error renovando token:", error);
         }
+        break;
+      }
+
+      case "5": {
+        manager.showSetupInstructions();
         break;
       }
 
