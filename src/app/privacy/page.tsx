@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Política de Privacidad - RC Reformas",
-  description: "Política de privacidad y protección de datos de RC Reformas",
+  title: "Política de Privacidad - REFORMAS",
+  description: "Política de privacidad y protección de datos de REFORMAS",
 };
 
 export default function PrivacyPolicy() {
@@ -23,7 +23,7 @@ export default function PrivacyPolicy() {
               1. Información que Recopilamos
             </h2>
             <p className="text-gray-700 mb-4">
-              En RC Reformas recopilamos información que nos proporcionas
+              En REFORMAS recopilamos información que nos proporcionas
               directamente cuando:
             </p>
             <ul className="list-disc pl-6 text-gray-700 mb-4">
@@ -97,9 +97,9 @@ export default function PrivacyPolicy() {
               ejercer tus derechos, contáctanos:
             </p>
             <ul className="list-none text-gray-700">
-              <li>Email: contacto@rcreformas.cl</li>
-              <li>WhatsApp: +56 9 5123 4567</li>
-              <li>Dirección: La Serena, Región de Coquimbo, Chile</li>
+              <li>Email: contacto@reformas.cl</li>
+              <li>WhatsApp: +56 9 8759 3649</li>
+              <li>Dirección: Región de Valparaíso, Chile</li>
             </ul>
           </section>
         </div>

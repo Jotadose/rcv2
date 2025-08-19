@@ -434,7 +434,7 @@ $${estimate.min.toLocaleString("es-CL")} - $${estimate.max.toLocaleString(
           <div className="flex items-center space-x-3">
             <img
               src="/REFORMAS/reformaslogohor.jpg"
-              alt="RC Reformas"
+              alt={businessConfig.name}
               className="w-10 h-10 rounded-full object-cover"
             />
             <div>
@@ -540,7 +540,7 @@ $${estimate.min.toLocaleString("es-CL")} - $${estimate.max.toLocaleString(
   );
 };
 
-export default function RCReformasOptimized() {
+export default function ReformasOptimized() {
   const [showPopup, setShowPopup] = useState(false);
   const [showAIChat, setShowAIChat] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
@@ -583,9 +583,9 @@ export default function RCReformasOptimized() {
 
       if (response.ok) {
         // También abrir WhatsApp como backup
-        const whatsappMessage = `Hola RC Reformas, soy ${formData.name}. Me interesa cotizar un proyecto de ${formData.projectType} en ${formData.location}. ${formData.message}`;
+        const whatsappMessage = `Hola ${businessConfig.name}, soy ${formData.name}. Me interesa cotizar un proyecto de ${formData.projectType} en ${formData.location}. ${formData.message}`;
         window.open(
-          `https://wa.me/56951234567?text=${encodeURIComponent(
+          `https://wa.me/${businessConfig.contact.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(
             whatsappMessage
           )}`,
           "_blank"
@@ -595,9 +595,9 @@ export default function RCReformasOptimized() {
         alert("¡Mensaje enviado correctamente! Te contactaremos pronto.");
       } else {
         // Si falla la API, solo usar WhatsApp
-        const whatsappMessage = `Hola RC Reformas, soy ${formData.name}. Me interesa cotizar un proyecto de ${formData.projectType} en ${formData.location}. ${formData.message}`;
+        const whatsappMessage = `Hola ${businessConfig.name}, soy ${formData.name}. Me interesa cotizar un proyecto de ${formData.projectType} en ${formData.location}. ${formData.message}`;
         window.open(
-          `https://wa.me/56951234567?text=${encodeURIComponent(
+          `https://wa.me/${businessConfig.contact.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(
             whatsappMessage
           )}`,
           "_blank"
@@ -606,9 +606,9 @@ export default function RCReformasOptimized() {
     } catch (error) {
       console.error("Error al enviar mensaje:", error);
       // En caso de error, usar WhatsApp como fallback
-      const whatsappMessage = `Hola RC Reformas, soy ${formData.name}. Me interesa cotizar un proyecto de ${formData.projectType} en ${formData.location}. ${formData.message}`;
+      const whatsappMessage = `Hola ${businessConfig.name}, soy ${formData.name}. Me interesa cotizar un proyecto de ${formData.projectType} en ${formData.location}. ${formData.message}`;
       window.open(
-        `https://wa.me/56951234567?text=${encodeURIComponent(whatsappMessage)}`,
+        `https://wa.me/${businessConfig.contact.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(whatsappMessage)}`,
         "_blank"
       );
     }
@@ -637,7 +637,7 @@ export default function RCReformasOptimized() {
             <div className="flex items-center space-x-3">
               <img
                 src="/REFORMAS/reformaslogoblanco.jpg"
-                alt="RC Reformas Logo"
+                alt={`${businessConfig.name} Logo`}
                 className="h-12 w-auto rounded-md object-contain"
               />
               <div>
@@ -784,7 +784,7 @@ export default function RCReformasOptimized() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-6">
-              ¿Por Qué Elegir RC Reformas?
+              ¿Por Qué Elegir {businessConfig.name}?
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               La diferencia que nos convierte en líderes de la región

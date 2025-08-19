@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Instagram Setup - RC Reformas",
+  title: "Instagram Setup - REFORMAS",
   description: "Configuración de integración con Instagram",
 };
 
@@ -12,7 +12,7 @@ export default function InstagramSetupPage() {
       <div className="container mx-auto px-4 max-w-4xl">
         <div className="bg-white rounded-lg shadow-lg p-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-6">
-            � Instagram Integration - RC Reformas
+            📸 Instagram Integration - REFORMAS
           </h1>
 
           <div className="prose prose-gray max-w-none">

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Eliminación de Datos - RC Reformas",
+  title: "Eliminación de Datos - REFORMAS",
   description: "Solicitud de eliminación de datos personales",
 };
 
@@ -33,7 +33,7 @@ export default function DataDeletion() {
                 📧 Por Email
               </h3>
               <p className="text-gray-700 mb-2">
-                Envía un email a: <strong>contacto@rcreformas.cl</strong>
+                Envía un email a: <strong>contacto@reformas.cl</strong>
               </p>
               <p className="text-gray-700">
                 Asunto: &quot;Solicitud de Eliminación de Datos&quot;
@@ -45,7 +45,7 @@ export default function DataDeletion() {
                 📱 Por WhatsApp
               </h3>
               <p className="text-gray-700">
-                Escríbenos al: <strong>+56 9 5123 4567</strong>
+                Escríbenos al: <strong>+56 9 8759 3649</strong>
                 <br />
                 Mensaje: &quot;Solicito eliminar mis datos personales&quot;
               </p>
