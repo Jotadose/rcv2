@@ -552,6 +552,9 @@ export default function ReformasOptimized() {
     location: "",
     message: "",
   });
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -566,68 +569,119 @@ export default function ReformasOptimized() {
     e.preventDefault();
     console.log("🚀 [Frontend] Form submitted with data:", formData);
 
+    // Validaciones básicas del lado del cliente
+    if (
+      !formData.name.trim() ||
+      !formData.phone.trim() ||
+      !formData.projectType ||
+      !formData.location.trim()
+    ) {
+      setSubmitError("Por favor, completa todos los campos requeridos.");
+      return;
+    }
+
+    // Validación de email (si se proporciona)
+    if (formData.email && !/\S+@\S+\.\S+/.test(formData.email)) {
+      setSubmitError("Por favor, ingresa un email válido.");
+      return;
+    }
+
+    // Validación de teléfono español
+    const phoneRegex = /^(\+34|0034|34)?[6789]\d{8}$|^[6789]\d{8}$/;
+    if (!phoneRegex.test(formData.phone.replace(/\s/g, ""))) {
+      setSubmitError(
+        "Por favor, ingresa un teléfono válido (formato español)."
+      );
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitError("");
+
     try {
-      const requestBody = {
-        name: formData.name,
-        email: formData.email || undefined,
-        phone: formData.phone,
-        project_type: formData.projectType,
-        location: formData.location,
-        message: formData.message,
-      };
+      // Preparar datos para Formspree
+      const formspreeData = new FormData();
+      formspreeData.append("nombre", formData.name);
+      formspreeData.append("teléfono", formData.phone);
+      formspreeData.append("email", formData.email || "");
+      formspreeData.append("tipo_proyecto", formData.projectType);
+      formspreeData.append("ubicación", formData.location);
+      formspreeData.append("mensaje", formData.message || "");
 
-      console.log("📤 [Frontend] Sending POST to /api/contact:", requestBody);
+      // Campos ocultos de Formspree
+      formspreeData.append("_subject", "Nueva consulta desde RC Reformas");
+      formspreeData.append(
+        "_replyto",
+        formData.email || "noreply@rcreformas.com"
+      );
 
-      // Enviar a la API que guarda en base de datos y envía email
-      const response = await fetch("/api/contact", {
+      const formspreeEndpoint = process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT;
+
+      if (!formspreeEndpoint) {
+        throw new Error("Endpoint de Formspree no configurado");
+      }
+
+      console.log("📤 [Frontend] Sending to Formspree:", formspreeEndpoint);
+
+      // Enviar a Formspree
+      const response = await fetch(formspreeEndpoint, {
         method: "POST",
+        body: formspreeData,
         headers: {
-          "Content-Type": "application/json",
+          Accept: "application/json",
         },
-        body: JSON.stringify(requestBody),
       });
 
-      console.log("📥 [Frontend] Response status:", response.status);
-      const responseData = await response.json();
-      console.log("📥 [Frontend] Response data:", responseData);
+      console.log("📥 [Frontend] Formspree response status:", response.status);
 
       if (response.ok) {
-        console.log("✅ [Frontend] Form submission successful");
-        // También abrir WhatsApp como backup
-        const whatsappMessage = `Hola ${businessConfig.name}, soy ${formData.name}. Me interesa cotizar un proyecto de ${formData.projectType} en ${formData.location}. ${formData.message}`;
-        window.open(
-          `https://wa.me/${businessConfig.contact.whatsapp.replace(
-            /\D/g,
-            ""
-          )}?text=${encodeURIComponent(whatsappMessage)}`,
-          "_blank"
-        );
+        console.log("✅ [Frontend] Form submission successful via Formspree");
+        setFormSubmitted(true);
 
-        // Mostrar mensaje de éxito
-        alert("¡Mensaje enviado correctamente! Te contactaremos pronto.");
-      } else {
-        console.log("⚠️ [Frontend] API failed, using WhatsApp fallback");
-        // Si falla la API, solo usar WhatsApp
+        // Limpiar formulario
+        setFormData({
+          name: "",
+          phone: "",
+          email: "",
+          projectType: "",
+          location: "",
+          message: "",
+        });
+
+        // También abrir WhatsApp como respaldo/confirmación adicional
         const whatsappMessage = `Hola ${businessConfig.name}, soy ${formData.name}. Me interesa cotizar un proyecto de ${formData.projectType} en ${formData.location}. ${formData.message}`;
-        window.open(
-          `https://wa.me/${businessConfig.contact.whatsapp.replace(
-            /\D/g,
-            ""
-          )}?text=${encodeURIComponent(whatsappMessage)}`,
-          "_blank"
-        );
+        setTimeout(() => {
+          window.open(
+            `https://wa.me/${businessConfig.contact.whatsapp.replace(
+              /\D/g,
+              ""
+            )}?text=${encodeURIComponent(whatsappMessage)}`,
+            "_blank"
+          );
+        }, 2000);
+      } else {
+        console.log("⚠️ [Frontend] Formspree failed, using WhatsApp fallback");
+        throw new Error("Error al enviar el formulario");
       }
     } catch (error) {
       console.error("💥 [Frontend] Error al enviar mensaje:", error);
-      // En caso de error, usar WhatsApp como fallback
-      const whatsappMessage = `Hola ${businessConfig.name}, soy ${formData.name}. Me interesa cotizar un proyecto de ${formData.projectType} en ${formData.location}. ${formData.message}`;
-      window.open(
-        `https://wa.me/${businessConfig.contact.whatsapp.replace(
-          /\D/g,
-          ""
-        )}?text=${encodeURIComponent(whatsappMessage)}`,
-        "_blank"
+      setSubmitError(
+        "Hubo un problema al enviar el formulario. Serás redirigido a WhatsApp."
       );
+
+      // Fallback: usar WhatsApp directamente
+      setTimeout(() => {
+        const whatsappMessage = `Hola ${businessConfig.name}, soy ${formData.name}. Me interesa cotizar un proyecto de ${formData.projectType} en ${formData.location}. ${formData.message}`;
+        window.open(
+          `https://wa.me/${businessConfig.contact.whatsapp.replace(
+            /\D/g,
+            ""
+          )}?text=${encodeURIComponent(whatsappMessage)}`,
+          "_blank"
+        );
+      }, 3000);
+    } finally {
+      setIsSubmitting(false);
     }
 
     setShowPopup(false);
@@ -876,13 +930,36 @@ export default function ReformasOptimized() {
               <h3 className="text-2xl font-bold mb-6">
                 Solicita tu Cotización
               </h3>
+
+              {/* Mensaje de éxito */}
+              {formSubmitted && (
+                <div className="bg-green-50 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6">
+                  <strong>¡Gracias por contactarnos!</strong>
+                  <p>
+                    Hemos recibido tu mensaje y te responderemos en menos de 24
+                    horas.
+                  </p>
+                  <p className="text-sm mt-1">
+                    En breve se abrirá WhatsApp para confirmación inmediata.
+                  </p>
+                </div>
+              )}
+
+              {/* Mensaje de error */}
+              {submitError && (
+                <div className="bg-red-50 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6">
+                  <strong>Error:</strong>
+                  <p>{submitError}</p>
+                </div>
+              )}
+
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <label
                     htmlFor="name"
                     className="block text-sm font-semibold mb-2"
                   >
-                    Nombre Completo
+                    Nombre Completo *
                   </label>
                   <input
                     type="text"
@@ -892,6 +969,7 @@ export default function ReformasOptimized() {
                     onChange={handleInputChange}
                     className="w-full p-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none"
                     required
+                    disabled={isSubmitting}
                   />
                 </div>
 
@@ -901,7 +979,7 @@ export default function ReformasOptimized() {
                       htmlFor="phone"
                       className="block text-sm font-semibold mb-2"
                     >
-                      Teléfono
+                      Teléfono *
                     </label>
                     <input
                       type="tel"
@@ -909,8 +987,10 @@ export default function ReformasOptimized() {
                       name="phone"
                       value={formData.phone}
                       onChange={handleInputChange}
+                      placeholder="Ej: +34 123 456 789"
                       className="w-full p-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none"
                       required
+                      disabled={isSubmitting}
                     />
                   </div>
                   <div>
@@ -928,6 +1008,7 @@ export default function ReformasOptimized() {
                       onChange={handleInputChange}
                       placeholder="tu@email.com"
                       className="w-full p-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none"
+                      disabled={isSubmitting}
                     />
                   </div>
                 </div>
@@ -937,7 +1018,7 @@ export default function ReformasOptimized() {
                     htmlFor="projectType"
                     className="block text-sm font-semibold mb-2"
                   >
-                    Tipo de Proyecto
+                    Tipo de Proyecto *
                   </label>
                   <select
                     id="projectType"
@@ -946,13 +1027,16 @@ export default function ReformasOptimized() {
                     onChange={handleInputChange}
                     className="w-full p-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none"
                     required
+                    disabled={isSubmitting}
                   >
                     <option value="">Selecciona un tipo</option>
-                    <option value="construccion">Construcción Nueva</option>
-                    <option value="remodelacion">Remodelación</option>
-                    <option value="ampliacion">Ampliación</option>
-                    <option value="mantencion">Mantención</option>
-                    <option value="otro">Otro</option>
+                    <option value="Reforma integral">Reforma integral</option>
+                    <option value="Reforma parcial">Reforma parcial</option>
+                    <option value="Construcción nueva">
+                      Construcción nueva
+                    </option>
+                    <option value="Mantenimiento">Mantenimiento</option>
+                    <option value="Otro">Otro</option>
                   </select>
                 </div>
 
@@ -961,7 +1045,7 @@ export default function ReformasOptimized() {
                     htmlFor="location"
                     className="block text-sm font-semibold mb-2"
                   >
-                    Ubicación
+                    Ubicación *
                   </label>
                   <input
                     type="text"
@@ -972,6 +1056,7 @@ export default function ReformasOptimized() {
                     placeholder="Ciudad, comuna"
                     className="w-full p-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none"
                     required
+                    disabled={isSubmitting}
                   />
                 </div>
 
@@ -990,15 +1075,22 @@ export default function ReformasOptimized() {
                     rows={4}
                     className="w-full p-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none resize-none"
                     placeholder="Cuéntanos sobre tu proyecto..."
+                    disabled={isSubmitting}
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-lg transition-colors"
+                  disabled={isSubmitting}
+                  className="w-full btn-primary bg-orange-500 hover:bg-orange-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-bold py-3 rounded-lg transition-colors"
                 >
-                  Enviar Solicitud
+                  {isSubmitting ? "Enviando..." : "Enviar Solicitud"}
                 </button>
+
+                <p className="text-xs text-gray-500 text-center">
+                  Al enviar este formulario, también se abrirá WhatsApp para una
+                  respuesta más rápida.
+                </p>
               </form>
             </div>
 
@@ -1202,6 +1294,25 @@ export default function ReformasOptimized() {
               </button>
             </div>
 
+            {/* Mensaje de éxito en popup */}
+            {formSubmitted && (
+              <div className="bg-green-50 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6">
+                <strong>¡Gracias por contactarnos!</strong>
+                <p>
+                  Hemos recibido tu mensaje y te responderemos en menos de 24
+                  horas.
+                </p>
+              </div>
+            )}
+
+            {/* Mensaje de error en popup */}
+            {submitError && (
+              <div className="bg-red-50 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6">
+                <strong>Error:</strong>
+                <p>{submitError}</p>
+              </div>
+            )}
+
             <form onSubmit={handleSubmit} className="space-y-4">
               <input
                 type="text"
@@ -1211,6 +1322,7 @@ export default function ReformasOptimized() {
                 onChange={handleInputChange}
                 className="w-full p-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none text-slate-700 placeholder:text-gray-500"
                 required
+                disabled={isSubmitting}
               />
               <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
                 <input
@@ -1221,6 +1333,7 @@ export default function ReformasOptimized() {
                   onChange={handleInputChange}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none text-slate-700 placeholder:text-gray-500"
                   required
+                  disabled={isSubmitting}
                 />
                 <input
                   type="email"
@@ -1229,6 +1342,7 @@ export default function ReformasOptimized() {
                   value={formData.email}
                   onChange={handleInputChange}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none text-slate-700 placeholder:text-gray-500"
+                  disabled={isSubmitting}
                 />
               </div>
               <select
@@ -1237,18 +1351,25 @@ export default function ReformasOptimized() {
                 onChange={handleInputChange}
                 className="w-full p-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none text-slate-700"
                 required
+                disabled={isSubmitting}
               >
                 <option value="" className="text-gray-500">
                   Tipo de proyecto
                 </option>
-                <option value="construccion" className="text-slate-700">
-                  Construcción
+                <option value="Reforma integral" className="text-slate-700">
+                  Reforma integral
                 </option>
-                <option value="remodelacion" className="text-slate-700">
-                  Remodelación
+                <option value="Reforma parcial" className="text-slate-700">
+                  Reforma parcial
                 </option>
-                <option value="mantencion" className="text-slate-700">
-                  Mantención
+                <option value="Construcción nueva" className="text-slate-700">
+                  Construcción nueva
+                </option>
+                <option value="Mantenimiento" className="text-slate-700">
+                  Mantenimiento
+                </option>
+                <option value="Otro" className="text-slate-700">
+                  Otro
                 </option>
               </select>
               <input
@@ -1259,6 +1380,7 @@ export default function ReformasOptimized() {
                 onChange={handleInputChange}
                 className="w-full p-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none text-slate-700 placeholder:text-gray-500"
                 required
+                disabled={isSubmitting}
               />
               <textarea
                 name="message"
@@ -1267,12 +1389,14 @@ export default function ReformasOptimized() {
                 onChange={handleInputChange}
                 rows={3}
                 className="w-full p-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none resize-none text-slate-700 placeholder:text-gray-500"
+                disabled={isSubmitting}
               />
               <button
                 type="submit"
-                className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-lg transition-colors"
+                disabled={isSubmitting}
+                className="w-full btn-primary bg-orange-500 hover:bg-orange-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-bold py-3 rounded-lg transition-colors"
               >
-                Enviar Solicitud
+                {isSubmitting ? "Enviando..." : "Enviar Solicitud"}
               </button>
             </form>
           </div>
