@@ -584,7 +584,11 @@ Mi teléfono: ${datos.telefono}
                 }`}
               >
                 {msg.sender === "bot" && (
-                  <Bot className="w-6 h-6 text-gray-400 self-start flex-shrink-0" />
+                  <img
+                    src="/REFORMAS/ingeniero-avatar.jpg"
+                    alt="Avatar Bot"
+                    className="w-6 h-6 rounded-full object-cover self-start flex-shrink-0 border border-gray-300"
+                  />
                 )}
                 <div className="max-w-xs">
                   <div
@@ -620,7 +624,11 @@ Mi teléfono: ${datos.telefono}
 
             {isTyping && (
               <div className="flex items-end gap-2 justify-start">
-                <Bot className="w-6 h-6 text-gray-400 self-start flex-shrink-0" />
+                <img
+                  src="/REFORMAS/ingeniero-avatar.jpg"
+                  alt="Avatar Bot"
+                  className="w-6 h-6 rounded-full object-cover self-start flex-shrink-0 border border-gray-300"
+                />
                 <div className="bg-white p-3 rounded-lg shadow-sm">
                   <div className="flex space-x-1">
                     <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
