@@ -547,6 +547,7 @@ export default function ReformasOptimized() {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
+    email: "",
     projectType: "",
     location: "",
     message: "",
@@ -563,25 +564,35 @@ export default function ReformasOptimized() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("🚀 [Frontend] Form submitted with data:", formData);
 
     try {
+      const requestBody = {
+        name: formData.name,
+        email: formData.email || undefined,
+        phone: formData.phone,
+        project_type: formData.projectType,
+        location: formData.location,
+        message: formData.message,
+      };
+
+      console.log("📤 [Frontend] Sending POST to /api/contact:", requestBody);
+
       // Enviar a la API que guarda en base de datos y envía email
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.phone, // Usamos phone como email por ahora
-          phone: formData.phone,
-          project_type: formData.projectType,
-          location: formData.location,
-          message: formData.message,
-        }),
+        body: JSON.stringify(requestBody),
       });
 
+      console.log("📥 [Frontend] Response status:", response.status);
+      const responseData = await response.json();
+      console.log("📥 [Frontend] Response data:", responseData);
+
       if (response.ok) {
+        console.log("✅ [Frontend] Form submission successful");
         // También abrir WhatsApp como backup
         const whatsappMessage = `Hola ${businessConfig.name}, soy ${formData.name}. Me interesa cotizar un proyecto de ${formData.projectType} en ${formData.location}. ${formData.message}`;
         window.open(
@@ -595,6 +606,7 @@ export default function ReformasOptimized() {
         // Mostrar mensaje de éxito
         alert("¡Mensaje enviado correctamente! Te contactaremos pronto.");
       } else {
+        console.log("⚠️ [Frontend] API failed, using WhatsApp fallback");
         // Si falla la API, solo usar WhatsApp
         const whatsappMessage = `Hola ${businessConfig.name}, soy ${formData.name}. Me interesa cotizar un proyecto de ${formData.projectType} en ${formData.location}. ${formData.message}`;
         window.open(
@@ -606,7 +618,7 @@ export default function ReformasOptimized() {
         );
       }
     } catch (error) {
-      console.error("Error al enviar mensaje:", error);
+      console.error("💥 [Frontend] Error al enviar mensaje:", error);
       // En caso de error, usar WhatsApp como fallback
       const whatsappMessage = `Hola ${businessConfig.name}, soy ${formData.name}. Me interesa cotizar un proyecto de ${formData.projectType} en ${formData.location}. ${formData.message}`;
       window.open(
@@ -883,22 +895,41 @@ export default function ReformasOptimized() {
                   />
                 </div>
 
-                <div>
-                  <label
-                    htmlFor="phone"
-                    className="block text-sm font-semibold mb-2"
-                  >
-                    Teléfono
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none"
-                    required
-                  />
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      htmlFor="phone"
+                      className="block text-sm font-semibold mb-2"
+                    >
+                      Teléfono
+                    </label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-semibold mb-2"
+                    >
+                      Email (opcional)
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      placeholder="tu@email.com"
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none"
+                    />
+                  </div>
                 </div>
 
                 <div>
@@ -1181,15 +1212,25 @@ export default function ReformasOptimized() {
                 className="w-full p-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none text-slate-700 placeholder:text-gray-500"
                 required
               />
-              <input
-                type="tel"
-                name="phone"
-                placeholder="Tu teléfono"
-                value={formData.phone}
-                onChange={handleInputChange}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none text-slate-700 placeholder:text-gray-500"
-                required
-              />
+              <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="Teléfono"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none text-slate-700 placeholder:text-gray-500"
+                  required
+                />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email (opcional)"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none text-slate-700 placeholder:text-gray-500"
+                />
+              </div>
               <select
                 name="projectType"
                 value={formData.projectType}

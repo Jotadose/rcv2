@@ -1,8 +1,8 @@
 // Configuración de datos del negocio - RC Reformas y Mantenciones
 export const businessConfig = {
   // Información básica de la empresa
-  name: "REFORMAS",
-  shortName: "REFORMAS",
+  name: "RC Reformas",
+  shortName: "RC Reformas",
   tagline: "Calidad y Rapidez 🔨👷‍♂️🏗🚧",
   description:
     "Realizamos todo tipo de construcciones y remodelaciones con calidad y rapidez garantizada",
@@ -12,14 +12,15 @@ export const businessConfig = {
     phone: "+56 9 8759 3649",
     whatsapp: "+56 9 8759 3649",
     email: "contacto@reformas.cl",
-    website: "https://reformas.vercel.app",
+    // Dominio actual (Vercel) y futuro dominio propio
+    website: "https://rcreformas.vercel.app", // Futuro: https://rcreformas.com
   },
 
   // Ubicación y área de servicio
   location: {
     // ⚠️ ACTUALIZAR CON DIRECCIÓN REAL
-    address: "Av. Principal 123", // CAMBIAR POR DIRECCIÓN REAL
-    city: "La Serena",
+    address: "Av. Waldo Alcalde 1234", // CAMBIAR POR DIRECCIÓN REAL
+    city: "Coquimbo",
     region: "Región de Coquimbo",
     country: "Chile",
     coordinates: {
@@ -41,8 +42,8 @@ export const businessConfig = {
   // Redes sociales
   social: {
     instagram: {
-      handle: "@rcconstruccionesymantenimiento",
-      url: "https://www.instagram.com/rcconstruccionesymantenimiento",
+      handle: "@rcconstruccionesymantenciones",
+      url: "https://www.instagram.com/rcconstruccionesymantenciones",
     },
     facebook: "", // Añadir si existe
     youtube: "", // Añadir si existe
@@ -51,8 +52,8 @@ export const businessConfig = {
 
   // Estadísticas de la empresa
   stats: {
-    yearsExperience: 15,
-    projectsCompleted: 500,
+    yearsExperience: 1,
+    projectsCompleted: 50,
     clientSatisfaction: 100, // Porcentaje
     teammembers: 8,
   },
