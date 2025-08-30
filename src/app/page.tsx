@@ -353,6 +353,31 @@ $${estimate.min.toLocaleString("es-CL")} - $${estimate.max.toLocaleString(
       },
     ]);
 
+    // NUEVO: Enviar a Formspree automáticamente después de mostrar el resumen
+    setTimeout(() => {
+      enviarDatosFormspree({
+        tipo: getProjectLabel(data.projectType),
+        area: data.area?.toString() || "0",
+        calidad: getQualityLabel(data.quality),
+        presupuesto: data.budget || "No especificado",
+        nombre: data.name || "No proporcionado",
+        telefono: data.phone || "No proporcionado",
+        email: "No proporcionado", // El chatbot actual no pide email
+        total: `$${estimate.min.toLocaleString(
+          "es-CL"
+        )} - $${estimate.max.toLocaleString("es-CL")} CLP`,
+        desglose: JSON.stringify({
+          estimacionMinima: estimate.min,
+          estimacionMaxima: estimate.max,
+          tiempoEstimado: estimate.duration,
+          projectType: data.projectType,
+          quality: data.quality,
+          budget: data.budget,
+        }),
+        fecha: new Date().toLocaleString("es-CL"),
+      });
+    }, 2000); // Espera 2 segundos para que el usuario vea el resumen
+
     // Guardar sesión en BD
     try {
       await fetch("/api/chat/save", {
@@ -425,6 +450,103 @@ $${estimate.min.toLocaleString("es-CL")} - $${estimate.max.toLocaleString(
   const getQualityLabel = (quality: string | null) => {
     const qual = qualityLevels.find((q) => q.key === quality);
     return qual?.label || quality || "Estándar";
+  };
+
+  // Función para enviar datos a Formspree automáticamente (MÉTODO CON FETCH - SIN RECARGAR PÁGINA)
+  const enviarDatosFormspree = async (datos: {
+    tipo: string;
+    area: string;
+    calidad: string;
+    presupuesto: string;
+    nombre: string;
+    telefono: string;
+    email: string;
+    total: string;
+    desglose: string;
+    fecha: string;
+  }) => {
+    const formspreeEndpoint =
+      process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT ||
+      "https://formspree.io/f/TU_CODIGO";
+
+    try {
+      console.log("🚀 [Chatbot] Enviando datos a Formspree:", datos);
+
+      const response = await fetch(formspreeEndpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          _subject: "Nueva consulta desde Chatbot AI - RC Reformas",
+          tipo_proyecto: datos.tipo,
+          area_m2: datos.area,
+          nivel_calidad: datos.calidad,
+          presupuesto_declarado: datos.presupuesto,
+          nombre_cliente: datos.nombre,
+          telefono_cliente: datos.telefono,
+          email_cliente: datos.email,
+          estimacion_total: datos.total,
+          desglose_tecnico: datos.desglose,
+          fecha_consulta: datos.fecha,
+          origen: "Chatbot IA",
+        }),
+      });
+
+      if (response.ok) {
+        console.log("✅ [Chatbot] Datos enviados exitosamente a Formspree");
+
+        // Mostrar mensaje de confirmación en el chat
+        setTimeout(() => {
+          setMessages((prev) => [
+            ...prev,
+            {
+              sender: "assistant",
+              text: "✅ ¡Perfecto! He enviado tu información a nuestro equipo. Te contactaremos pronto por WhatsApp o teléfono.",
+              timestamp: new Date(),
+            },
+          ]);
+        }, 1000);
+      } else {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+    } catch (error) {
+      console.error("💥 [Chatbot] Error enviando a Formspree:", error);
+
+      // Fallback: abrir WhatsApp con los datos del presupuesto
+      const whatsappMessage = `Hola ${businessConfig.name}! Soy ${datos.nombre}. 
+
+Acabo de usar el chatbot y obtuve esta estimación:
+• Proyecto: ${datos.tipo}
+• Área: ${datos.area} m²
+• Calidad: ${datos.calidad}
+• Presupuesto estimado: ${datos.total}
+
+Mi teléfono: ${datos.telefono}
+
+¿Podrían contactarme para coordinar una visita técnica?`;
+
+      setTimeout(() => {
+        window.open(
+          `https://wa.me/${businessConfig.contact.whatsapp.replace(
+            /\D/g,
+            ""
+          )}?text=${encodeURIComponent(whatsappMessage)}`,
+          "_blank"
+        );
+
+        // Mostrar mensaje de fallback en el chat
+        setMessages((prev) => [
+          ...prev,
+          {
+            sender: "assistant",
+            text: "📲 Te he redirigido a WhatsApp con tu presupuesto. Nuestro equipo te responderá inmediatamente.",
+            timestamp: new Date(),
+          },
+        ]);
+      }, 2000);
+    }
   };
 
   return (
@@ -1277,6 +1399,33 @@ export default function ReformasOptimized() {
 
       {/* AI Chat Estimator Modal */}
       {showAIChat && <AIChatEstimator onClose={() => setShowAIChat(false)} />}
+
+      {/* Formulario oculto Formspree (añadido después del chatbot) */}
+      <form
+        id="chatbot-formspree"
+        action={
+          process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT ||
+          "https://formspree.io/f/TU_CODIGO"
+        }
+        method="POST"
+        style={{ display: "none" }}
+      >
+        <input
+          type="hidden"
+          name="_subject"
+          value="Nueva consulta desde Chatbot AI - RC Reformas"
+        />
+        <input type="hidden" name="tipo_proyecto" id="fs-tipo" />
+        <input type="hidden" name="area_m2" id="fs-area" />
+        <input type="hidden" name="nivel_calidad" id="fs-calidad" />
+        <input type="hidden" name="presupuesto_estimado" id="fs-presupuesto" />
+        <input type="hidden" name="nombre_cliente" id="fs-nombre" />
+        <input type="hidden" name="telefono_cliente" id="fs-telefono" />
+        <input type="hidden" name="email_cliente" id="fs-email" />
+        <input type="hidden" name="estimacion_total" id="fs-total" />
+        <input type="hidden" name="desglose" id="fs-desglose" />
+        <input type="hidden" name="fecha_consulta" id="fs-fecha" />
+      </form>
 
       {/* Popup Modal (Fallback) */}
       {showPopup && (

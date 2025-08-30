@@ -1,20 +1,7 @@
-import { createClient } from "@supabase/supabase-js";
+// Este archivo se mantiene para compatibilidad, pero ya no usa Supabase.
+// Toda la funcionalidad de contacto ahora usa Formspree directamente.
 
-// Variables de entorno
-const supabaseUrl =
-  process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.VITE_SUPABASE_URL;
-const supabaseKey =
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-  process.env.VITE_SUPABASE_ANON_KEY;
-
-// Cliente de Supabase
-export const supabase =
-  supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
-
-// Helper para verificar configuración
-export const isSupabaseConfigured = () => Boolean(supabaseUrl && supabaseKey);
-
-// Tipos básicos
+// Tipos básicos para compatibilidad con el AI chat
 export interface ContactSubmission {
   id?: string;
   name: string;
@@ -26,3 +13,7 @@ export interface ContactSubmission {
   budget_range?: string;
   created_at?: string;
 }
+
+// Funciones stub para compatibilidad
+export const supabase = null;
+export const isSupabaseConfigured = () => false;
