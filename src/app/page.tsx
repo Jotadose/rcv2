@@ -625,7 +625,7 @@ Mi teléfono: ${datos.telefono}
             {isTyping && (
               <div className="flex items-end gap-2 justify-start">
                 <img
-                  src="/REFORMAS/ingeniero-avatar.jpg"
+                  src="/REFORMAS/reformasnegro.jpg"
                   alt="Avatar Bot"
                   className="w-6 h-6 rounded-full object-cover self-start flex-shrink-0 border border-gray-300"
                 />
