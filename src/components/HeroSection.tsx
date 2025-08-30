@@ -13,20 +13,20 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenAIChat }) => {
 
   const heroVariants = {
     hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
-      transition: { duration: 0.8 }
-    }
+      transition: { duration: 0.8 },
+    },
   };
 
   const statsVariants = {
     hidden: { opacity: 0, scale: 0.8 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       scale: 1,
-      transition: { duration: 0.6, delay: 0.4 }
-    }
+      transition: { duration: 0.6, delay: 0.4 },
+    },
   };
 
   return (
@@ -34,7 +34,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenAIChat }) => {
       id="inicio"
       className="relative bg-gradient-to-br from-slate-800 via-slate-900 to-slate-800 text-white py-16 lg:py-24 overflow-hidden min-h-[90vh] flex items-center"
       style={{
-        backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.85), rgba(30, 41, 59, 0.85)), url('/REFORMAS/refor1.jpg')`,
+        backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.85), rgba(30, 41, 59, 0.85)), url('/REFORMAS/refor13.jpg')`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundAttachment: "fixed",
@@ -48,7 +48,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenAIChat }) => {
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-5xl mx-auto text-center">
-          
           {/* Main heading */}
           <motion.div
             variants={heroVariants}
@@ -57,7 +56,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenAIChat }) => {
           >
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
               <span className="block text-white">Construcción y Reformas</span>
-              <span className="block text-orange-400">en {location.region}</span>
+              <span className="block text-orange-400">
+                en {location.region}
+              </span>
               <span className="block text-lg md:text-xl lg:text-2xl font-normal text-gray-300 mt-4">
                 {tagline}
               </span>
@@ -72,14 +73,17 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenAIChat }) => {
             className="mb-10"
           >
             <p className="text-lg md:text-xl lg:text-2xl mb-6 text-gray-200 leading-relaxed max-w-4xl mx-auto">
-              Más de <strong>{stats.yearsExperience} años</strong> transformando hogares y negocios
-              en {location.region}. Diseñamos, construimos y remodelamos con
-              materiales premium y <strong>plazos garantizados</strong>.
+              Más de <strong>{stats.yearsExperience} años</strong> transformando
+              hogares y negocios en {location.region}. Diseñamos, construimos y
+              remodelamos con materiales premium y{" "}
+              <strong>plazos garantizados</strong>.
             </p>
-            
+
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/20 rounded-full text-green-300 border border-green-500/30">
               <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-              <span className="text-sm font-medium">Tu proyecto, entregado sin sorpresas</span>
+              <span className="text-sm font-medium">
+                Tu proyecto, entregado sin sorpresas
+              </span>
             </div>
           </motion.div>
 
@@ -92,10 +96,26 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenAIChat }) => {
           >
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
               {[
-                { value: `${stats.projectsCompleted}+`, label: "Proyectos Exitosos", icon: "🏆" },
-                { value: `${stats.yearsExperience}+`, label: "Años de Experiencia", icon: "📅" },
-                { value: `${stats.clientSatisfaction}%`, label: "Clientes Satisfechos", icon: "😊" },
-                { value: `${stats.teammembers}+`, label: "Profesionales", icon: "👥" }
+                {
+                  value: `${stats.projectsCompleted}+`,
+                  label: "Proyectos Exitosos",
+                  icon: "🏆",
+                },
+                {
+                  value: `${stats.yearsExperience}+`,
+                  label: "Años de Experiencia",
+                  icon: "📅",
+                },
+                {
+                  value: `${stats.clientSatisfaction}%`,
+                  label: "Clientes Satisfechos",
+                  icon: "😊",
+                },
+                {
+                  value: `${stats.teammembers}+`,
+                  label: "Profesionales",
+                  icon: "👥",
+                },
               ].map((stat, index) => (
                 <motion.div
                   key={stat.label}
@@ -109,7 +129,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenAIChat }) => {
                     <div className="text-2xl md:text-3xl font-bold text-orange-400 mb-1">
                       {stat.value}
                     </div>
-                    <div className="text-xs md:text-sm text-gray-300">{stat.label}</div>
+                    <div className="text-xs md:text-sm text-gray-300">
+                      {stat.label}
+                    </div>
                   </div>
                 </motion.div>
               ))}
@@ -140,9 +162,15 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenAIChat }) => {
                 </motion.span>
               </span>
             </motion.button>
-            
+
             <motion.a
-              href={`https://wa.me/${contact.whatsapp.replace(/\D/g, '')}?text=Hola%20${name.replace(' ', '%20')},%20me%20interesa%20obtener%20más%20información`}
+              href={`https://wa.me/${contact.whatsapp.replace(
+                /\D/g,
+                ""
+              )}?text=Hola%20${name.replace(
+                " ",
+                "%20"
+              )},%20me%20interesa%20obtener%20más%20información`}
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}

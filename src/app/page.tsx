@@ -1289,8 +1289,17 @@ export default function ReformasOptimized() {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-8">
             <div>
-              <div className="h-12 w-48 bg-orange-500 rounded flex items-center justify-center text-white font-bold text-xl mb-4">
-                {businessConfig.shortName}
+              <div className="mb-4">
+                <img
+                  src="/REFORMAS/reformaslogohor.jpg"
+                  alt="Reformas Construcciones & Mantenimiento Logo"
+                  className="h-12 w-auto object-contain"
+                  style={{
+                    background: "white",
+                    borderRadius: "8px",
+                    padding: "4px",
+                  }}
+                />
               </div>
               <p className="text-gray-400 text-sm">
                 Más de {businessConfig.stats.yearsExperience} años construyendo
