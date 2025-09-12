@@ -11,7 +11,7 @@ export const businessConfig = {
   contact: {
     phone: "+56 9 8759 3649",
     whatsapp: "+56 9 8759 3649",
-    email: "contacto@reformas.cl",
+    email: "rcconstruccionesymantenimiento@gmail.com",
     // Dominio actual (Vercel) y futuro dominio propio
     website: "https://rcreformas.vercel.app", // Futuro: https://rcreformas.com
   },
