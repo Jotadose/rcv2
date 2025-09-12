@@ -42,8 +42,8 @@ export const businessConfig = {
   // Redes sociales
   social: {
     instagram: {
-      handle: "@rcconstruccionesymantenciones",
-      url: "https://www.instagram.com/rcconstruccionesymantenciones",
+      handle: "@rcconstruccionesymantenimiento",
+      url: "https://www.instagram.com/rcconstruccionesymantenimiento/",
     },
     facebook: "", // Añadir si existe
     youtube: "", // Añadir si existe
