@@ -43,7 +43,7 @@ export const businessConfig = {
   social: {
     instagram: {
       handle: "@rcconstruccionesymantenimiento",
-      url: "https://www.instagram.com/rcconstruccionesymantenimiento/",
+      url: "https://www.instagram.com/rcconstruccionesymantenimiento",
     },
     facebook: "", // Añadir si existe
     youtube: "", // Añadir si existe
