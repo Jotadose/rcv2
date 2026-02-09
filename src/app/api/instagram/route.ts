@@ -1,5 +1,12 @@
 import { NextResponse } from "next/server";
 
+/**
+ * Instagram Media API - NOTA: La Instagram Basic Display API fue cerrada por Meta el 4-dic-2024.
+ * Este endpoint sigue usando graph.instagram.com/me/media. Si el token se obtuvo por Basic
+ * Display (scripts/instagram-token.js), las peticiones fallarán. Para cuentas empresa/creador
+ * hay que migrar a Instagram Graph API con Facebook Login. Ver INSTAGRAM_AUDIT.md.
+ */
+
 // Simple in-memory cache (resets on redeploy / server restart)
 interface CacheEntry {
   data: any;

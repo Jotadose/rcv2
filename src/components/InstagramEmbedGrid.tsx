@@ -128,6 +128,14 @@ const MediaRenderer: React.FC<{
   );
 };
 
+// URLs desde env (fallback cuando la API de Instagram Basic Display está cerrada desde dic 2024)
+const getEmbedUrlsFromEnv = (): string[] => {
+  if (typeof process.env.NEXT_PUBLIC_INSTAGRAM_EMBED_URLS !== "string") return [];
+  return process.env.NEXT_PUBLIC_INSTAGRAM_EMBED_URLS.split(",")
+    .map((u) => u.trim())
+    .filter(Boolean);
+};
+
 const InstagramEmbedGrid: React.FC<InstagramEmbedGridProps> = ({
   urls = [],
   limit = 8,
@@ -136,8 +144,10 @@ const InstagramEmbedGrid: React.FC<InstagramEmbedGridProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [apiItems, setApiItems] = useState<APIMediaItem[]>([]);
 
-  // If explicit URLs are provided we keep old static approach; else fetch from API route
-  const useApi = urls.length === 0;
+  const embedUrlsFromEnv = getEmbedUrlsFromEnv();
+  const effectiveUrls = urls.length > 0 ? urls : embedUrlsFromEnv;
+  // Si hay URLs (prop o env), modo estático; si no, intentar API (puede fallar si Basic Display está cerrada)
+  const useApi = effectiveUrls.length === 0;
 
   useEffect(() => {
     if (!useApi) return;
@@ -183,7 +193,7 @@ const InstagramEmbedGrid: React.FC<InstagramEmbedGridProps> = ({
     };
   };
 
-  const staticList = (limit ? urls.slice(0, limit) : urls).filter(Boolean);
+  const staticList = (limit ? effectiveUrls.slice(0, limit) : effectiveUrls).filter(Boolean);
   const itemsToShow: ProcessedMediaItem[] = useApi
     ? apiItems.slice(0, limit || apiItems.length).map(processMediaItem)
     : staticList.map((url, idx) => {

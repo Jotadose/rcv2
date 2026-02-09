@@ -2,7 +2,12 @@
 
 /**
  * Instagram Token Manager - REFORMAS
- * Script para gestionar tokens de Instagram API
+ * Script para gestionar tokens de Instagram Basic Display API.
+ *
+ * IMPORTANTE: Meta cerró la Instagram Basic Display API el 4 de diciembre de 2024.
+ * Este script ya no puede generar tokens válidos para graph.instagram.com.
+ * Para cuentas empresa/creador, migrar a Instagram Graph API (Facebook Login).
+ * Ver INSTAGRAM_AUDIT.md en la raíz del proyecto.
  */
 
 const https = require("https");
