@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import { getInstagramConfigState } from "@/config/instagram";
 
 export const metadata: Metadata = {
   title: "Instagram Setup - RC Reformas",
@@ -7,6 +8,11 @@ export const metadata: Metadata = {
 };
 
 export default function InstagramSetupPage() {
+  const instagramState = getInstagramConfigState(6);
+  const hasConfiguredUrls = instagramState.configuredUrls.length > 0;
+  const hasValidEmbeds = instagramState.validEmbeds.length > 0;
+  const hasOnlyInvalidUrls = hasConfiguredUrls && !hasValidEmbeds;
+
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="container mx-auto px-4 max-w-4xl">
@@ -16,12 +22,31 @@ export default function InstagramSetupPage() {
           </h1>
 
           <div className="prose prose-gray max-w-none">
-            <div className="bg-green-50 border-l-4 border-green-400 p-4 mb-6">
-              <p className="text-sm text-green-700">
-                La home usa una grilla estatica y configurable. No depende de
-                tokens, webhooks ni endpoints de Meta.
-              </p>
-            </div>
+            {hasValidEmbeds ? (
+              <div className="bg-green-50 border-l-4 border-green-400 p-4 mb-6">
+                <p className="text-sm text-green-700">
+                  Se detectaron {instagramState.validEmbeds.length} URLs
+                  embebibles. La home deberia mostrar publicaciones reales de
+                  Instagram en el proximo deploy.
+                </p>
+              </div>
+            ) : hasOnlyInvalidUrls ? (
+              <div className="bg-amber-50 border-l-4 border-amber-400 p-4 mb-6">
+                <p className="text-sm text-amber-800">
+                  La variable existe, pero las URLs actuales no corresponden a
+                  publicaciones o reels embebibles. La home seguira mostrando
+                  la grilla curada hasta que uses links tipo `/p/...`,
+                  `/reel/...` o `/tv/...`.
+                </p>
+              </div>
+            ) : (
+              <div className="bg-green-50 border-l-4 border-green-400 p-4 mb-6">
+                <p className="text-sm text-green-700">
+                  La home usa una grilla estatica y configurable. No depende de
+                  tokens, webhooks ni endpoints de Meta.
+                </p>
+              </div>
+            )}
 
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">
               Metodo soportado
@@ -31,9 +56,14 @@ export default function InstagramSetupPage() {
               <ul className="text-blue-800 space-y-2">
                 <li>Usa assets locales optimizados con `next/image`.</li>
                 <li>
-                  Puedes reemplazar los links visibles con
+                  Puedes reemplazar la seleccion curada con
                   `NEXT_PUBLIC_INSTAGRAM_EMBED_URLS`.
                 </li>
+                <li>
+                  Solo se embeben links de publicaciones, reels o videos:
+                  `/p/...`, `/reel/...` o `/tv/...`.
+                </li>
+                <li>Una URL de perfil no genera embeds en la home.</li>
                 <li>No se ejecutan fetches a `/api/instagram`.</li>
                 <li>Los endpoints OAuth y webhook quedaron deshabilitados.</li>
               </ul>
@@ -45,9 +75,27 @@ export default function InstagramSetupPage() {
 
             <div className="bg-orange-50 border border-orange-200 rounded-lg p-6">
               <code className="bg-orange-100 text-orange-900 px-3 py-1 rounded text-sm block">
-                NEXT_PUBLIC_INSTAGRAM_EMBED_URLS=url1,url2,url3,url4
+                NEXT_PUBLIC_INSTAGRAM_EMBED_URLS=https://www.instagram.com/p/POST_1/,https://www.instagram.com/reel/POST_2/
               </code>
             </div>
+
+            {hasConfiguredUrls ? (
+              <div className="bg-slate-50 border border-slate-200 rounded-lg p-6 mt-6">
+                <h3 className="text-lg font-semibold text-slate-900 mb-3">
+                  Estado detectado en este build
+                </h3>
+                <ul className="text-sm text-slate-700 space-y-2">
+                  <li>URLs configuradas: {instagramState.configuredUrls.length}</li>
+                  <li>Embeds validos: {instagramState.validEmbeds.length}</li>
+                  <li>URLs invalidas: {instagramState.invalidUrls.length}</li>
+                  {instagramState.primaryConfiguredUrl ? (
+                    <li className="break-all">
+                      Primera URL detectada: {instagramState.primaryConfiguredUrl}
+                    </li>
+                  ) : null}
+                </ul>
+              </div>
+            ) : null}
 
             <h2 className="text-2xl font-semibold text-gray-800 mb-4 mt-8">
               Donde se configura

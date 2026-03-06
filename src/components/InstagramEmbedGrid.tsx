@@ -1,6 +1,7 @@
 import Image from "next/image";
+import { ArrowUpRight } from "lucide-react";
 import businessConfig from "@/config/business";
-import { getInstagramShowcaseItems } from "@/config/instagram";
+import { getInstagramEmbeds, getInstagramShowcaseItems } from "@/config/instagram";
 
 export interface InstagramEmbedGridProps {
   readonly limit?: number;
@@ -9,67 +10,166 @@ export interface InstagramEmbedGridProps {
 export default function InstagramEmbedGrid({
   limit = 4,
 }: InstagramEmbedGridProps) {
+  const embeds = getInstagramEmbeds(limit);
   const items = getInstagramShowcaseItems(limit);
+  const [featuredItem, ...secondaryItems] = items;
+  const showEmbeds = embeds.length > 0;
 
   return (
-    <section id="instagram" className="py-20 bg-gradient-to-br from-slate-50 to-white">
+    <section
+      id="instagram"
+      className="py-24 bg-[radial-gradient(circle_at_top_left,_rgba(249,115,22,0.12),_transparent_28%),linear-gradient(180deg,#f8fafc_0%,#fff7ed_100%)]"
+    >
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-slate-800 mb-4">
-            Nuestros proyectos en Instagram
-          </h2>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-            Selecciona las publicaciones destacadas desde
-            `NEXT_PUBLIC_INSTAGRAM_EMBED_URLS` o usa la grilla curada por
-            defecto.
-          </p>
-          <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-orange-600 mx-auto mt-6 rounded-full" />
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
-          {items.map((item, index) => (
-            <a
-              key={`${item.href}-${index}`}
-              href={item.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative block rounded-2xl overflow-hidden bg-white shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
-            >
-              <div className="relative aspect-square overflow-hidden">
-                <Image
-                  src={item.imageSrc}
-                  alt={item.title}
-                  fill
-                  priority={index === 0}
-                  sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+        <div className="grid xl:grid-cols-[0.92fr_1.45fr] gap-8 items-stretch">
+          <div className="rounded-[32px] bg-slate-900 text-white p-8 md:p-10 shadow-[0_24px_80px_rgba(15,23,42,0.22)] border border-slate-800 flex flex-col justify-between">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-orange-300">
+                Instagram activo
               </div>
+              <h2 className="mt-6 text-4xl md:text-5xl font-bold leading-[1.05]">
+                Avances reales,
+                <span className="block text-orange-400">no maquetas.</span>
+              </h2>
+              <p className="mt-6 text-lg text-slate-300 max-w-md leading-relaxed">
+                {showEmbeds
+                  ? "Estas son publicaciones reales tomadas directo desde Instagram."
+                  : "Compartimos visitas tecnicas, terminaciones y seguimiento de obra tal como salen en terreno en la Region de Coquimbo."}
+              </p>
+            </div>
 
-              <div className="absolute inset-x-0 bottom-0 p-5 text-white">
-                <div className="inline-flex items-center rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] backdrop-blur-sm">
-                  Instagram
+            <div className="mt-10 grid grid-cols-2 gap-3">
+              <div className="rounded-2xl bg-white/5 border border-white/10 p-4">
+                <div className="text-xs uppercase tracking-[0.22em] text-slate-400">
+                  Proyectos
                 </div>
-                <h3 className="mt-3 text-xl font-semibold">{item.title}</h3>
-                <p className="mt-2 text-sm text-white/80">{item.caption}</p>
+                <div className="mt-2 text-2xl font-semibold text-white">
+                  {businessConfig.stats.projectsCompleted}+
+                </div>
               </div>
-            </a>
-          ))}
-        </div>
+              <div className="rounded-2xl bg-white/5 border border-white/10 p-4">
+                <div className="text-xs uppercase tracking-[0.22em] text-slate-400">
+                  Cobertura
+                </div>
+                <div className="mt-2 text-2xl font-semibold text-white">IV</div>
+              </div>
+            </div>
 
-        <div className="text-center mt-12">
-          <a
-            href={businessConfig.social.instagram.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-full text-lg font-semibold hover:from-orange-600 hover:to-orange-700 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
-          >
-            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-            </svg>
-            <span>{businessConfig.social.instagram.handle}</span>
-          </a>
+            <div className="mt-10">
+              <a
+                href={businessConfig.social.instagram.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 rounded-full bg-orange-500 px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-orange-600 hover:translate-x-1"
+              >
+                Ver perfil completo
+                <ArrowUpRight className="h-4 w-4" />
+              </a>
+              <p className="mt-4 text-sm text-slate-400">
+                {businessConfig.social.instagram.handle}
+              </p>
+            </div>
+          </div>
+
+          {showEmbeds ? (
+            <div className="grid md:grid-cols-2 gap-5 auto-rows-[420px]">
+              {embeds.map((item, index) => (
+                <div
+                  key={`${item.href}-${index}`}
+                  className="rounded-[28px] overflow-hidden border border-white/60 shadow-[0_18px_55px_rgba(15,23,42,0.10)] bg-white"
+                >
+                  <iframe
+                    src={item.embedUrl}
+                    title={`Instagram embed ${index + 1}`}
+                    className="h-full w-full"
+                    loading="lazy"
+                    allow="clipboard-write; encrypted-media; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                  />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-2 gap-5 auto-rows-[220px]">
+              {featuredItem && (
+                <a
+                  href={featuredItem.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative md:col-span-2 min-h-[460px] rounded-[32px] overflow-hidden border border-white/60 shadow-[0_20px_70px_rgba(15,23,42,0.12)]"
+                >
+                  <Image
+                    src={featuredItem.imageSrc}
+                    alt={featuredItem.title}
+                    fill
+                    priority
+                    sizes="(max-width: 768px) 100vw, 66vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/15 to-transparent" />
+                  <div className="absolute left-6 top-6 inline-flex items-center rounded-full bg-white/14 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-white backdrop-blur-sm">
+                    {featuredItem.kicker || "Instagram"}
+                  </div>
+                  <div className="absolute right-6 top-6 flex h-11 w-11 items-center justify-center rounded-full bg-white/12 text-white backdrop-blur-sm transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1">
+                    <ArrowUpRight className="h-5 w-5" />
+                  </div>
+                  <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 text-white">
+                    <h3 className="text-2xl md:text-3xl font-semibold max-w-xl">
+                      {featuredItem.title}
+                    </h3>
+                    <p className="mt-3 max-w-lg text-white/80 text-base leading-relaxed">
+                      {featuredItem.caption}
+                    </p>
+                  </div>
+                </a>
+              )}
+
+              {secondaryItems.map((item, index) => (
+                <a
+                  key={`${item.href}-${index}`}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative rounded-[28px] overflow-hidden border border-white/60 shadow-[0_18px_55px_rgba(15,23,42,0.10)] bg-white"
+                >
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(249,115,22,0.14),_transparent_38%),linear-gradient(180deg,#fffdf8_0%,#f8fafc_100%)]" />
+                  <div className="relative h-full flex flex-col justify-between">
+                    <div className="p-6 flex items-start justify-between">
+                      <div className="inline-flex items-center rounded-full bg-slate-900 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-white">
+                        {item.kicker || "Instagram"}
+                      </div>
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-800 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1">
+                        <ArrowUpRight className="h-4 w-4" />
+                      </div>
+                    </div>
+
+                    <div className="relative h-[112px] mx-6 mb-4">
+                      <Image
+                        src={item.imageSrc}
+                        alt={item.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        className={`${
+                          item.display === "contain"
+                            ? "object-contain p-2"
+                            : "object-cover"
+                        } drop-shadow-[0_18px_26px_rgba(15,23,42,0.16)] transition-transform duration-500 group-hover:scale-[1.03]`}
+                      />
+                    </div>
+
+                    <div className="rounded-t-[24px] bg-slate-950 px-6 py-5 text-white">
+                      <h3 className="text-xl font-semibold leading-tight">
+                        {item.title}
+                      </h3>
+                      <p className="mt-2 text-sm text-white/72 leading-relaxed">
+                        {item.caption}
+                      </p>
+                    </div>
+                  </div>
+                </a>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>
