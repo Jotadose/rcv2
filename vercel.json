@@ -52,6 +52,6 @@
     }
   ],
   "env": {
-    "NEXT_PUBLIC_SITE_URL": "https://reformas.vercel.app"
+    "NEXT_PUBLIC_SITE_URL": "https://rcreformas.cl"
   }
 }

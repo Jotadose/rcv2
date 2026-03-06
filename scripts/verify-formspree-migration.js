@@ -1,112 +1,59 @@
 #!/usr/bin/env node
 
-/**
- * Script de verificación post-migración a Formspree
- * Verifica que todos los componentes funcionen correctamente
- */
-
 const fs = require("fs");
 const path = require("path");
 
-console.log("🔍 VERIFICACIÓN POST-MIGRACIÓN A FORMSPREE\n");
+console.log("Verificacion de formularios y contacto\n");
 
-// Verificar archivos modificados
-const filesToCheck = [
+const checks = [
   {
-    path: "src/app/page.tsx",
-    description: "Página principal con formulario migrado",
-    checks: [
+    file: "src/components/home/LeadForm.tsx",
+    label: "LeadForm",
+    patterns: [
       "NEXT_PUBLIC_FORMSPREE_ENDPOINT",
-      "formSubmitted",
-      "isSubmitting",
-      "submitError",
+      "buildWhatsAppUrl",
+      "onSuccess",
     ],
   },
   {
-    path: "src/app/api/contact/route.ts",
-    description: "API de contacto marcada como deprecated",
-    checks: ["@deprecated", "ENDPOINT DEPRECATED"],
+    file: "src/app/api/contact/route.ts",
+    label: "API legacy de contacto",
+    patterns: ["Endpoint disabled", "410"],
   },
   {
-    path: ".env.example",
-    description: "Variables de entorno actualizadas",
-    checks: ["NEXT_PUBLIC_FORMSPREE_ENDPOINT", "YOUR_FORM_ID"],
+    file: ".env.example",
+    label: "Variables de entorno",
+    patterns: ["NEXT_PUBLIC_FORMSPREE_ENDPOINT", "NEXT_PUBLIC_SITE_URL"],
   },
 ];
 
 let allChecksPass = true;
 
-filesToCheck.forEach((file) => {
-  console.log(`📄 Verificando: ${file.description}`);
+for (const check of checks) {
+  const fullPath = path.join(process.cwd(), check.file);
+  console.log(`Revisando ${check.label}`);
 
-  const filePath = path.join(process.cwd(), file.path);
-
-  if (!fs.existsSync(filePath)) {
-    console.log(`   ❌ Archivo no encontrado: ${file.path}`);
+  if (!fs.existsSync(fullPath)) {
+    console.log(`  ERR ${check.file} no existe`);
     allChecksPass = false;
-    return;
+    continue;
   }
 
-  const content = fs.readFileSync(filePath, "utf8");
-
-  file.checks.forEach((check) => {
-    if (content.includes(check)) {
-      console.log(`   ✅ ${check}`);
+  const content = fs.readFileSync(fullPath, "utf8");
+  for (const pattern of check.patterns) {
+    if (content.includes(pattern)) {
+      console.log(`  OK  ${pattern}`);
     } else {
-      console.log(`   ❌ No encontrado: ${check}`);
+      console.log(`  ERR ${pattern}`);
       allChecksPass = false;
     }
-  });
-
-  console.log("");
-});
-
-// Verificar que el chatbot no se haya visto afectado
-console.log("🤖 Verificando integridad del chatbot...");
-const chatApiPath = path.join(process.cwd(), "src/app/api/chat/save/route.ts");
-if (fs.existsSync(chatApiPath)) {
-  const chatContent = fs.readFileSync(chatApiPath, "utf8");
-  if (chatContent.includes("sessionData")) {
-    console.log("   ✅ API del chatbot intacta");
-  } else {
-    console.log("   ❌ API del chatbot modificada incorrectamente");
-    allChecksPass = false;
   }
-} else {
-  console.log("   ❌ API del chatbot no encontrada");
-  allChecksPass = false;
 }
 
-console.log("");
-
-// Verificar archivos de documentación
-console.log("📚 Verificando documentación...");
-const docsToCheck = ["FORMSPREE_SETUP.md", "README.md"];
-
-docsToCheck.forEach((doc) => {
-  const docPath = path.join(process.cwd(), doc);
-  if (fs.existsSync(docPath)) {
-    console.log(`   ✅ ${doc} creado/actualizado`);
-  } else {
-    console.log(`   ❌ ${doc} no encontrado`);
-    allChecksPass = false;
-  }
-});
-
-console.log("\n" + "=".repeat(50));
-
-if (allChecksPass) {
-  console.log("🎉 MIGRACIÓN COMPLETADA EXITOSAMENTE");
-  console.log("\n📋 PRÓXIMOS PASOS:");
-  console.log("1. Crear cuenta en Formspree.io");
-  console.log("2. Configurar NEXT_PUBLIC_FORMSPREE_ENDPOINT");
-  console.log("3. Redeploy la aplicación");
-  console.log("4. Probar el formulario de contacto");
-  console.log("\n📖 Ver FORMSPREE_SETUP.md para instrucciones detalladas");
-} else {
-  console.log("❌ HAY PROBLEMAS CON LA MIGRACIÓN");
-  console.log("Revisa los errores mostrados arriba");
+console.log("\nResumen");
+if (!allChecksPass) {
+  console.log("Resultado: FALLA");
   process.exit(1);
 }
 
-console.log("\n" + "=".repeat(50));
+console.log("Resultado: OK");

@@ -1,8 +1,10 @@
 "use client";
 
-import AIChatEstimator from "@/components/home/AIChatEstimator";
+import dynamic from "next/dynamic";
 import { useHomePageUI } from "@/components/home/HomePageProvider";
-import LeadPopupModal from "@/components/home/LeadPopupModal";
+
+const AIChatEstimator = dynamic(() => import("@/components/home/AIChatEstimator"));
+const LeadPopupModal = dynamic(() => import("@/components/home/LeadPopupModal"));
 
 export default function HomeOverlays() {
   const { closeAIChat, showAIChat, showLeadPopup } = useHomePageUI();

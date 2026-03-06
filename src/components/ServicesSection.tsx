@@ -1,73 +1,33 @@
-"use client";
-
-import React from "react";
-import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle } from "lucide-react";
 import businessConfig from "@/config/business";
+import { buildWhatsAppUrl } from "@/lib/contact";
 
-const ServicesSection: React.FC = () => {
+export default function ServicesSection() {
   const { services, contact } = businessConfig;
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 },
-    },
-  };
-
   return (
-    <section
-      id="servicios"
-      className="py-20 bg-gradient-to-br from-gray-50 to-white"
-    >
+    <section id="servicios" className="py-20 bg-gradient-to-br from-gray-50 to-white">
       <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
+        <div className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold text-slate-800 mb-6">
-            Nuestros Servicios{" "}
+            Nuestros servicios
             <span className="block text-orange-500 text-3xl lg:text-4xl">
-              Especializados
+              especializados
             </span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Soluciones integrales para cada una de tus necesidades constructivas
-            en la <strong>Región de Coquimbo</strong>
+            en la <strong>Region de Coquimbo</strong>.
           </p>
-          <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-orange-600 mx-auto mt-6 rounded-full"></div>
-        </motion.div>
+          <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-orange-600 mx-auto mt-6 rounded-full" />
+        </div>
 
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="grid lg:grid-cols-3 gap-8"
-        >
+        <div className="grid lg:grid-cols-3 gap-8">
           {services.map((service) => (
-            <motion.div
+            <div
               key={service.id}
-              variants={cardVariants}
-              whileHover={{ y: -5 }}
-              className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100"
+              className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 hover:-translate-y-1"
             >
-              {/* Header del servicio */}
               <div className="bg-gradient-to-br from-slate-800 to-slate-900 p-8 text-white">
                 <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">
                   {service.icon}
@@ -78,7 +38,6 @@ const ServicesSection: React.FC = () => {
                 </p>
               </div>
 
-              {/* Features del servicio */}
               <div className="p-8">
                 <div className="space-y-3 mb-6">
                   {service.features.map((feature) => (
@@ -92,68 +51,50 @@ const ServicesSection: React.FC = () => {
                   ))}
                 </div>
 
-                {/* CTA Button */}
-                <motion.a
-                  href={`https://wa.me/${contact.whatsapp.replace(
-                    /\D/g,
-                    ""
-                  )}?text=Hola%20RC%20Reformas,%20me%20interesa%20el%20servicio%20de%20${service.name.replace(
-                    " ",
-                    "%20"
-                  )}`}
+                <a
+                  href={buildWhatsAppUrl(
+                    contact.whatsapp,
+                    `Hola RC Reformas, me interesa el servicio de ${service.name}`
+                  )}
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
                   className="group/btn w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2"
                 >
                   <span>Consultar</span>
                   <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-300" />
-                </motion.a>
+                </a>
               </div>
 
-              {/* Badge de especialidad */}
               <div className="absolute top-4 right-4 bg-orange-500 text-white text-xs px-3 py-1 rounded-full font-semibold">
                 Especialidad
               </div>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
 
-        {/* CTA Section adicional */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-center mt-16"
-        >
+        <div className="text-center mt-16">
           <div className="bg-gradient-to-r from-slate-800 to-slate-900 rounded-2xl p-8 lg:p-12 text-white">
             <h3 className="text-2xl lg:text-3xl font-bold mb-4">
-              ¿No encuentras el servicio que necesitas?
+              No encuentras el servicio que necesitas?
             </h3>
             <p className="text-gray-300 mb-6 text-lg">
-              Trabajamos proyectos personalizados. Cuéntanos tu idea y la
+              Trabajamos proyectos personalizados. Cuentanos tu idea y la
               haremos realidad.
             </p>
-            <motion.a
-              href={`https://wa.me/${contact.whatsapp.replace(
-                /\D/g,
-                ""
-              )}?text=Hola%20RC%20Reformas,%20necesito%20un%20proyecto%20personalizado`}
+            <a
+              href={buildWhatsAppUrl(
+                contact.whatsapp,
+                "Hola RC Reformas, necesito un proyecto personalizado"
+              )}
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
               className="inline-flex items-center gap-2 bg-white text-slate-800 px-8 py-4 rounded-xl font-bold text-lg hover:bg-gray-100 transition-all duration-300"
             >
-              <span>📞</span> Consulta Personalizada
-            </motion.a>
+              <span>📞</span> Consulta personalizada
+            </a>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
-};
-
-export default ServicesSection;
+}

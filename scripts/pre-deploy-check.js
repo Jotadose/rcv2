@@ -9,10 +9,11 @@ let hasErrors = false;
 function check(condition, okMessage, errorMessage) {
   if (condition) {
     console.log(`  OK  ${okMessage}`);
-  } else {
-    console.log(`  ERR ${errorMessage}`);
-    hasErrors = true;
+    return;
   }
+
+  console.log(`  ERR ${errorMessage}`);
+  hasErrors = true;
 }
 
 console.log("1) Archivos esenciales");
@@ -23,9 +24,11 @@ const essentialFiles = [
   "vercel.json",
   ".env.example",
   "src/config/business.ts",
+  "src/config/site.ts",
+  "src/config/instagram.ts",
   "src/app/page.tsx",
-  "src/app/api/instagram/route.ts",
-  "src/app/api/webhooks/instagram/route.ts",
+  "src/components/InstagramEmbedGrid.tsx",
+  "src/components/home/AIChatEstimator.tsx",
 ];
 
 for (const file of essentialFiles) {
@@ -35,58 +38,61 @@ for (const file of essentialFiles) {
 console.log("\n2) Configuracion de negocio");
 try {
   const businessSource = fs.readFileSync("src/config/business.ts", "utf8");
-  check(businessSource.includes("name:"), "Nombre del negocio configurado", "Falta name");
   check(
-    businessSource.includes("contact:"),
-    "Bloque de contacto configurado",
-    "Falta bloque contact"
+    businessSource.includes('website: "https://rcreformas.cl"'),
+    "Dominio canonico alineado",
+    "Dominio canonico inconsistente"
   );
   check(
-    businessSource.includes("instagram"),
-    "Red social Instagram configurada",
-    "Falta configuracion de Instagram"
+    businessSource.includes("yearsExperience: 15"),
+    "Trayectoria alineada con la metadata",
+    "La trayectoria sigue inconsistente"
+  );
+  check(
+    businessSource.includes("Visitas tecnicas en terreno"),
+    "Cobertura sin direccion placeholder",
+    "Sigue existiendo una direccion de ejemplo"
   );
 } catch (error) {
   check(false, "", `No se pudo leer src/config/business.ts: ${error.message}`);
 }
 
-console.log("\n3) Dependencias");
+console.log("\n3) Variables de entorno");
+["NEXT_PUBLIC_FORMSPREE_ENDPOINT", "NEXT_PUBLIC_SITE_URL"].forEach((envName) => {
+  console.log(`  - ${envName} (requerida)`);
+});
+console.log("  - NEXT_PUBLIC_INSTAGRAM_EMBED_URLS (opcional)");
+
+console.log("\n4) Integracion de Instagram");
 try {
-  const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
-  const deps = pkg.dependencies || {};
-  const required = ["next", "react", "framer-motion", "lucide-react"];
-
-  for (const dep of required) {
-    check(Boolean(deps[dep]), `${dep} instalado`, `${dep} no instalado`);
-  }
-
-  if (deps["@supabase/supabase-js"]) {
-    console.log("  WARN Dependencia legacy detectada: @supabase/supabase-js");
-  }
+  const instagramComponent = fs.readFileSync(
+    "src/components/InstagramEmbedGrid.tsx",
+    "utf8"
+  );
+  check(
+    !instagramComponent.includes('fetch("/api/instagram")'),
+    "La galeria no hace fetch al API legacy",
+    "La galeria aun intenta consultar /api/instagram"
+  );
+  check(
+    instagramComponent.includes("getInstagramShowcaseItems"),
+    "La galeria usa configuracion estatica",
+    "La galeria no esta usando la nueva configuracion estatica"
+  );
 } catch (error) {
-  check(false, "", `No se pudo leer package.json: ${error.message}`);
+  check(false, "", `No se pudo leer la galeria de Instagram: ${error.message}`);
 }
 
-console.log("\n4) Variables de entorno requeridas (produccion)");
-const requiredEnv = [
-  "NEXT_PUBLIC_FORMSPREE_ENDPOINT",
-  "INSTAGRAM_ACCESS_TOKEN",
-  "INSTAGRAM_APP_SECRET",
-  "INSTAGRAM_VERIFY_TOKEN",
-  "NEXT_PUBLIC_SITE_URL",
-];
-for (const envName of requiredEnv) {
-  console.log(`  - ${envName}`);
-}
-
-console.log("\n5) Rutas API esperadas");
-const apiRoutes = [
+console.log("\n5) Endpoints legacy");
+const legacyRoutes = [
   "src/app/api/instagram/route.ts",
+  "src/app/api/instagram/auth/route.ts",
+  "src/app/api/instagram/auth/callback/route.ts",
+  "src/app/api/instagram/refresh/route.ts",
   "src/app/api/webhooks/instagram/route.ts",
-  "src/app/api/chat/save/route.ts",
-  "src/app/api/contact/route.ts",
 ];
-for (const route of apiRoutes) {
+
+for (const route of legacyRoutes) {
   check(fs.existsSync(route), route, `${route} no existe`);
 }
 
