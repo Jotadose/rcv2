@@ -18,15 +18,15 @@ export default function InstagramSetupPage() {
           <div className="prose prose-gray max-w-none">
             <div className="bg-green-50 border-l-4 border-green-400 p-4 mb-6">
               <p className="text-sm text-green-700">
-                ✅ <strong>Instagram funcionando con embeds directos</strong>
+                ✅ <strong>Instagram funcionando con URLs públicas</strong>
                 <br />
-                Las publicaciones se cargan directamente desde Instagram sin
-                necesidad de API ni tokens.
+                Las publicaciones se muestran con URLs públicas y miniaturas
+                sin necesidad de API ni tokens.
               </p>
             </div>
 
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-              🎯 Método Actual: Embeds Directos
+              🎯 Método Actual: URLs públicas + preview
             </h2>
 
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
@@ -37,7 +37,7 @@ export default function InstagramSetupPage() {
                 <li>• ✅ Sin configuración de Meta/Facebook</li>
                 <li>• ✅ Sin tokens que expiren</li>
                 <li>• ✅ Sin límites de API</li>
-                <li>• ✅ Embeds oficiales de Instagram</li>
+                <li>• ✅ Miniaturas públicas de los posts</li>
                 <li>• ✅ Actualización instantánea</li>
               </ul>
             </div>
@@ -57,8 +57,9 @@ export default function InstagramSetupPage() {
                 </code>
               </p>
               <p className="text-purple-700 text-sm">
-                Simplemente cambia las URLs en el array DEFAULT_INSTAGRAM_POSTS
-                y haz deploy.
+                El componente prioriza la variable
+                NEXT_PUBLIC_INSTAGRAM_EMBED_URLS (lista separada por comas). Si
+                no existe, intenta cargar desde /api/instagram.
               </p>
             </div>
 
@@ -87,11 +88,21 @@ export default function InstagramSetupPage() {
                 Las siguientes publicaciones están configuradas:
               </p>
               <ol className="text-gray-600 text-sm space-y-1">
-                <li>1. https://www.instagram.com/p/DNXBdDYOzvu/</li>
-                <li>2. https://www.instagram.com/p/DNUJAdnvB_5/</li>
-                <li>3. https://www.instagram.com/p/DNUILkkvCjs/</li>
-                <li>4. https://www.instagram.com/p/DM0T4ZyuB3W/</li>
-                <li>5. https://www.instagram.com/p/DM0TaiEOq7d/</li>
+                <li>
+                  1. https://www.instagram.com/rcconstruccionesymantenimiento/p/DVNGis9lWcj/
+                </li>
+                <li>
+                  2. https://www.instagram.com/rcconstruccionesymantenimiento/p/DVNF7VPFZE7/
+                </li>
+                <li>
+                  3. https://www.instagram.com/rcconstruccionesymantenimiento/p/DU67VYFkZTX/
+                </li>
+                <li>
+                  4. https://www.instagram.com/rcconstruccionesymantenimiento/reel/DU669KfEYIu/
+                </li>
+                <li>
+                  5. https://www.instagram.com/rcconstruccionesymantenimiento/p/DU66RauEcnx/
+                </li>
               </ol>
             </div>
 
@@ -117,10 +128,10 @@ export default function InstagramSetupPage() {
               </h3>
               <ul className="text-yellow-700 text-sm space-y-1">
                 <li>
-                  • Los embeds usan el script oficial de Instagram (embed.js)
+                  • Las miniaturas usan la URL pública de cada post
                 </li>
                 <li>
-                  • Se cargan de forma asíncrona para no bloquear la página
+                  • El clic abre la publicación real en Instagram
                 </li>
                 <li>• Son responsivos y se adaptan al diseño</li>
                 <li>• Incluyen lazy loading automático</li>

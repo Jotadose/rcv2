@@ -86,8 +86,8 @@ export default function ReformasGallery() {
                       fill
                       sizes="(max-width:768px) 50vw, (max-width:1024px) 25vw, 250px"
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
-                      onError={(e) => {
-                        (e.currentTarget as any).style.opacity = "0.3";
+                      onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+                        e.currentTarget.style.opacity = "0.3";
                       }}
                     />
                     <figcaption className="absolute inset-0 flex items-end opacity-0 group-hover:opacity-100 transition bg-gradient-to-t from-black/60 to-transparent p-2 text-[11px] text-white">

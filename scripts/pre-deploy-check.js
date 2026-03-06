@@ -1,12 +1,21 @@
 #!/usr/bin/env node
 
-// Script de pre-despliegue para verificar configuración
 const fs = require("fs");
-const path = require("path");
 
-console.log("🚀 Verificando configuración para despliegue...\n");
+console.log("Pre-deploy check - RC Reformas\n");
 
-// 1. Verificar archivos esenciales
+let hasErrors = false;
+
+function check(condition, okMessage, errorMessage) {
+  if (condition) {
+    console.log(`  OK  ${okMessage}`);
+  } else {
+    console.log(`  ERR ${errorMessage}`);
+    hasErrors = true;
+  }
+}
+
+console.log("1) Archivos esenciales");
 const essentialFiles = [
   "package.json",
   "next.config.ts",
@@ -14,100 +23,77 @@ const essentialFiles = [
   "vercel.json",
   ".env.example",
   "src/config/business.ts",
+  "src/app/page.tsx",
+  "src/app/api/instagram/route.ts",
+  "src/app/api/webhooks/instagram/route.ts",
 ];
 
-console.log("📁 Verificando archivos esenciales:");
-essentialFiles.forEach((file) => {
-  if (fs.existsSync(file)) {
-    console.log(`  ✅ ${file}`);
-  } else {
-    console.log(`  ❌ ${file} - FALTANTE`);
-  }
-});
-
-// 2. Verificar configuración de negocio
-console.log("\n📋 Verificando configuración de negocio:");
-try {
-  const businessConfig = require("./src/config/business.ts");
-  const config = businessConfig.businessConfig || businessConfig.default;
-
-  const checks = [
-    { key: "contact.phone", value: config.contact?.phone },
-    { key: "contact.whatsapp", value: config.contact?.whatsapp },
-    { key: "contact.email", value: config.contact?.email },
-    { key: "name", value: config.name },
-    { key: "location.city", value: config.location?.city },
-  ];
-
-  checks.forEach((check) => {
-    if (
-      check.value &&
-      !check.value.includes("CAMBIAR") &&
-      !check.value.includes("5123")
-    ) {
-      console.log(`  ✅ ${check.key}: ${check.value}`);
-    } else {
-      console.log(`  ⚠️  ${check.key}: ${check.value || "NO CONFIGURADO"}`);
-    }
-  });
-} catch (error) {
-  console.log("  ❌ Error leyendo configuración:", error.message);
+for (const file of essentialFiles) {
+  check(fs.existsSync(file), file, `${file} no existe`);
 }
 
-// 3. Verificar dependencias críticas
-console.log("\n📦 Verificando dependencias:");
+console.log("\n2) Configuracion de negocio");
+try {
+  const businessSource = fs.readFileSync("src/config/business.ts", "utf8");
+  check(businessSource.includes("name:"), "Nombre del negocio configurado", "Falta name");
+  check(
+    businessSource.includes("contact:"),
+    "Bloque de contacto configurado",
+    "Falta bloque contact"
+  );
+  check(
+    businessSource.includes("instagram"),
+    "Red social Instagram configurada",
+    "Falta configuracion de Instagram"
+  );
+} catch (error) {
+  check(false, "", `No se pudo leer src/config/business.ts: ${error.message}`);
+}
+
+console.log("\n3) Dependencias");
 try {
   const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
-  const criticalDeps = [
-    "next",
-    "react",
-    "framer-motion",
-    "@supabase/supabase-js",
-    "nodemailer",
-  ];
+  const deps = pkg.dependencies || {};
+  const required = ["next", "react", "framer-motion", "lucide-react"];
 
-  criticalDeps.forEach((dep) => {
-    if (pkg.dependencies[dep]) {
-      console.log(`  ✅ ${dep}: ${pkg.dependencies[dep]}`);
-    } else {
-      console.log(`  ❌ ${dep}: NO INSTALADO`);
-    }
-  });
+  for (const dep of required) {
+    check(Boolean(deps[dep]), `${dep} instalado`, `${dep} no instalado`);
+  }
+
+  if (deps["@supabase/supabase-js"]) {
+    console.log("  WARN Dependencia legacy detectada: @supabase/supabase-js");
+  }
 } catch (error) {
-  console.log("  ❌ Error leyendo package.json");
+  check(false, "", `No se pudo leer package.json: ${error.message}`);
 }
 
-// 4. Verificar APIs
-console.log("\n🔗 APIs disponibles:");
-const apiRoutes = [
-  "src/app/api/contact/route.ts",
-  "src/app/api/instagram/route.ts",
-  "src/app/api/chat/save/route.ts",
+console.log("\n4) Variables de entorno requeridas (produccion)");
+const requiredEnv = [
+  "NEXT_PUBLIC_FORMSPREE_ENDPOINT",
+  "INSTAGRAM_ACCESS_TOKEN",
+  "INSTAGRAM_APP_SECRET",
+  "INSTAGRAM_VERIFY_TOKEN",
+  "NEXT_PUBLIC_SITE_URL",
 ];
+for (const envName of requiredEnv) {
+  console.log(`  - ${envName}`);
+}
 
-apiRoutes.forEach((route) => {
-  if (fs.existsSync(route)) {
-    console.log(
-      `  ✅ ${route.replace("src/app/api/", "/api/").replace("/route.ts", "")}`
-    );
-  } else {
-    console.log(
-      `  ❌ ${route
-        .replace("src/app/api/", "/api/")
-        .replace("/route.ts", "")} - FALTANTE`
-    );
-  }
-});
+console.log("\n5) Rutas API esperadas");
+const apiRoutes = [
+  "src/app/api/instagram/route.ts",
+  "src/app/api/webhooks/instagram/route.ts",
+  "src/app/api/chat/save/route.ts",
+  "src/app/api/contact/route.ts",
+];
+for (const route of apiRoutes) {
+  check(fs.existsSync(route), route, `${route} no existe`);
+}
 
-// 5. Instrucciones de despliegue
-console.log("\n🚀 INSTRUCCIONES DE DESPLIEGUE:");
-console.log("  1. Hacer commit y push de los cambios");
-console.log("  2. Conectar repositorio a Vercel");
-console.log("  3. Configurar variables de entorno en Vercel:");
-console.log("     - INSTAGRAM_ACCESS_TOKEN (opcional)");
-console.log("     - NEXT_PUBLIC_SUPABASE_URL");
-console.log("     - NEXT_PUBLIC_SUPABASE_ANON_KEY");
-console.log("     - EMAIL_USER y EMAIL_PASS para notificaciones");
-console.log("  4. Hacer deploy");
+console.log("\nResumen");
+if (hasErrors) {
+  console.log("Resultado: FALLA");
+  process.exit(1);
+}
 
-console.log("\n✨ Configuración verificada. Listo para despliegue!");
+console.log("Resultado: OK");

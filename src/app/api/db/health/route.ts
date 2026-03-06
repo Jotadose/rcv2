@@ -1,29 +1,38 @@
 import { NextResponse } from "next/server";
+import businessConfig from "@/config/business";
+
+function getFormspreeStatus() {
+  return process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT ? "configured" : "missing";
+}
+
+function getInstagramStatus() {
+  return process.env.NEXT_PUBLIC_INSTAGRAM_EMBED_URLS ? "configured" : "fallback";
+}
+
+function getWhatsAppStatus() {
+  return businessConfig.contact.whatsapp ? "configured" : "missing";
+}
 
 export async function GET() {
-  try {
-    // Health check simplificado - ya no usa Supabase
-    return NextResponse.json({
-      ok: true,
-      status: "healthy",
+  const services = {
+    formspree: getFormspreeStatus(),
+    instagram: getInstagramStatus(),
+    whatsapp: getWhatsAppStatus(),
+  };
+
+  const hasCriticalIssue =
+    services.formspree === "missing" || services.whatsapp === "missing";
+
+  return NextResponse.json(
+    {
+      ok: !hasCriticalIssue,
+      status: hasCriticalIssue ? "degraded" : "healthy",
       timestamp: new Date().toISOString(),
-      services: {
-        formspree: "active",
-        instagram: "active",
-        whatsapp: "active",
-      },
-      message: "API funcionando correctamente sin base de datos",
-    });
-  } catch (error) {
-    console.error("Health check error:", error);
-    return NextResponse.json(
-      {
-        ok: false,
-        status: "error",
-        error: "Error en health check",
-        timestamp: new Date().toISOString(),
-      },
-      { status: 500 }
-    );
-  }
+      services,
+      message: hasCriticalIssue
+        ? "Faltan configuraciones para uno o mas canales de contacto."
+        : "Configuracion operativa validada.",
+    },
+    { status: hasCriticalIssue ? 503 : 200 }
+  );
 }

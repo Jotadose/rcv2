@@ -12,14 +12,12 @@ export const businessConfig = {
     phone: "+56 9 8759 3649",
     whatsapp: "+56 9 8759 3649",
     email: "rcconstruccionesymantenimiento@gmail.com",
-    // Dominio actual (Vercel) y futuro dominio propio
-    website: "https://rcreformas.com", // Futuro: https://rcreformas.com
+    website: "https://rcreformas.cl",
   },
 
   // Ubicación y área de servicio
   location: {
-    // ⚠️ ACTUALIZAR CON DIRECCIÓN REAL
-    address: "Av. Waldo Alcalde 1234", // CAMBIAR POR DIRECCIÓN REAL
+    address: "Visitas tecnicas en terreno con cita previa",
     city: "Coquimbo",
     region: "Región de Coquimbo",
     country: "Chile",
@@ -52,7 +50,7 @@ export const businessConfig = {
 
   // Estadísticas de la empresa
   stats: {
-    yearsExperience: 1,
+    yearsExperience: 15,
     projectsCompleted: 50,
     clientSatisfaction: 100, // Porcentaje
     teammembers: 8,

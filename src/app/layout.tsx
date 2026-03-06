@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import businessConfig from "@/config/business";
+import { SITE_URL } from "@/config/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -13,17 +15,19 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "RC Reformas y Construcciones - Líderes en Coquimbo",
-  description:
-    "Más de 15 años transformando hogares y negocios en la Región de Coquimbo. Construcción, reformas y mantenciones con garantía. Cotización gratuita.",
+  metadataBase: new URL(SITE_URL),
+  title: "RC Reformas y Construcciones - Lideres en Coquimbo",
+  description: `Mas de ${businessConfig.stats.yearsExperience} anos transformando hogares y negocios en la Region de Coquimbo. Construccion, reformas y mantenciones con garantia. Cotizacion gratuita.`,
   keywords:
-    "construcción Coquimbo, reformas La Serena, mantenciones, remodelaciones, construcción Chile, reformas Ovalle",
+    "construccion Coquimbo, reformas La Serena, mantenciones, remodelaciones, construccion Chile, reformas Ovalle",
   authors: [{ name: "RC Reformas" }],
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
-    title: "RC Reformas y Construcciones - Líderes en Coquimbo",
-    description:
-      "Más de 15 años transformando hogares y negocios en la Región de Coquimbo",
-    url: "https://rcreformas.cl",
+    title: "RC Reformas y Construcciones - Lideres en Coquimbo",
+    description: `Mas de ${businessConfig.stats.yearsExperience} anos transformando hogares y negocios en la Region de Coquimbo.`,
+    url: SITE_URL,
     siteName: "RC Reformas",
     locale: "es_CL",
     type: "website",
@@ -31,7 +35,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "RC Reformas y Construcciones",
-    description: "Construcción y reformas profesionales en Coquimbo",
+    description: "Construccion y reformas profesionales en Coquimbo",
   },
   robots: {
     index: true,
@@ -47,7 +51,6 @@ export default function RootLayout({
   return (
     <html lang="es">
       <head>
-        <link rel="canonical" href="https://rcreformas.cl" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#f97316" />
       </head>

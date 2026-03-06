@@ -66,10 +66,7 @@ console.log("🤖 Verificando integridad del chatbot...");
 const chatApiPath = path.join(process.cwd(), "src/app/api/chat/save/route.ts");
 if (fs.existsSync(chatApiPath)) {
   const chatContent = fs.readFileSync(chatApiPath, "utf8");
-  if (
-    chatContent.includes("chat_sessions") &&
-    chatContent.includes("sessionData")
-  ) {
+  if (chatContent.includes("sessionData")) {
     console.log("   ✅ API del chatbot intacta");
   } else {
     console.log("   ❌ API del chatbot modificada incorrectamente");
