@@ -1,98 +1,155 @@
-import { ArrowRight, CheckCircle } from "lucide-react";
+"use client";
+
 import businessConfig from "@/config/business";
 import { buildWhatsAppUrl } from "@/lib/contact";
+
+const SERVICE_ICONS: Record<string, React.ReactNode> = {
+  construccion: (
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="var(--yellow)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+      <polyline points="9 22 9 12 15 12 15 22" />
+    </svg>
+  ),
+  reformas: (
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="var(--yellow)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 20h9" />
+      <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
+    </svg>
+  ),
+  mantenciones: (
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="var(--yellow)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+    </svg>
+  ),
+};
 
 export default function ServicesSection() {
   const { services, contact } = businessConfig;
 
   return (
-    <section id="servicios" className="py-20 bg-gradient-to-br from-gray-50 to-white">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-bold text-slate-800 mb-6">
-            Nuestros servicios
-            <span className="block text-orange-500 text-3xl lg:text-4xl">
-              especializados
-            </span>
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Soluciones integrales para cada una de tus necesidades constructivas
-            en la <strong>Region de Coquimbo</strong>.
-          </p>
-          <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-orange-600 mx-auto mt-6 rounded-full" />
+    <section id="servicios" style={{ padding: "56px 0" }}>
+      <div style={{ maxWidth: "var(--max)", margin: "0 auto", padding: "0 20px" }}>
+        <div
+          style={{
+            fontSize: "0.7rem",
+            fontWeight: 600,
+            letterSpacing: 2,
+            textTransform: "uppercase",
+            color: "var(--yellow)",
+            marginBottom: 4,
+            fontFamily: "var(--font-poppins)",
+          }}
+        >
+          Lo que hacemos
+        </div>
+        <div
+          style={{
+            fontFamily: "var(--font-poppins)",
+            fontWeight: 800,
+            fontSize: "clamp(1.4rem,3vw,2rem)",
+            lineHeight: 1.15,
+            marginBottom: 6,
+          }}
+        >
+          Nuestros Servicios
+        </div>
+        <div style={{ color: "var(--muted)", fontSize: "0.9rem", marginBottom: 28 }}>
+          Soluciones integrales para cada necesidad de tu espacio.
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(2,1fr)",
+            gap: 12,
+          }}
+          className="md:!grid-cols-3 lg:!grid-cols-4"
+        >
           {services.map((service) => (
-            <div
-              key={service.id}
-              className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 hover:-translate-y-1"
-            >
-              <div className="bg-gradient-to-br from-slate-800 to-slate-900 p-8 text-white">
-                <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">
-                  {service.icon}
-                </div>
-                <h3 className="text-2xl font-bold mb-3">{service.name}</h3>
-                <p className="text-gray-300 text-sm leading-relaxed">
-                  {service.description}
-                </p>
-              </div>
-
-              <div className="p-8">
-                <div className="space-y-3 mb-6">
-                  {service.features.map((feature) => (
-                    <div
-                      key={`${service.id}-${feature.slice(0, 10)}`}
-                      className="flex items-center gap-3"
-                    >
-                      <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                      <span className="text-gray-700 text-sm">{feature}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <a
-                  href={buildWhatsAppUrl(
-                    contact.whatsapp,
-                    `Hola RC Reformas, me interesa el servicio de ${service.name}`
-                  )}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group/btn w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2"
-                >
-                  <span>Consultar</span>
-                  <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-300" />
-                </a>
-              </div>
-
-              <div className="absolute top-4 right-4 bg-orange-500 text-white text-xs px-3 py-1 rounded-full font-semibold">
-                Especialidad
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="text-center mt-16">
-          <div className="bg-gradient-to-r from-slate-800 to-slate-900 rounded-2xl p-8 lg:p-12 text-white">
-            <h3 className="text-2xl lg:text-3xl font-bold mb-4">
-              No encuentras el servicio que necesitas?
-            </h3>
-            <p className="text-gray-300 mb-6 text-lg">
-              Trabajamos proyectos personalizados. Cuentanos tu idea y la
-              haremos realidad.
-            </p>
             <a
-              href={buildWhatsAppUrl(
-                contact.whatsapp,
-                "Hola RC Reformas, necesito un proyecto personalizado"
-              )}
+              key={service.id}
+              href={buildWhatsAppUrl(contact.whatsapp, `Hola RC Reformas, me interesa el servicio de ${service.name}`)}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-white text-slate-800 px-8 py-4 rounded-xl font-bold text-lg hover:bg-gray-100 transition-all duration-300"
+              style={{
+                background: "var(--surface2)",
+                border: "1px solid var(--border)",
+                borderRadius: "var(--radius)",
+                padding: 20,
+                cursor: "pointer",
+                transition: "border-color .2s,transform .2s",
+                textDecoration: "none",
+                color: "inherit",
+                display: "block",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "var(--yellow)";
+                e.currentTarget.style.transform = "translateY(-3px)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "var(--border)";
+                e.currentTarget.style.transform = "translateY(0)";
+              }}
             >
-              <span>📞</span> Consulta personalizada
+              <div
+                style={{
+                  width: 44,
+                  height: 44,
+                  borderRadius: 10,
+                  background: "var(--yellow-dim)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: 12,
+                }}
+              >
+                {SERVICE_ICONS[service.id]}
+              </div>
+              <h3
+                style={{
+                  fontFamily: "var(--font-poppins)",
+                  fontSize: "0.9rem",
+                  fontWeight: 700,
+                  marginBottom: 5,
+                }}
+              >
+                {service.name}
+              </h3>
+              <p style={{ fontSize: "0.75rem", color: "var(--muted)", lineHeight: 1.5 }}>
+                {service.description}
+              </p>
             </a>
-          </div>
+          ))}
+
+          <a
+            href={buildWhatsAppUrl(contact.whatsapp, "Hola RC Reformas, necesito un proyecto personalizado")}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              border: "1px dashed var(--border2)",
+              borderRadius: "var(--radius)",
+              padding: 20,
+              textAlign: "center",
+              cursor: "pointer",
+              color: "var(--muted)",
+              fontSize: "0.85rem",
+              transition: "border-color .2s,color .2s",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              textDecoration: "none",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = "var(--yellow)";
+              e.currentTarget.style.color = "var(--yellow)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = "var(--border2)";
+              e.currentTarget.style.color = "var(--muted)";
+            }}
+          >
+            Ver todos los servicios →
+          </a>
         </div>
       </div>
     </section>

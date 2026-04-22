@@ -53,7 +53,7 @@ export const businessConfig = {
     yearsExperience: 15,
     projectsCompleted: 50,
     clientSatisfaction: 100, // Porcentaje
-    teammembers: 8,
+    teamMembers: 8,
   },
 
   // Horarios de atención

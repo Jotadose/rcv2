@@ -1,28 +1,31 @@
-import HeroSectionLauncher from "@/components/home/HeroSectionLauncher";
-import HomeOverlays from "@/components/home/HomeOverlays";
-import { HomePageProvider } from "@/components/home/HomePageProvider";
 import SiteHeader from "@/components/home/SiteHeader";
 import SiteFooter from "@/components/home/SiteFooter";
 import WhatsAppFloat from "@/components/home/WhatsAppFloat";
-import WhyChooseSection from "@/components/home/WhyChooseSection";
 import ContactSection from "@/components/home/ContactSection";
-import InstagramEmbedGrid from "@/components/InstagramEmbedGrid";
+import HeroSection from "@/components/HeroSection";
+import TrustBar from "@/components/TrustBar";
 import ServicesSection from "@/components/ServicesSection";
+import ProcessSection from "@/components/ProcessSection";
+import PortfolioSection from "@/components/PortfolioSection";
+import BeforeAfterSection from "@/components/BeforeAfterSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
+import FAQSection from "@/components/FAQSection";
 
 export default function HomePage() {
   return (
-    <HomePageProvider>
-      <div className="min-h-screen bg-white">
-        <SiteHeader />
-        <HeroSectionLauncher />
-        <ServicesSection />
-        <WhyChooseSection />
-        <InstagramEmbedGrid limit={4} />
-        <ContactSection />
-        <SiteFooter />
-        <WhatsAppFloat />
-        <HomeOverlays />
-      </div>
-    </HomePageProvider>
+    <div style={{ minHeight: "100vh", background: "var(--bg)" }}>
+      <SiteHeader />
+      <HeroSection />
+      <TrustBar />
+      <ServicesSection />
+      <ProcessSection />
+      <PortfolioSection />
+      <BeforeAfterSection />
+      <TestimonialsSection />
+      <FAQSection />
+      <ContactSection />
+      <SiteFooter />
+      <WhatsAppFloat />
+    </div>
   );
 }

@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RC Reformas — Wireframe</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Caveat+Brush&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1a1a;
+    --paper: #f5f0e8;
+    --yellow: #FFD600;
+    --yellow-light: #fff8cc;
+    --gray: #8a8a8a;
+    --border: #1a1a1a;
+    --red: #e05a3a;
+    --blue: #2255bb;
+  }
+
+  body {
+    background: #e8e3d8;
+    font-family: 'Caveat', cursive;
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 24px 16px 60px;
+  }
+
+  /* ── PAGE TITLE ── */
+  .page-title {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .page-title h1 {
+    font-family: 'Caveat Brush', cursive;
+    font-size: 2rem;
+    color: var(--ink);
+    letter-spacing: 1px;
+  }
+  .page-title p {
+    font-size: 1.1rem;
+    color: var(--gray);
+    margin-top: 4px;
+  }
+
+  /* ── LAYOUT: phone + annotations side by side ── */
+  .stage {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* ── PHONE FRAME ── */
+  .phone-wrap {
+    flex: 0 0 360px;
+    position: sticky;
+    top: 24px;
+  }
+  .phone {
+    width: 360px;
+    background: var(--paper);
+    border: 3px solid var(--border);
+    border-radius: 36px;
+    overflow: hidden;
+    box-shadow: 6px 6px 0 var(--ink);
+    position: relative;
+  }
+  .phone-notch {
+    width: 120px;
+    height: 26px;
+    background: var(--border);
+    border-radius: 0 0 16px 16px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 10;
+  }
+
+  /* ── SECTIONS inside phone ── */
+  .section {
+    border-bottom: 2px dashed #ccc;
+    position: relative;
+  }
+  .section:last-child { border-bottom: none; }
+
+  /* ── NAV ── */
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: var(--ink);
+    position: relative;
+  }
+  .nav-logo {
+    width: 80px;
+    height: 28px;
+    background: var(--yellow);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .nav-hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    cursor: pointer;
+  }
+  .nav-hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: white;
+    border-radius: 2px;
+  }
+  .nav-wa {
+    background: #25D366;
+    color: white;
+    font-size: 0.75rem;
+    font-family: 'Caveat', cursive;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 700;
+  }
+
+  /* ── HERO SLIDER ── */
+  .hero {
+    position: relative;
+    height: 220px;
+    overflow: hidden;
+    background: #222;
+  }
+  .hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.7;
+  }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.75) 40%, transparent);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 16px;
+  }
+  .hero-badge {
+    background: var(--yellow);
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 3px;
+    display: inline-block;
+    width: fit-content;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .hero-title {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .hero-cta {
+    background: #25D366;
+    color: white;
+    border: 2px solid white;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-family: 'Caveat', cursive;
+    font-size: 1rem;
+    font-weight: 700;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .hero-dots {
+    position: absolute;
+    bottom: 56px;
+    right: 12px;
+    display: flex;
+    gap: 5px;
+  }
+  .hero-dots span {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+    border: 1px solid white;
+  }
+  .hero-dots span.active { background: var(--yellow); }
+  .slider-arrows {
+    position: absolute;
+    bottom: 8px;
+    left: 0; right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+  }
+  .slider-arrows button {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid white;
+    color: white;
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    cursor: pointer;
+    font-family: 'Caveat', cursive;
+  }
+
+  /* ── TRUST BAR ── */
+  .trust-bar {
+    display: flex;
+    padding: 10px 8px;
+    background: var(--yellow-light);
+    border-bottom: 2px solid var(--yellow);
+    justify-content: space-around;
+  }
+  .trust-item {
+    text-align: center;
+  }
+  .trust-num {
+    font-family: 'Caveat Brush', cursive;
+    font-size: 1.4rem;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .trust-label {
+    font-size: 0.65rem;
+    color: var(--gray);
+  }
+
+  /* ── SECTION HEADER ── */
+  .sec-header {
+    padding: 16px 16px 8px;
+  }
+  .sec-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--gray);
+    margin-bottom: 2px;
+  }
+  .sec-title {
+    font-family: 'Caveat Brush', cursive;
+    font-size: 1.4rem;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+  .sec-title span { 
+    border-bottom: 3px solid var(--yellow);
+    padding-bottom: 1px;
+  }
+
+  /* ── SERVICES GRID ── */
+  .services-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 0 12px 16px;
+  }
+  .service-card {
+    background: white;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 3px 3px 0 var(--ink);
+    position: relative;
+  }
+  .service-icon {
+    width: 32px; height: 32px;
+    background: var(--yellow);
+    border-radius: 6px;
+    border: 1.5px solid var(--ink);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .service-icon svg { width: 18px; height: 18px; }
+  .service-name {
+    font-size: 0.85rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .service-desc {
+    font-size: 0.7rem;
+    color: var(--gray);
+    margin-top: 2px;
+    line-height: 1.3;
+  }
+
+  /* ── PROCESS ── */
+  .process-list {
+    padding: 0 16px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .process-step {
+    display: flex;
+    gap: 12px;
+    position: relative;
+  }
+  .process-step:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 14px;
+    top: 28px;
+    bottom: -8px;
+    width: 2px;
+    background: repeating-linear-gradient(to bottom, var(--ink) 0, var(--ink) 4px, transparent 4px, transparent 8px);
+  }
+  .step-num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--yellow);
+    border: 2px solid var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .step-content {
+    padding-bottom: 16px;
+  }
+  .step-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+  .step-desc {
+    font-size: 0.72rem;
+    color: var(--gray);
+    margin-top: 2px;
+  }
+
+  /* ── PORTFOLIO GRID ── */
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    padding: 0 12px 16px;
+  }
+  .portfolio-item {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid var(--border);
+    position: relative;
+    aspect-ratio: 4/3;
+    background: #ddd;
+  }
+  .portfolio-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .portfolio-item.featured {
+    grid-column: 1 / -1;
+    aspect-ratio: 16/7;
+  }
+  .portfolio-cat {
+    position: absolute;
+    bottom: 6px; left: 6px;
+    background: var(--yellow);
+    color: var(--ink);
+    font-size: 0.6rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 3px;
+    text-transform: uppercase;
+  }
+  .portfolio-filter {
+    display: flex;
+    gap: 6px;
+    padding: 0 12px 10px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .filter-chip {
+    border: 2px solid var(--border);
+    border-radius: 20px;
+    padding: 3px 12px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    background: white;
+    cursor: pointer;
+  }
+  .filter-chip.active {
+    background: var(--ink);
+    color: white;
+  }
+
+  /* ── BEFORE AFTER ── */
+  .ba-wrap {
+    margin: 0 12px 16px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 3px 3px 0 var(--ink);
+    position: relative;
+    aspect-ratio: 4/3;
+    background: #ccc;
+  }
+  .ba-img-before {
+    position: absolute;
+    inset: 0;
+    width: 50%;
+    overflow: hidden;
+  }
+  .ba-img-before img, .ba-img-after img {
+    width: 200%; height: 100%;
+    object-fit: cover;
+  }
+  .ba-img-after {
+    position: absolute;
+    inset: 0;
+    left: 50%;
+    right: 0;
+    overflow: hidden;
+  }
+  .ba-img-after img {
+    margin-left: -100%;
+  }
+  .ba-divider {
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 50%;
+    width: 3px;
+    background: white;
+    transform: translateX(-50%);
+  }
+  .ba-handle {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 32px; height: 32px;
+    background: white;
+    border: 3px solid var(--ink);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+  }
+  .ba-label {
+    position: absolute;
+    bottom: 8px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 3px;
+    text-transform: uppercase;
+  }
+  .ba-label.before { left: 8px; }
+  .ba-label.after { right: 8px; }
+  .ba-instruction {
+    text-align: center;
+    font-size: 0.7rem;
+    color: var(--gray);
+    padding-bottom: 8px;
+    font-style: italic;
+  }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials-scroll {
+    display: flex;
+    gap: 10px;
+    padding: 0 12px 16px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .testi-card {
+    min-width: 240px;
+    background: white;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: 3px 3px 0 var(--ink);
+    flex-shrink: 0;
+  }
+  .testi-stars {
+    color: var(--yellow);
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+  }
+  .testi-text {
+    font-size: 0.8rem;
+    color: #333;
+    line-height: 1.4;
+    font-style: italic;
+  }
+  .testi-author {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1.5px dashed #ccc;
+  }
+  .testi-avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: #ddd;
+    border: 2px solid var(--ink);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .testi-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .testi-name {
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+  .testi-city {
+    font-size: 0.65rem;
+    color: var(--gray);
+  }
+
+  /* ── FAQ ── */
+  .faq-list {
+    padding: 0 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .faq-item {
+    background: white;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .faq-q {
+    padding: 10px 12px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+  }
+  .faq-q .toggle {
+    width: 20px; height: 20px;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+  .faq-item.open .faq-q { background: var(--yellow-light); }
+  .faq-a {
+    display: none;
+    padding: 0 12px 10px;
+    font-size: 0.75rem;
+    color: #555;
+    line-height: 1.5;
+  }
+  .faq-item.open .faq-a { display: block; }
+
+  /* ── CONTACT ── */
+  .contact-section {
+    background: var(--ink);
+    padding: 20px 16px;
+  }
+  .contact-section .sec-title { color: white; }
+  .contact-section .sec-title span { border-color: var(--yellow); }
+  .contact-section .sec-label { color: rgba(255,255,255,0.5); }
+  .wa-big-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: #25D366;
+    color: white;
+    border: 3px solid white;
+    border-radius: 14px;
+    padding: 14px;
+    margin: 12px 0;
+    box-shadow: 4px 4px 0 white;
+    cursor: pointer;
+  }
+  .wa-big-btn .wa-icon {
+    width: 32px; height: 32px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+  }
+  .wa-big-btn .wa-text { font-size: 1.1rem; font-weight: 700; }
+  .wa-big-btn .wa-sub { font-size: 0.75rem; opacity: 0.85; }
+  .contact-divider {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 8px 0;
+  }
+  .contact-divider::before, .contact-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.2);
+  }
+  .contact-divider span { color: rgba(255,255,255,0.4); font-size: 0.75rem; }
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .form-field {
+    background: rgba(255,255,255,0.1);
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: rgba(255,255,255,0.5);
+    font-family: 'Caveat', cursive;
+    font-size: 0.9rem;
+  }
+  .form-field.textarea { height: 60px; }
+  .form-submit {
+    background: var(--yellow);
+    color: var(--ink);
+    border: 2px solid white;
+    border-radius: 8px;
+    padding: 12px;
+    font-family: 'Caveat', cursive;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 rgba(255,255,255,0.5);
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: #0a0a0a;
+    padding: 16px;
+    text-align: center;
+  }
+  .footer-logo {
+    width: 60px;
+    height: 60px;
+    background: var(--yellow);
+    border-radius: 50%;
+    border: 2px solid white;
+    margin: 0 auto 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Caveat Brush', cursive;
+    font-size: 1.1rem;
+    color: var(--ink);
+  }
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin: 8px 0;
+  }
+  .footer-links a {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.75rem;
+    text-decoration: none;
+  }
+  .footer-copy {
+    color: rgba(255,255,255,0.3);
+    font-size: 0.65rem;
+    margin-top: 8px;
+  }
+
+  /* ── FLOATING WA ── */
+  .floating-wa {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    width: 44px; height: 44px;
+    background: #25D366;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 2px 2px 0 var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    cursor: pointer;
+    z-index: 10;
+  }
+
+  /* ── ANNOTATIONS PANEL ── */
+  .annotations {
+    flex: 1;
+    min-width: 0;
+  }
+  .anno-section {
+    margin-bottom: 28px;
+  }
+  .anno-section-title {
+    font-family: 'Caveat Brush', cursive;
+    font-size: 1.15rem;
+    color: var(--ink);
+    padding-bottom: 4px;
+    border-bottom: 2px solid var(--ink);
+    margin-bottom: 10px;
+  }
+  .anno-item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: flex-start;
+  }
+  .anno-tag {
+    flex-shrink: 0;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+  }
+  .anno-tag.ux { background: #002B5B; color: white; }
+  .anno-tag.ui { background: var(--yellow); color: var(--ink); }
+  .anno-tag.new { background: var(--red); color: white; }
+  .anno-desc {
+    font-size: 0.9rem;
+    color: #333;
+    line-height: 1.4;
+  }
+  .anno-note {
+    background: #fff8cc;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 0.85rem;
+    color: #555;
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+
+  /* ── TWEAKS PANEL ── */
+  .tweaks-panel {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: white;
+    border: 2px solid var(--ink);
+    border-radius: 12px;
+    box-shadow: 4px 4px 0 var(--ink);
+    padding: 14px;
+    width: 200px;
+    z-index: 100;
+    display: none;
+  }
+  .tweaks-panel h3 {
+    font-family: 'Caveat Brush', cursive;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 4px;
+  }
+  .tweak-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 10px;
+  }
+  .tweak-row label { font-size: 0.8rem; color: var(--gray); }
+  .tweak-row select, .tweak-row input[type=range] {
+    width: 100%;
+    font-family: 'Caveat', cursive;
+    font-size: 0.85rem;
+    border: 1.5px solid var(--border);
+    border-radius: 5px;
+    padding: 3px 6px;
+    cursor: pointer;
+  }
+
+  @media (max-width: 720px) {
+    .stage { flex-direction: column; align-items: center; }
+    .phone-wrap { position: static; }
+    .annotations { width: 100%; max-width: 360px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-title">
+  <h1>✏️ RC Reformas — Wireframe UI/UX</h1>
+  <p>Mobile-first · WhatsApp-first · Un solo rediseño pulido</p>
+</div>
+
+<div class="stage">
+
+  <!-- ═══════════════════════════════════ PHONE ═══════════════════════════════════ -->
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="phone-notch"></div>
+
+      <!-- NAV -->
+      <div class="nav section">
+        <div class="nav-logo">RC</div>
+        <div class="nav-wa">📲 WhatsApp</div>
+        <div class="nav-hamburger"><span></span><span></span><span></span></div>
+      </div>
+
+      <!-- HERO SLIDER -->
+      <div class="section hero">
+        <img src="assets/refor1.jpg" alt="Proyecto RC" />
+        <div class="hero-overlay">
+          <div class="hero-badge">📍 La Serena · Coquimbo</div>
+          <div class="hero-title">Calidad y confianza<br/>en cada detalle</div>
+          <div class="hero-cta">
+            <span>💬</span>
+            <div><div style="font-size:0.95rem">Cotiza por WhatsApp</div><div style="font-size:0.7rem;opacity:0.85">Respuesta en minutos</div></div>
+          </div>
+        </div>
+        <div class="hero-dots">
+          <span class="active"></span><span></span><span></span>
+        </div>
+        <div class="slider-arrows">
+          <button>‹</button><button>›</button>
+        </div>
+      </div>
+
+      <!-- TRUST BAR -->
+      <div class="trust-bar section">
+        <div class="trust-item"><div class="trust-num">+10</div><div class="trust-label">Años de exp.</div></div>
+        <div class="trust-item"><div class="trust-num">+200</div><div class="trust-label">Proyectos</div></div>
+        <div class="trust-item"><div class="trust-num">4.9★</div><div class="trust-label">Calificación</div></div>
+        <div class="trust-item"><div class="trust-num">24h</div><div class="trust-label">Respuesta</div></div>
+      </div>
+
+      <!-- SERVICES -->
+      <div class="section">
+        <div class="sec-header">
+          <div class="sec-label">Lo que hacemos</div>
+          <div class="sec-title">Nuestros <span>Servicios</span></div>
+        </div>
+        <div class="services-grid">
+          <div class="service-card">
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </div>
+            <div class="service-name">Remodelaciones</div>
+            <div class="service-desc">Espacios completos transformados</div>
+          </div>
+          <div class="service-card">
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <div class="service-name">Obra Nueva</div>
+            <div class="service-desc">Construcción desde cero</div>
+          </div>
+          <div class="service-card">
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14"/><path d="M4.93 4.93a10 10 0 000 14.14"/></svg>
+            </div>
+            <div class="service-name">Eléctrico</div>
+            <div class="service-desc">Instalaciones certificadas</div>
+          </div>
+          <div class="service-card">
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10"/><path d="M16 12h6M19 9l3 3-3 3"/></svg>
+            </div>
+            <div class="service-name">Gasfitería</div>
+            <div class="service-desc">Soluciones rápidas y duraderas</div>
+          </div>
+          <div class="service-card">
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            </div>
+            <div class="service-name">Diseño Interior</div>
+            <div class="service-desc">Ambientes funcionales y bellos</div>
+          </div>
+          <div class="service-card" style="border-style:dashed; box-shadow:none; background:transparent; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:4px;">
+            <div style="font-size:1.2rem">+</div>
+            <div class="service-desc" style="text-align:center">Ver todos los servicios</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROCESS -->
+      <div class="section" style="background:#fafafa;">
+        <div class="sec-header">
+          <div class="sec-label">¿Cómo trabajamos?</div>
+          <div class="sec-title">Proceso <span>Simple</span></div>
+        </div>
+        <div class="process-list">
+          <div class="process-step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <div class="step-title">Cotiza gratis</div>
+              <div class="step-desc">Contáctanos por WhatsApp o formulario. Respuesta en menos de 24h.</div>
+            </div>
+          </div>
+          <div class="process-step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <div class="step-title">Visita técnica</div>
+              <div class="step-desc">Evaluamos tu espacio y entregamos presupuesto detallado.</div>
+            </div>
+          </div>
+          <div class="process-step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <div class="step-title">Aprueba el plan</div>
+              <div class="step-desc">Definimos materiales, plazos y forma de pago. Sin sorpresas.</div>
+            </div>
+          </div>
+          <div class="process-step">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <div class="step-title">¡Disfuta el resultado!</div>
+              <div class="step-desc">Entregamos a tiempo y con garantía de satisfacción.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PORTFOLIO -->
+      <div class="section">
+        <div class="sec-header">
+          <div class="sec-label">Trabajos realizados</div>
+          <div class="sec-title">Nuestros <span>Proyectos</span></div>
+        </div>
+        <div class="portfolio-filter">
+          <div class="filter-chip active">Todos</div>
+          <div class="filter-chip">Remodelación</div>
+          <div class="filter-chip">Obra Nueva</div>
+          <div class="filter-chip">Mantención</div>
+        </div>
+        <div class="portfolio-grid">
+          <div class="portfolio-item featured">
+            <img src="assets/refor3.jpg" alt="Proyecto" />
+            <span class="portfolio-cat">Obra Nueva</span>
+          </div>
+          <div class="portfolio-item">
+            <img src="assets/refor4.jpg" alt="Baño" />
+            <span class="portfolio-cat">Remodelación</span>
+          </div>
+          <div class="portfolio-item">
+            <img src="assets/refor5.jpg" alt="Estructura" />
+            <span class="portfolio-cat">Obra Nueva</span>
+          </div>
+          <div class="portfolio-item">
+            <img src="assets/refor7.jpg" alt="Living" />
+            <span class="portfolio-cat">Diseño</span>
+          </div>
+          <div class="portfolio-item">
+            <img src="assets/refor9.jpg" alt="Comercial" />
+            <span class="portfolio-cat">Comercial</span>
+          </div>
+        </div>
+        <div style="text-align:center;padding:0 12px 16px;">
+          <div style="border:2px solid var(--ink);border-radius:8px;padding:8px;font-weight:700;font-size:0.9rem;cursor:pointer;">Ver todos los proyectos →</div>
+        </div>
+      </div>
+
+      <!-- BEFORE / AFTER -->
+      <div class="section" style="background:#fafafa;">
+        <div class="sec-header">
+          <div class="sec-label">Transformaciones</div>
+          <div class="sec-title">Antes <span>& Después</span></div>
+        </div>
+        <div class="ba-wrap">
+          <div class="ba-img-before"><img src="assets/refor6.jpg" alt="Antes" /></div>
+          <div class="ba-img-after"><img src="assets/refor7.jpg" alt="Después" /></div>
+          <div class="ba-divider"></div>
+          <div class="ba-handle">↔</div>
+          <div class="ba-label before">Antes</div>
+          <div class="ba-label after">Después</div>
+        </div>
+        <div class="ba-instruction">← Arrastra para comparar →</div>
+      </div>
+
+      <!-- TESTIMONIALS -->
+      <div class="section">
+        <div class="sec-header">
+          <div class="sec-label">Lo que dicen</div>
+          <div class="sec-title">Nuestros <span>Clientes</span></div>
+        </div>
+        <div class="testimonials-scroll">
+          <div class="testi-card">
+            <div class="testi-stars">★★★★★</div>
+            <div class="testi-text">"El equipo transformó mi fachada. Profesionalismo y atención al detalle impecables."</div>
+            <div class="testi-author">
+              <div class="testi-avatar"><img src="assets/refor11.jpg" alt="Ana" /></div>
+              <div><div class="testi-name">Ana G.</div><div class="testi-city">La Serena</div></div>
+            </div>
+          </div>
+          <div class="testi-card">
+            <div class="testi-stars">★★★★★</div>
+            <div class="testi-text">"Mantención rápida para mi local. Mínima interrupción y trabajo impecable."</div>
+            <div class="testi-author">
+              <div class="testi-avatar" style="background:#eee;display:flex;align-items:center;justify-content:center;font-size:0.9rem;font-weight:700;">C</div>
+              <div><div class="testi-name">Carlos M.</div><div class="testi-city">Coquimbo</div></div>
+            </div>
+          </div>
+          <div class="testi-card">
+            <div class="testi-stars">★★★★★</div>
+            <div class="testi-text">"Transparentes y comunicativos en todo el proceso. Felices con el resultado."</div>
+            <div class="testi-author">
+              <div class="testi-avatar" style="background:#eee;display:flex;align-items:center;justify-content:center;font-size:0.9rem;font-weight:700;">T</div>
+              <div><div class="testi-name">Familia Torres</div><div class="testi-city">La Serena</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ -->
+      <div class="section" style="background:#fafafa;">
+        <div class="sec-header">
+          <div class="sec-label">Preguntas frecuentes</div>
+          <div class="sec-title"><span>FAQ</span></div>
+        </div>
+        <div class="faq-list">
+          <div class="faq-item open">
+            <div class="faq-q">¿Hacen cotizaciones gratuitas? <span class="toggle">−</span></div>
+            <div class="faq-a">Sí, siempre. Contáctanos por WhatsApp o el formulario y en menos de 24h te respondemos.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">¿En qué zonas trabajan? <span class="toggle">+</span></div>
+            <div class="faq-a"></div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">¿Tienen garantía? <span class="toggle">+</span></div>
+            <div class="faq-a"></div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">¿Cuánto demora una remodelación? <span class="toggle">+</span></div>
+            <div class="faq-a"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTACT -->
+      <div class="section contact-section">
+        <div class="sec-header">
+          <div class="sec-label" style="color:rgba(255,255,255,0.4);">Habla con nosotros</div>
+          <div class="sec-title" style="color:white;">Cotiza tu <span style="border-color:var(--yellow)">Proyecto</span></div>
+        </div>
+        <div style="padding:0 16px 20px;">
+          <div class="wa-big-btn">
+            <div class="wa-icon">💬</div>
+            <div>
+              <div class="wa-text">Escribir por WhatsApp</div>
+              <div class="wa-sub">+56 9 8759 3649 · Respuesta rápida</div>
+            </div>
+          </div>
+          <div class="contact-divider"><span>o deja tus datos</span></div>
+          <div class="contact-form">
+            <div class="form-field">Nombre completo...</div>
+            <div class="form-field">Teléfono...</div>
+            <div class="form-field">Tipo de proyecto...</div>
+            <div class="form-field textarea">Descripción breve...</div>
+            <div class="form-submit">Enviar solicitud</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="footer section">
+        <div class="footer-logo">RC</div>
+        <div style="color:rgba(255,255,255,0.6);font-size:0.75rem;">Reformas Construcciones & Mantención</div>
+        <div class="footer-links">
+          <a href="#">Inicio</a><a href="#">Servicios</a><a href="#">Proyectos</a><a href="#">Contacto</a>
+        </div>
+        <div class="footer-copy">© 2024 RC Reformas · La Serena, Chile</div>
+      </div>
+
+      <!-- FLOATING WA -->
+      <div class="floating-wa">💬</div>
+
+    </div><!-- /phone -->
+  </div><!-- /phone-wrap -->
+
+  <!-- ═══════════════════════════════════ ANNOTATIONS ═══════════════════════════════════ -->
+  <div class="annotations">
+
+    <div class="anno-section">
+      <div class="anno-section-title">🧭 Navegación</div>
+      <div class="anno-item">
+        <span class="anno-tag ui">UI</span>
+        <div class="anno-desc">Botón WhatsApp directo en la barra de nav — el CTA más importante siempre visible, sin necesidad de scroll.</div>
+      </div>
+      <div class="anno-item">
+        <span class="anno-tag ux">UX</span>
+        <div class="anno-desc">El menú hamburguesa agrupa Inicio, Proyectos, Nosotros — igual que hoy pero con mejor contraste y transición suavizada.</div>
+      </div>
+    </div>
+
+    <div class="anno-section">
+      <div class="anno-section-title">🖼️ Hero Slider</div>
+      <div class="anno-item">
+        <span class="anno-tag ui">UI</span>
+        <div class="anno-desc">Fotos reales de proyectos como fondo, con overlay gradiente para legibilidad. Mucho más cálido que el fondo vacío actual.</div>
+      </div>
+      <div class="anno-item">
+        <span class="anno-tag ux">UX</span>
+        <div class="anno-desc">CTA principal es WhatsApp (verde), no "Ver Proyectos". Reduce pasos hasta el contacto de 3+ a 1 tap.</div>
+      </div>
+      <div class="anno-item">
+        <span class="anno-tag new">Nuevo</span>
+        <div class="anno-desc">Badge de ubicación ("La Serena · Coquimbo") genera confianza local desde el primer vistazo.</div>
+      </div>
+    </div>
+
+    <div class="anno-section">
+      <div class="anno-section-title">📊 Barra de confianza</div>
+      <div class="anno-item">
+        <span class="anno-tag new">Nuevo</span>
+        <div class="anno-desc">4 números clave justo debajo del hero: años, proyectos, calificación, tiempo de respuesta. Genera credibilidad instantánea.</div>
+      </div>
+    </div>
+
+    <div class="anno-section">
+      <div class="anno-section-title">🔧 Servicios</div>
+      <div class="anno-item">
+        <span class="anno-tag ui">UI</span>
+        <div class="anno-desc">Íconos SVG en lugar de emojis. Cards con sombra offset (estilo sketch) más cálido y menos genérico que glassmorphism.</div>
+      </div>
+      <div class="anno-item">
+        <span class="anno-tag ux">UX</span>
+        <div class="anno-desc">Grid 2×3 en mobile: más denso y escaneable. La última card invita a "Ver todos" en vez de mostrar 8 cards pesadas.</div>
+      </div>
+    </div>
+
+    <div class="anno-section">
+      <div class="anno-section-title">📋 Proceso</div>
+      <div class="anno-item">
+        <span class="anno-tag new">Nuevo</span>
+        <div class="anno-desc">Sección "¿Cómo trabajamos?" — 4 pasos numerados con línea conectora punteada. Elimina la incertidumbre del cliente sobre qué pasa después de contactar.</div>
+      </div>
+      <div class="anno-note">💡 Esta sección reduce la fricción para contactar: el usuario sabe exactamente qué esperar, no hay sorpresas.</div>
+    </div>
+
+    <div class="anno-section">
+      <div class="anno-section-title">🏗️ Portfolio</div>
+      <div class="anno-item">
+        <span class="anno-tag ui">UI</span>
+        <div class="anno-desc">Grid con imagen "featured" grande arriba + 4 miniaturas. Más visual que el grid uniforme actual.</div>
+      </div>
+      <div class="anno-item">
+        <span class="anno-tag new">Nuevo</span>
+        <div class="anno-desc">Filtros de categoría (chips horizontales scrolleables) para que el usuario encuentre su tipo de proyecto rápido.</div>
+      </div>
+    </div>
+
+    <div class="anno-section">
+      <div class="anno-section-title">↔️ Antes & Después</div>
+      <div class="anno-item">
+        <span class="anno-tag new">Nuevo</span>
+        <div class="anno-desc">Slider interactivo drag-to-compare. El formato más poderoso para mostrar transformaciones — mucho más memorable que dos fotos separadas.</div>
+      </div>
+    </div>
+
+    <div class="anno-section">
+      <div class="anno-section-title">💬 Testimonios</div>
+      <div class="anno-item">
+        <span class="anno-tag ui">UI</span>
+        <div class="anno-desc">Scroll horizontal en mobile — el usuario puede swipear. Cards más compactas con estrellas prominentes.</div>
+      </div>
+      <div class="anno-item">
+        <span class="anno-tag ux">UX</span>
+        <div class="anno-desc">Ciudad del cliente visible (La Serena, Coquimbo) refuerza la relevancia local.</div>
+      </div>
+    </div>
+
+    <div class="anno-section">
+      <div class="anno-section-title">❓ FAQ</div>
+      <div class="anno-item">
+        <span class="anno-tag new">Nuevo</span>
+        <div class="anno-desc">Accordion con las preguntas más comunes. Reduce llamadas innecesarias y construye confianza antes del contacto.</div>
+      </div>
+    </div>
+
+    <div class="anno-section">
+      <div class="anno-section-title">📲 Contacto</div>
+      <div class="anno-item">
+        <span class="anno-tag ux">UX</span>
+        <div class="anno-desc">WhatsApp es el CTA primario, enorme, al centro. El formulario es secundario ("o deja tus datos") — no compite, solo complementa.</div>
+      </div>
+      <div class="anno-item">
+        <span class="anno-tag ui">UI</span>
+        <div class="anno-desc">Sección de contacto en fondo negro (inversión) crea separación visual clara y sensación de cierre/acción.</div>
+      </div>
+      <div class="anno-item">
+        <span class="anno-tag ux">UX</span>
+        <div class="anno-desc">Formulario simplificado: solo 4 campos (nombre, teléfono, tipo de proyecto, descripción). El actual no muestra el formulario en la home.</div>
+      </div>
+      <div class="anno-note">💡 El botón flotante de WhatsApp está en TODAS las secciones, siempre accesible. La jerarquía es: flotante WA → CTA en hero → sección contacto → formulario.</div>
+    </div>
+
+  </div><!-- /annotations -->
+
+</div><!-- /stage -->
+
+<div class="tweaks-panel" id="tweaks">
+  <h3>Tweaks</h3>
+  <div class="tweak-row">
+    <label>Color primario</label>
+    <select id="tw-color" onchange="applyTweak()">
+      <option value="#FFD600">Amarillo (actual)</option>
+      <option value="#ff6b35">Naranja cálido</option>
+      <option value="#4CAF50">Verde</option>
+      <option value="#2196F3">Azul</option>
+    </select>
+  </div>
+  <div class="tweak-row">
+    <label>Estilo cards</label>
+    <select id="tw-cards" onchange="applyTweak()">
+      <option value="shadow">Sombra offset</option>
+      <option value="glass">Glassmorphism</option>
+      <option value="flat">Flat</option>
+    </select>
+  </div>
+</div>
+
+<script>
+window.addEventListener('message', e => {
+  if (e.data?.type === '__activate_edit_mode') document.getElementById('tweaks').style.display = 'block';
+  if (e.data?.type === '__deactivate_edit_mode') document.getElementById('tweaks').style.display = 'none';
+});
+window.parent.postMessage({type: '__edit_mode_available'}, '*');
+
+function applyTweak() {
+  const color = document.getElementById('tw-color').value;
+  document.documentElement.style.setProperty('--yellow', color);
+  window.parent.postMessage({type: '__edit_mode_set_keys', edits: {primaryColor: color}}, '*');
+}
+
+// FAQ interactivity
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.parentElement;
+    item.classList.toggle('open');
+    q.querySelector('.toggle').textContent = item.classList.contains('open') ? '−' : '+';
+  });
+});
+</script>
+</body>
+</html>

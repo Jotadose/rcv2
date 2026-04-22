@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import businessConfig from "@/config/business";
 
 function getFormspreeStatus() {
-  return process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT ? "configured" : "missing";
+  return process.env.FORMSPREE_ENDPOINT ? "configured" : "missing";
 }
 
 function getInstagramStatus() {

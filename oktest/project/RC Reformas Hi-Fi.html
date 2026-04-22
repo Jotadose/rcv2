@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>RC Reformas — Construcciones & Mantención</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --yellow:#FFD600;--yellow-dim:rgba(255,214,0,0.12);
+  --bg:#111111;--surface:#1c1c1c;--surface2:#242424;
+  --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.16);
+  --text:#ffffff;--muted:rgba(255,255,255,0.55);
+  --green:#25D366;--radius:14px;--radius-sm:8px;
+  --max:1180px;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.5;overflow-x:hidden;}
+h1,h2,h3{font-family:'Poppins',sans-serif;}
+.container{width:100%;max-width:var(--max);margin:0 auto;padding:0 20px;}
+
+/* ─── HEADER ─── */
+header{position:sticky;top:0;z-index:100;background:rgba(17,17,17,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);height:60px;display:flex;align-items:center;}
+.header-inner{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:var(--max);margin:0 auto;padding:0 20px;}
+.logo img{height:36px;width:auto;border-radius:4px;cursor:pointer;}
+.desktop-nav{display:none;align-items:center;gap:32px;}
+@media(min-width:768px){.desktop-nav{display:flex;}.hamburger{display:none!important;}}
+.desktop-nav a{font-family:'Poppins',sans-serif;font-weight:600;font-size:0.88rem;color:var(--muted);text-decoration:none;transition:color .2s;cursor:pointer;}
+.desktop-nav a:hover{color:var(--yellow);}
+.header-right{display:flex;align-items:center;gap:12px;}
+.btn-wa-header{background:var(--green);color:#fff;border:none;border-radius:20px;padding:8px 16px;font-family:'Poppins',sans-serif;font-weight:600;font-size:0.82rem;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap;}
+.hamburger{background:none;border:none;cursor:pointer;padding:4px;display:flex;flex-direction:column;gap:4px;}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;}
+
+/* ─── MOBILE DRAWER ─── */
+.nav-drawer{position:fixed;inset:0;z-index:99;background:rgba(0,0,0,0.7);opacity:0;pointer-events:none;transition:opacity .3s;}
+.nav-drawer.open{opacity:1;pointer-events:all;}
+.nav-panel{position:absolute;right:0;top:0;bottom:0;width:75%;max-width:280px;background:var(--surface);padding:24px 20px;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;gap:8px;}
+.nav-drawer.open .nav-panel{transform:translateX(0);}
+.nav-close{background:none;border:none;color:var(--muted);font-size:1.4rem;cursor:pointer;margin-bottom:16px;align-self:flex-end;}
+.nav-link{padding:14px 16px;border-radius:var(--radius-sm);font-family:'Poppins',sans-serif;font-weight:600;font-size:1rem;color:var(--text);background:none;border:none;cursor:pointer;text-align:left;transition:background .2s,color .2s;}
+.nav-link:hover{background:var(--surface2);color:var(--yellow);}
+.nav-wa{margin-top:auto;background:var(--green);color:#fff;border:none;border-radius:var(--radius);padding:14px;font-family:'Poppins',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
+
+/* ─── HERO ─── */
+.hero{position:relative;height:72vw;max-height:560px;overflow:hidden;background:#000;}
+@media(min-width:768px){.hero{height:60vw;max-height:680px;}}
+.hero-slides{display:flex;height:100%;transition:transform .6s cubic-bezier(.4,0,.2,1);}
+.hero-slide{min-width:100%;position:relative;}
+.hero-slide img{width:100%;height:100%;object-fit:cover;opacity:.68;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(160deg,transparent 20%,rgba(0,0,0,.6) 60%,rgba(0,0,0,.9) 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:24px 20px 28px;}
+@media(min-width:768px){.hero-overlay{padding:48px 60px;justify-content:center;background:linear-gradient(100deg,rgba(0,0,0,.82) 45%,transparent 80%);max-width:660px;}}
+.hero-badge{display:inline-flex;align-items:center;gap:5px;background:var(--yellow);color:#111;font-family:'Poppins',sans-serif;font-weight:700;font-size:0.65rem;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;border-radius:4px;width:fit-content;margin-bottom:12px;}
+.hero h1{font-size:clamp(1.6rem,5vw,2.8rem);font-weight:800;line-height:1.15;color:#fff;margin-bottom:16px;}
+.hero h1 span{color:var(--yellow);}
+.hero-sub{display:none;color:rgba(255,255,255,.75);font-size:1rem;margin-bottom:20px;max-width:420px;line-height:1.6;}
+@media(min-width:768px){.hero-sub{display:block;}}
+.btn-wa-hero{display:inline-flex;align-items:center;gap:10px;background:var(--green);color:#fff;border:none;border-radius:var(--radius);padding:14px 22px;font-family:'Poppins',sans-serif;font-weight:700;font-size:0.95rem;cursor:pointer;width:fit-content;box-shadow:0 8px 24px rgba(37,211,102,.35);}
+.btn-wa-hero .sub{font-weight:400;font-size:0.72rem;opacity:.85;display:block;}
+.hero-dots{position:absolute;bottom:14px;right:18px;display:flex;gap:5px;}
+.hero-dots button{width:7px;height:7px;border-radius:50%;border:none;cursor:pointer;padding:0;background:rgba(255,255,255,.35);transition:all .3s;}
+.hero-dots button.active{background:var(--yellow);width:20px;border-radius:4px;}
+.hero-nav{position:absolute;top:50%;transform:translateY(-50%);display:flex;justify-content:space-between;width:100%;padding:0 12px;pointer-events:none;}
+.hero-nav button{pointer-events:all;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.2);color:#fff;width:36px;height:36px;border-radius:50%;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.hero-nav button:hover{background:rgba(0,0,0,.7);}
+
+/* ─── TRUST BAR ─── */
+.trust-bar{background:var(--yellow);padding:14px 0;}
+.trust-inner{display:grid;grid-template-columns:repeat(4,1fr);max-width:var(--max);margin:0 auto;padding:0 20px;}
+.trust-item{text-align:center;}
+.trust-num{font-family:'Poppins',sans-serif;font-weight:800;font-size:1.25rem;color:#111;line-height:1;}
+.trust-label{font-size:0.62rem;color:rgba(0,0,0,.6);margin-top:2px;font-weight:500;}
+@media(min-width:768px){.trust-num{font-size:1.6rem;}.trust-label{font-size:0.75rem;}}
+
+/* ─── SECTIONS ─── */
+.sec{padding:56px 0;}
+.sec-alt{background:var(--surface);}
+.sec-label{font-size:0.7rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--yellow);margin-bottom:4px;}
+.sec-title{font-family:'Poppins',sans-serif;font-weight:800;font-size:1.6rem;line-height:1.15;margin-bottom:6px;}
+@media(min-width:768px){.sec-title{font-size:2rem;}}
+.sec-sub{color:var(--muted);font-size:0.9rem;margin-bottom:28px;}
+
+/* ─── SERVICES ─── */
+.services-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(min-width:768px){.services-grid{grid-template-columns:repeat(3,1fr);gap:16px;}}
+@media(min-width:1024px){.services-grid{grid-template-columns:repeat(4,1fr);}}
+.service-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;cursor:pointer;transition:border-color .2s,transform .2s;}
+.service-card:hover{border-color:var(--yellow);transform:translateY(-3px);}
+.service-icon{width:44px;height:44px;border-radius:10px;background:var(--yellow-dim);display:flex;align-items:center;justify-content:center;margin-bottom:12px;}
+.service-icon svg{width:24px;height:24px;stroke:var(--yellow);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.service-card h3{font-family:'Poppins',sans-serif;font-size:0.9rem;font-weight:700;margin-bottom:5px;}
+.service-card p{font-size:0.75rem;color:var(--muted);line-height:1.5;}
+.service-more{border:1px dashed var(--border2);border-radius:var(--radius);padding:20px;text-align:center;cursor:pointer;color:var(--muted);font-size:0.85rem;transition:border-color .2s,color .2s;display:flex;align-items:center;justify-content:center;}
+.service-more:hover{border-color:var(--yellow);color:var(--yellow);}
+
+/* ─── PROCESS ─── */
+.process-list{display:flex;flex-direction:column;gap:0;}
+@media(min-width:768px){.process-list{flex-direction:row;gap:0;}}
+.process-step{display:flex;gap:16px;position:relative;}
+@media(min-width:768px){.process-step{flex-direction:column;align-items:center;text-align:center;flex:1;gap:12px;}}
+.process-step:not(:last-child)::before{content:'';position:absolute;background:linear-gradient(to bottom,var(--yellow),transparent);}
+@media(max-width:767px){.process-step:not(:last-child)::before{left:19px;top:40px;bottom:-8px;width:1px;}}
+@media(min-width:768px){.process-step:not(:last-child)::before{top:19px;left:calc(50% + 30px);right:calc(-50% + 30px);height:1px;background:linear-gradient(to right,var(--yellow),transparent);}}
+.step-badge{flex-shrink:0;width:38px;height:38px;border-radius:50%;background:var(--yellow);color:#111;font-family:'Poppins',sans-serif;font-weight:800;font-size:1rem;display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,214,0,.3);box-shadow:0 0 0 6px var(--yellow-dim);margin-top:2px;}
+@media(min-width:768px){.step-badge{margin:0 auto;}}
+.step-body{padding-bottom:28px;}
+@media(min-width:768px){.step-body{padding-bottom:0;}}
+.step-body h3{font-family:'Poppins',sans-serif;font-size:0.95rem;font-weight:700;margin-bottom:5px;}
+.step-body p{font-size:0.8rem;color:var(--muted);line-height:1.55;}
+
+/* ─── PORTFOLIO ─── */
+.filter-row{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin-bottom:20px;padding-bottom:4px;}
+.filter-row::-webkit-scrollbar{display:none;}
+.chip{flex-shrink:0;border:1px solid var(--border2);border-radius:20px;padding:7px 16px;font-size:0.78rem;font-weight:600;font-family:'Poppins',sans-serif;background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;}
+.chip.active{background:var(--yellow);color:#111;border-color:var(--yellow);}
+.portfolio-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+@media(min-width:768px){.portfolio-grid{grid-template-columns:repeat(3,1fr);}}
+.p-item{position:relative;border-radius:var(--radius-sm);overflow:hidden;cursor:pointer;background:#222;}
+.p-item img{width:100%;height:100%;object-fit:cover;transition:transform .4s;display:block;}
+.p-item:hover img{transform:scale(1.05);}
+.p-item.big{grid-column:1/-1;aspect-ratio:16/7;}
+@media(min-width:768px){.p-item.big{grid-column:span 2;aspect-ratio:16/7;}}
+.p-item.small{aspect-ratio:1;}
+.p-cat{position:absolute;bottom:8px;left:8px;background:var(--yellow);color:#111;font-family:'Poppins',sans-serif;font-weight:700;font-size:0.62rem;letter-spacing:.5px;text-transform:uppercase;padding:3px 8px;border-radius:4px;}
+.p-overlay{position:absolute;inset:0;background:rgba(0,0,0,.5);opacity:0;transition:opacity .3s;display:flex;align-items:center;justify-content:center;}
+.p-item:hover .p-overlay{opacity:1;}
+.p-overlay span{color:#fff;font-family:'Poppins',sans-serif;font-weight:700;font-size:0.88rem;text-align:center;padding:0 12px;}
+.btn-outline{display:block;text-align:center;margin-top:18px;border:1px solid var(--border2);border-radius:var(--radius);padding:14px;font-family:'Poppins',sans-serif;font-weight:600;font-size:0.9rem;color:var(--text);cursor:pointer;background:none;width:100%;transition:border-color .2s,color .2s;}
+.btn-outline:hover{border-color:var(--yellow);color:var(--yellow);}
+
+/* ─── BEFORE/AFTER ─── */
+.ba-container{position:relative;border-radius:var(--radius);overflow:hidden;aspect-ratio:16/9;cursor:ew-resize;user-select:none;background:#222;box-shadow:0 20px 60px rgba(0,0,0,.5);}
+@media(max-width:767px){.ba-container{aspect-ratio:4/3;}}
+.ba-after{position:absolute;inset:0;}
+.ba-after img{width:100%;height:100%;object-fit:cover;display:block;}
+.ba-before{position:absolute;inset:0;overflow:hidden;width:50%;}
+.ba-before img{position:absolute;top:0;left:0;width:200%;height:100%;object-fit:cover;object-position:left;}
+.ba-divider{position:absolute;top:0;bottom:0;width:2px;background:#fff;left:50%;transform:translateX(-50%);pointer-events:none;}
+.ba-handle{position:absolute;top:50%;width:44px;height:44px;border-radius:50%;background:#fff;left:50%;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 16px rgba(0,0,0,.4);pointer-events:none;}
+.ba-handle svg{width:22px;height:22px;}
+.ba-label-l,.ba-label-r{position:absolute;top:14px;background:rgba(0,0,0,.55);color:#fff;font-family:'Poppins',sans-serif;font-weight:700;font-size:0.68rem;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;border-radius:4px;pointer-events:none;}
+.ba-label-l{left:14px;}.ba-label-r{right:14px;}
+.ba-hint{text-align:center;margin-top:12px;font-size:0.78rem;color:var(--muted);}
+
+/* ─── TESTIMONIALS ─── */
+.testi-wrap{display:flex;gap:16px;overflow-x:auto;scrollbar-width:none;margin:0 -20px;padding:4px 20px 16px;}
+.testi-wrap::-webkit-scrollbar{display:none;}
+@media(min-width:768px){.testi-wrap{display:grid;grid-template-columns:repeat(3,1fr);overflow:visible;margin:0;padding:0;}}
+.testi-card{flex-shrink:0;min-width:270px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;}
+@media(min-width:768px){.testi-card{min-width:unset;}}
+.testi-stars{color:var(--yellow);font-size:0.9rem;letter-spacing:2px;margin-bottom:12px;}
+.testi-text{font-size:0.84rem;color:var(--muted);line-height:1.65;font-style:italic;}
+.testi-author{display:flex;align-items:center;gap:10px;margin-top:16px;padding-top:14px;border-top:1px solid var(--border);}
+.testi-av{width:38px;height:38px;border-radius:50%;overflow:hidden;border:2px solid var(--yellow);flex-shrink:0;background:#333;display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:700;font-size:0.9rem;color:var(--yellow);}
+.testi-av img{width:100%;height:100%;object-fit:cover;}
+.testi-name{font-family:'Poppins',sans-serif;font-weight:700;font-size:0.88rem;}
+.testi-city{font-size:0.72rem;color:var(--muted);}
+
+/* ─── FAQ ─── */
+.faq-inner{max-width:720px;margin:0 auto;}
+.faq-list{display:flex;flex-direction:column;gap:8px;}
+.faq-item{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;}
+.faq-q{display:flex;justify-content:space-between;align-items:center;padding:18px;cursor:pointer;font-family:'Poppins',sans-serif;font-weight:600;font-size:0.92rem;gap:12px;}
+.faq-icon{flex-shrink:0;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:1rem;transition:all .3s;}
+.faq-item.open .faq-icon{background:var(--yellow);border-color:var(--yellow);color:#111;}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1),padding .3s;padding:0 18px;font-size:0.84rem;color:var(--muted);line-height:1.7;}
+.faq-item.open .faq-a{max-height:200px;padding-bottom:18px;}
+
+/* ─── CONTACT ─── */
+.contact-sec{background:var(--surface);padding:56px 0;}
+.contact-grid{display:grid;grid-template-columns:1fr;gap:40px;}
+@media(min-width:768px){.contact-grid{grid-template-columns:1fr 1fr;align-items:start;gap:60px;}}
+.btn-wa-big{display:flex;align-items:center;gap:14px;background:var(--green);color:#fff;border:none;border-radius:var(--radius);padding:18px 22px;width:100%;cursor:pointer;margin-bottom:16px;box-shadow:0 12px 32px rgba(37,211,102,.28);transition:transform .2s;}
+.btn-wa-big:active{transform:scale(.98);}
+.wa-circle{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.wa-circle svg{width:28px;height:28px;fill:#fff;}
+.wa-txt-main{font-family:'Poppins',sans-serif;font-weight:700;font-size:1.05rem;text-align:left;}
+.wa-txt-sub{font-size:0.75rem;opacity:.8;display:block;margin-top:1px;}
+.contact-info{display:flex;flex-direction:column;gap:10px;margin-top:24px;}
+.contact-info-item{display:flex;align-items:center;gap:12px;font-size:0.85rem;color:var(--muted);}
+.contact-info-item svg{width:18px;height:18px;stroke:var(--yellow);fill:none;stroke-width:1.8;flex-shrink:0;}
+.divider-or{display:flex;align-items:center;gap:12px;margin:20px 0;}
+.divider-or::before,.divider-or::after{content:'';flex:1;height:1px;background:var(--border);}
+.divider-or span{font-size:0.75rem;color:var(--muted);white-space:nowrap;}
+.contact-form{display:flex;flex-direction:column;gap:12px;}
+.form-group{display:flex;flex-direction:column;gap:5px;}
+.form-group label{font-size:0.72rem;font-weight:600;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;}
+.form-input{background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:12px 14px;color:var(--text);font-size:0.9rem;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;width:100%;}
+.form-input:focus{border-color:var(--yellow);}
+.form-input::placeholder{color:var(--muted);}
+textarea.form-input{height:90px;resize:none;}
+.btn-submit{background:var(--yellow);color:#111;border:none;border-radius:var(--radius);padding:15px;width:100%;font-family:'Poppins',sans-serif;font-weight:700;font-size:0.95rem;cursor:pointer;margin-top:4px;transition:opacity .2s,transform .2s;}
+.btn-submit:active{opacity:.85;}
+
+/* ─── FOOTER ─── */
+footer{background:#0a0a0a;padding:48px 0 28px;border-top:1px solid var(--border);}
+.footer-grid{display:grid;grid-template-columns:1fr;gap:32px;margin-bottom:32px;}
+@media(min-width:768px){.footer-grid{grid-template-columns:auto 1fr auto;align-items:start;gap:48px;}}
+.footer-brand{}
+.footer-logo img{height:40px;width:auto;border-radius:4px;margin-bottom:12px;}
+.footer-tagline{font-size:0.8rem;color:var(--muted);max-width:200px;line-height:1.6;}
+.footer-links-col{display:flex;flex-direction:column;gap:8px;}
+@media(min-width:768px){.footer-links-col{padding-top:4px;}}
+.footer-links-col h4{font-family:'Poppins',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.footer-links-col a{font-size:0.84rem;color:rgba(255,255,255,.45);text-decoration:none;transition:color .2s;}
+.footer-links-col a:hover{color:var(--yellow);}
+.footer-contact-col{}
+.footer-contact-col h4{font-family:'Poppins',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+.footer-contact-col p{font-size:0.82rem;color:rgba(255,255,255,.45);line-height:1.8;}
+.footer-bottom{display:flex;flex-direction:column;gap:12px;align-items:center;border-top:1px solid var(--border);padding-top:24px;}
+@media(min-width:768px){.footer-bottom{flex-direction:row;justify-content:space-between;}}
+.footer-copy{font-size:0.72rem;color:rgba(255,255,255,.25);}
+.footer-social{display:flex;gap:10px;}
+.social-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color .2s;}
+.social-btn:hover{border-color:var(--yellow);}
+.social-btn svg{width:16px;height:16px;fill:var(--muted);}
+
+/* ─── FLOATING WA ─── */
+.float-wa{position:fixed;bottom:24px;right:24px;z-index:90;width:54px;height:54px;border-radius:50%;background:var(--green);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(37,211,102,.45);transition:transform .2s;}
+.float-wa:hover{transform:scale(1.08);}
+.float-wa svg{width:28px;height:28px;fill:#fff;}
+.float-wa-pulse{position:absolute;inset:-6px;border-radius:50%;background:rgba(37,211,102,.25);animation:pulse 2.5s infinite;}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:.6;}50%{transform:scale(1.2);opacity:0;}}
+
+/* ─── TWEAKS ─── */
+.tweaks-panel{position:fixed;bottom:24px;left:24px;background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);padding:16px;width:220px;z-index:200;display:none;box-shadow:0 16px 48px rgba(0,0,0,.5);}
+.tweaks-panel h3{font-family:'Poppins',sans-serif;font-size:0.9rem;font-weight:700;margin-bottom:12px;color:var(--yellow);}
+.tweak-row{margin-bottom:12px;}
+.tweak-row label{display:block;font-size:0.72rem;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;}
+.tweak-row select,.tweak-row input[type=color]{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:6px;padding:6px 8px;color:var(--text);font-size:0.85rem;font-family:'Inter',sans-serif;cursor:pointer;outline:none;}
+.tweak-row input[type=color]{padding:2px 4px;height:36px;}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="logo"><img src="assets/reformaslogoblanco.jpg" alt="RC Reformas"/></div>
+    <nav class="desktop-nav">
+      <a onclick="scrollTo('#servicios')">Servicios</a>
+      <a onclick="scrollTo('#proyectos')">Proyectos</a>
+      <a onclick="scrollTo('#nosotros')">Nosotros</a>
+      <a onclick="scrollTo('#faq')">FAQ</a>
+    </nav>
+    <div class="header-right">
+      <button class="btn-wa-header" onclick="openWA()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.532 5.876L.054 23.25a.75.75 0 00.916.916l5.374-1.478A11.953 11.953 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.946 0-3.77-.503-5.352-1.384l-.383-.22-3.99 1.097 1.098-3.988-.22-.383A9.953 9.953 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+        WhatsApp
+      </button>
+      <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE DRAWER -->
+<div class="nav-drawer" id="navDrawer" onclick="closeMenu(event)">
+  <div class="nav-panel">
+    <button class="nav-close" onclick="toggleMenu()">✕</button>
+    <button class="nav-link" onclick="scrollTo('#servicios');toggleMenu()">Servicios</button>
+    <button class="nav-link" onclick="scrollTo('#proyectos');toggleMenu()">Proyectos</button>
+    <button class="nav-link" onclick="scrollTo('#nosotros');toggleMenu()">Nosotros</button>
+    <button class="nav-link" onclick="scrollTo('#faq');toggleMenu()">FAQ</button>
+    <button class="nav-wa" onclick="openWA();toggleMenu()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.532 5.876L.054 23.25a.75.75 0 00.916.916l5.374-1.478A11.953 11.953 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.946 0-3.77-.503-5.352-1.384l-.383-.22-3.99 1.097 1.098-3.988-.22-.383A9.953 9.953 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+      Cotizar por WhatsApp
+    </button>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-slides" id="heroSlides">
+    <div class="hero-slide"><img src="assets/refor1.jpg" alt="Proyecto"/>
+      <div class="hero-overlay">
+        <div class="hero-badge">📍 La Serena · Coquimbo</div>
+        <h1>Calidad y confianza<br/><span>en cada detalle</span></h1>
+        <p class="hero-sub">Expertos en reformas y construcciones. Transformamos tus espacios con profesionalismo y los mejores materiales.</p>
+        <button class="btn-wa-hero" onclick="openWA()">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.532 5.876L.054 23.25a.75.75 0 00.916.916l5.374-1.478A11.953 11.953 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.946 0-3.77-.503-5.352-1.384l-.383-.22-3.99 1.097 1.098-3.988-.22-.383A9.953 9.953 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          <div><div>Cotiza por WhatsApp</div><span class="sub">Respuesta en minutos</span></div>
+        </button>
+      </div>
+    </div>
+    <div class="hero-slide"><img src="assets/refor3.jpg" alt="Obra Nueva"/>
+      <div class="hero-overlay">
+        <div class="hero-badge">🏗️ Obra Nueva</div>
+        <h1>Construimos tus<br/><span>sueños desde cero</span></h1>
+        <p class="hero-sub">Estructuras sólidas, plazos cumplidos y transparencia total en cada etapa de tu proyecto.</p>
+        <button class="btn-wa-hero" onclick="openWA()">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.532 5.876L.054 23.25a.75.75 0 00.916.916l5.374-1.478A11.953 11.953 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.946 0-3.77-.503-5.352-1.384l-.383-.22-3.99 1.097 1.098-3.988-.22-.383A9.953 9.953 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          <div><div>Cotiza por WhatsApp</div><span class="sub">Respuesta en minutos</span></div>
+        </button>
+      </div>
+    </div>
+    <div class="hero-slide"><img src="assets/refor7.jpg" alt="Remodelación"/>
+      <div class="hero-overlay">
+        <div class="hero-badge">🏠 Remodelación</div>
+        <h1>Transformamos<br/><span>tus espacios</span></h1>
+        <p class="hero-sub">Remodelaciones integrales con los mejores materiales y acabados de primera calidad.</p>
+        <button class="btn-wa-hero" onclick="openWA()">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.532 5.876L.054 23.25a.75.75 0 00.916.916l5.374-1.478A11.953 11.953 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.946 0-3.77-.503-5.352-1.384l-.383-.22-3.99 1.097 1.098-3.988-.22-.383A9.953 9.953 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          <div><div>Cotiza por WhatsApp</div><span class="sub">Respuesta en minutos</span></div>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="hero-dots" id="heroDots">
+    <button class="active" onclick="goSlide(0)"></button>
+    <button onclick="goSlide(1)"></button>
+    <button onclick="goSlide(2)"></button>
+  </div>
+  <div class="hero-nav"><button onclick="prevSlide()">‹</button><button onclick="nextSlide()">›</button></div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-inner">
+    <div class="trust-item"><div class="trust-num">+10</div><div class="trust-label">Años de exp.</div></div>
+    <div class="trust-item"><div class="trust-num">+200</div><div class="trust-label">Proyectos</div></div>
+    <div class="trust-item"><div class="trust-num">4.9★</div><div class="trust-label">Calificación</div></div>
+    <div class="trust-item"><div class="trust-num">24h</div><div class="trust-label">Respuesta</div></div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="sec" id="servicios">
+  <div class="container">
+    <div class="sec-label">Lo que hacemos</div>
+    <div class="sec-title">Nuestros Servicios</div>
+    <div class="sec-sub">Soluciones integrales para cada necesidad de tu espacio.</div>
+    <div class="services-grid">
+      <div class="service-card"><div class="service-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><h3>Remodelaciones Integrales</h3><p>Transformamos espacios completos, desde la planificación hasta los acabados.</p></div>
+      <div class="service-card"><div class="service-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg></div><h3>Obra Nueva</h3><p>Construimos desde cero garantizando calidad estructural y cumplimiento de plazos.</p></div>
+      <div class="service-card"><div class="service-icon"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><h3>Instalaciones Eléctricas</h3><p>Servicios eléctricos seguros y certificados por profesionales.</p></div>
+      <div class="service-card"><div class="service-icon"><svg viewBox="0 0 24 24"><path d="M12 2c-2.8 0-5 2.2-5 5 0 3.5 5 10 5 10s5-6.5 5-10c0-2.8-2.2-5-5-5z"/><circle cx="12" cy="7" r="2"/></svg></div><h3>Gasfitería Profesional</h3><p>Soluciones de plomería rápidas y duraderas para cualquier problema.</p></div>
+      <div class="service-card"><div class="service-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div><h3>Diseño de Interiores</h3><p>Creamos ambientes funcionales y estéticos que reflejan tu estilo.</p></div>
+      <div class="service-card"><div class="service-icon"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div><h3>Pintura y Acabados</h3><p>Acabados de alta calidad que renuevan y protegen tus superficies.</p></div>
+      <div class="service-card"><div class="service-icon"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div><h3>Mantenimiento Comercial</h3><p>Soluciones eficientes para que tu negocio nunca se detenga.</p></div>
+      <div class="service-more" onclick="scrollTo('#contacto')">Ver todos los servicios →</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="sec sec-alt" id="nosotros">
+  <div class="container">
+    <div class="sec-label">¿Cómo trabajamos?</div>
+    <div class="sec-title">Proceso Simple</div>
+    <div class="sec-sub">Sin sorpresas, sin letra chica.</div>
+    <div class="process-list">
+      <div class="process-step"><div class="step-badge">1</div><div class="step-body"><h3>Cotiza gratis</h3><p>Escríbenos por WhatsApp o el formulario. Respondemos en menos de 24 horas.</p></div></div>
+      <div class="process-step"><div class="step-badge">2</div><div class="step-body"><h3>Visita técnica</h3><p>Evaluamos tu espacio y entregamos un presupuesto detallado sin costo.</p></div></div>
+      <div class="process-step"><div class="step-badge">3</div><div class="step-body"><h3>Aprueba el plan</h3><p>Materiales, plazos y pago por escrito. Sin cambios inesperados.</p></div></div>
+      <div class="process-step"><div class="step-badge">4</div><div class="step-body"><h3>¡Disfruta!</h3><p>Entregamos a tiempo con garantía de satisfacción en cada trabajo.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="sec" id="proyectos">
+  <div class="container">
+    <div class="sec-label">Trabajos realizados</div>
+    <div class="sec-title">Nuestros Proyectos</div>
+    <div class="filter-row">
+      <button class="chip active" data-filter="all" onclick="filterPortfolio(this)">Todos</button>
+      <button class="chip" data-filter="remodelacion" onclick="filterPortfolio(this)">Remodelación</button>
+      <button class="chip" data-filter="obra" onclick="filterPortfolio(this)">Obra Nueva</button>
+      <button class="chip" data-filter="mantencion" onclick="filterPortfolio(this)">Mantención</button>
+    </div>
+    <div class="portfolio-grid" id="portfolioGrid">
+      <div class="p-item big" data-cat="obra"><img src="assets/refor3.jpg" alt="Oficina"/><span class="p-cat">Obra Nueva</span><div class="p-overlay"><span>Construcción de Oficina</span></div></div>
+      <div class="p-item small" data-cat="remodelacion"><img src="assets/refor4.jpg" alt="Baño"/><span class="p-cat">Remodelación</span><div class="p-overlay"><span>Acabados de Baño</span></div></div>
+      <div class="p-item small" data-cat="obra"><img src="assets/refor5.jpg" alt="Estructura"/><span class="p-cat">Obra Nueva</span><div class="p-overlay"><span>Estructura Metálica</span></div></div>
+      <div class="p-item small" data-cat="remodelacion"><img src="assets/refor7.jpg" alt="Living"/><span class="p-cat">Remodelación</span><div class="p-overlay"><span>Diseño de Living</span></div></div>
+      <div class="p-item small" data-cat="mantencion"><img src="assets/refor6.jpg" alt="Fachada"/><span class="p-cat">Mantención</span><div class="p-overlay"><span>Mantención Fachada</span></div></div>
+      <div class="p-item big" data-cat="remodelacion"><img src="assets/refor1.jpg" alt="Casa"/><span class="p-cat">Remodelación</span><div class="p-overlay"><span>Remodelación Casa</span></div></div>
+    </div>
+    <button class="btn-outline" onclick="scrollTo('#contacto')">Cotiza tu proyecto →</button>
+  </div>
+</section>
+
+<!-- BEFORE/AFTER -->
+<section class="sec sec-alt">
+  <div class="container">
+    <div class="sec-label">Transformaciones</div>
+    <div class="sec-title">Antes & Después</div>
+    <div class="sec-sub">Arrastra el divisor para comparar.</div>
+    <div class="ba-container" id="baContainer">
+      <div class="ba-after"><img src="assets/refor7.jpg" alt="Después"/></div>
+      <div class="ba-before" id="baBefore"><img src="assets/refor6.jpg" alt="Antes"/></div>
+      <div class="ba-divider" id="baDivider"></div>
+      <div class="ba-handle" id="baHandle"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/><line x1="3" y1="12" x2="21" y2="12" stroke-opacity="0"/></svg></div>
+      <div class="ba-label-l">Antes</div>
+      <div class="ba-label-r">Después</div>
+    </div>
+    <div class="ba-hint">← Arrastra el divisor para comparar →</div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="sec">
+  <div class="container">
+    <div class="sec-label">Lo que dicen</div>
+    <div class="sec-title">Nuestros Clientes</div>
+    <div class="testi-wrap">
+      <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"El equipo de RC transformó completamente la fachada de mi casa. Profesionalismo y atención al detalle que superaron mis expectativas. ¡Totalmente recomendados!"</div><div class="testi-author"><div class="testi-av"><img src="assets/refor11.jpg" alt="Ana"/></div><div><div class="testi-name">Ana G.</div><div class="testi-city">La Serena</div></div></div></div>
+      <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"Necesitaba mantención rápida para mi local y cumplieron con todo. Mínima interrupción y un trabajo impecable. Gran servicio, los volvería a contratar."</div><div class="testi-author"><div class="testi-av">C</div><div><div class="testi-name">Carlos M.</div><div class="testi-city">Coquimbo</div></div></div></div>
+      <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"Desde el diseño hasta la ejecución fueron transparentes y comunicativos en todo el proceso. Estamos muy felices con nuestro nuevo hogar."</div><div class="testi-author"><div class="testi-av">T</div><div><div class="testi-name">Familia Torres</div><div class="testi-city">La Serena</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec sec-alt" id="faq">
+  <div class="container">
+    <div class="sec-label">Preguntas frecuentes</div>
+    <div class="sec-title">FAQ</div>
+    <div class="faq-inner">
+      <div class="faq-list">
+        <div class="faq-item open"><div class="faq-q" onclick="toggleFAQ(this)">¿Hacen cotizaciones gratuitas?<span class="faq-icon">−</span></div><div class="faq-a">Sí, siempre. Contáctanos por WhatsApp o el formulario y en menos de 24 horas te entregamos un presupuesto detallado sin costo.</div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFAQ(this)">¿En qué zonas trabajan?<span class="faq-icon">+</span></div><div class="faq-a">Principalmente en La Serena, Coquimbo y comunas cercanas de la Región de Coquimbo. Para proyectos fuera de la región, contáctanos para evaluar.</div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFAQ(this)">¿Tienen garantía en sus trabajos?<span class="faq-icon">+</span></div><div class="faq-a">Sí. Todos nuestros trabajos cuentan con garantía de satisfacción. Si algo no quedó como acordamos, lo solucionamos sin costo adicional.</div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFAQ(this)">¿Cuánto demora una remodelación?<span class="faq-icon">+</span></div><div class="faq-a">Depende del alcance. Un baño puede tomar 5–10 días, una remodelación integral 4–8 semanas. Te damos plazos exactos en la cotización.</div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFAQ(this)">¿Cómo son los pagos?<span class="faq-icon">+</span></div><div class="faq-a">Trabajamos con un anticipo al inicio y cuotas según el avance de obra. Todo por escrito antes de comenzar. Aceptamos transferencia y efectivo.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-sec" id="contacto">
+  <div class="container">
+    <div class="contact-grid">
+      <div>
+        <div class="sec-label">Habla con nosotros</div>
+        <div class="sec-title">Cotiza tu Proyecto</div>
+        <div class="sec-sub">Sin compromiso. Te respondemos hoy.</div>
+        <button class="btn-wa-big" onclick="openWA()">
+          <div class="wa-circle"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.532 5.876L.054 23.25a.75.75 0 00.916.916l5.374-1.478A11.953 11.953 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.946 0-3.77-.503-5.352-1.384l-.383-.22-3.99 1.097 1.098-3.988-.22-.383A9.953 9.953 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg></div>
+          <div><div class="wa-txt-main">Escribir por WhatsApp</div><span class="wa-txt-sub">+56 9 8759 3649 · Respuesta rápida</span></div>
+        </button>
+        <div class="contact-info">
+          <div class="contact-info-item"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.08 1.18 2 2 0 012.07 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>+56 9 8759 3649</div>
+          <div class="contact-info-item"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>rcconstruccionesymantenimiento@gmail.com</div>
+          <div class="contact-info-item"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>La Serena · Coquimbo, Chile</div>
+        </div>
+      </div>
+      <div>
+        <form class="contact-form" onsubmit="return submitForm(event)">
+          <div class="form-group"><label>Nombre</label><input class="form-input" type="text" placeholder="Tu nombre completo"/></div>
+          <div class="form-group"><label>Teléfono</label><input class="form-input" type="tel" placeholder="+56 9 XXXX XXXX"/></div>
+          <div class="form-group"><label>Tipo de proyecto</label><select class="form-input"><option value="" disabled selected>Selecciona...</option><option>Remodelación</option><option>Obra Nueva</option><option>Mantención</option><option>Diseño Interior</option><option>Otro</option></select></div>
+          <div class="form-group"><label>Descripción</label><textarea class="form-input" placeholder="Cuéntanos qué necesitas..."></textarea></div>
+          <button type="submit" class="btn-submit">Enviar solicitud</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="assets/reformaslogoblanco.jpg" alt="RC Reformas" style="height:40px;border-radius:4px;display:block;margin-bottom:12px;"/>
+        <div class="footer-tagline">Construcciones & Mantención profesional en La Serena y Coquimbo.</div>
+      </div>
+      <div class="footer-links-col">
+        <h4>Navegación</h4>
+        <a onclick="scrollTo('#servicios')">Servicios</a>
+        <a onclick="scrollTo('#proyectos')">Proyectos</a>
+        <a onclick="scrollTo('#nosotros')">Nosotros</a>
+        <a onclick="scrollTo('#faq')">FAQ</a>
+        <a onclick="scrollTo('#contacto')">Contacto</a>
+      </div>
+      <div class="footer-contact-col">
+        <h4>Contacto</h4>
+        <p>+56 9 8759 3649<br/>rcconstruccionesymantenimiento<br/>@gmail.com<br/>La Serena · Coquimbo, Chile</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2024 RC Reformas Construcciones & Mantención</div>
+      <div class="footer-social">
+        <div class="social-btn"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+        <div class="social-btn" onclick="openWA()"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.532 5.876L.054 23.25a.75.75 0 00.916.916l5.374-1.478A11.953 11.953 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.946 0-3.77-.503-5.352-1.384l-.383-.22-3.99 1.097 1.098-3.988-.22-.383A9.953 9.953 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg></div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- FLOATING WA -->
+<button class="float-wa" onclick="openWA()">
+  <div class="float-wa-pulse"></div>
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.532 5.876L.054 23.25a.75.75 0 00.916.916l5.374-1.478A11.953 11.953 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.946 0-3.77-.503-5.352-1.384l-.383-.22-3.99 1.097 1.098-3.988-.22-.383A9.953 9.953 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+</button>
+
+<!-- TWEAKS -->
+<div class="tweaks-panel" id="tweaksPanel">
+  <h3>Tweaks</h3>
+  <div class="tweak-row"><label>Color acento</label><input type="color" id="tw-accent" value="#FFD600" oninput="applyAccent(this.value)"/></div>
+  <div class="tweak-row"><label>Fondo</label><select id="tw-bg" onchange="applyBg(this.value)"><option value="#111111">Negro</option><option value="#0f1923">Azul noche</option><option value="#181208">Cálido oscuro</option></select></div>
+</div>
+
+<script>
+// HERO SLIDER
+let cur=0,total=3,timer;
+const slides=document.getElementById('heroSlides');
+const dots=document.querySelectorAll('#heroDots button');
+function goSlide(n){cur=(n+total)%total;slides.style.transform=`translateX(-${cur*100}%)`;dots.forEach((d,i)=>d.classList.toggle('active',i===cur));resetTimer();}
+function nextSlide(){goSlide(cur+1);}function prevSlide(){goSlide(cur-1);}
+function resetTimer(){clearInterval(timer);timer=setInterval(nextSlide,4500);}
+resetTimer();
+let tx=0;
+slides.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
+slides.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)dx<0?nextSlide():prevSlide();});
+
+// NAV
+function toggleMenu(){document.getElementById('navDrawer').classList.toggle('open');}
+function closeMenu(e){if(e.target===document.getElementById('navDrawer'))toggleMenu();}
+
+// SCROLL
+function scrollTo(sel){const el=document.querySelector(sel);if(el)el.scrollIntoView({behavior:'smooth'});}
+
+// PORTFOLIO FILTER
+function filterPortfolio(btn){
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  const f=btn.dataset.filter;
+  const items=[...document.querySelectorAll('#portfolioGrid .p-item')];
+  items.forEach(el=>{el.style.display=(f==='all'||el.dataset.cat===f)?'':'none';el.classList.remove('big');});
+  const visible=items.filter(e=>e.style.display!=='none');
+  if(visible.length>0)visible[0].classList.add('big');
+}
+
+// BEFORE/AFTER
+const baCont=document.getElementById('baContainer');
+const baBefore=document.getElementById('baBefore');
+const baDivider=document.getElementById('baDivider');
+const baHandle=document.getElementById('baHandle');
+let isDragging=false;
+function setBAPos(pct){pct=Math.max(5,Math.min(95,pct));baBefore.style.width=pct+'%';baDivider.style.left=pct+'%';baHandle.style.left=pct+'%';}
+baCont.addEventListener('mousedown',e=>{isDragging=true;e.preventDefault();});
+baCont.addEventListener('touchstart',e=>{isDragging=true;},{passive:true});
+window.addEventListener('mousemove',e=>{if(!isDragging)return;const r=baCont.getBoundingClientRect();setBAPos(((e.clientX-r.left)/r.width)*100);});
+window.addEventListener('touchmove',e=>{if(!isDragging)return;const r=baCont.getBoundingClientRect();setBAPos(((e.touches[0].clientX-r.left)/r.width)*100);},{passive:true});
+window.addEventListener('mouseup',()=>isDragging=false);
+window.addEventListener('touchend',()=>isDragging=false);
+
+// FAQ
+function toggleFAQ(q){
+  const item=q.parentElement;
+  const wasOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i=>{i.classList.remove('open');i.querySelector('.faq-icon').textContent='+';});
+  if(!wasOpen){item.classList.add('open');q.querySelector('.faq-icon').textContent='−';}
+}
+
+// WA
+function openWA(){window.open('https://wa.me/56987593649?text=Hola%2C%20me%20gustar%C3%ADa%20cotizar%20un%20proyecto.','_blank');}
+
+// FORM
+function submitForm(e){e.preventDefault();const btn=e.target.querySelector('.btn-submit');btn.textContent='✓ ¡Enviado! Te contactamos pronto';btn.style.background='var(--green)';btn.style.color='#fff';return false;}
+
+// TWEAKS
+window.addEventListener('message',e=>{
+  if(e.data?.type==='__activate_edit_mode')document.getElementById('tweaksPanel').style.display='block';
+  if(e.data?.type==='__deactivate_edit_mode')document.getElementById('tweaksPanel').style.display='none';
+});
+window.parent.postMessage({type:'__edit_mode_available'},'*');
+function applyAccent(v){document.documentElement.style.setProperty('--yellow',v);document.documentElement.style.setProperty('--yellow-dim',v+'20');window.parent.postMessage({type:'__edit_mode_set_keys',edits:{accentColor:v}},'*');}
+function applyBg(v){document.documentElement.style.setProperty('--bg',v);document.body.style.background=v;}
+</script>
+</body>
+</html>

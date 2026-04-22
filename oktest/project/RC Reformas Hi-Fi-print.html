@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<title>RC Reformas — Diseño UI/UX</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --yellow:#FFD600;--bg:#111111;--surface:#1c1c1c;--surface2:#242424;
+  --border:rgba(255,255,255,0.1);--text:#ffffff;--muted:rgba(255,255,255,0.55);
+  --green:#25D366;--radius:12px;
+}
+@page{size:A4 landscape;margin:0;}
+
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'Inter',sans-serif;font-size:12px;line-height:1.5;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+h1,h2,h3,h4{font-family:'Poppins',sans-serif;}
+
+/* Each page */
+.page{
+  width:297mm;height:210mm;
+  overflow:hidden;
+  position:relative;
+  break-after:page;
+  display:flex;flex-direction:column;
+}
+
+/* PAGE 1 — COVER */
+.cover{background:var(--bg);padding:0;}
+.cover-hero{
+  flex:1;position:relative;overflow:hidden;
+  background:#000;
+}
+.cover-hero img{width:100%;height:100%;object-fit:cover;opacity:.5;position:absolute;inset:0;}
+.cover-hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(120deg,rgba(0,0,0,.92) 45%,transparent 80%);
+  display:flex;align-items:center;padding:40px 48px;
+}
+.cover-content{max-width:380px;}
+.cover-badge{background:var(--yellow);color:#111;font-family:'Poppins',sans-serif;font-weight:700;font-size:8px;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;border-radius:3px;display:inline-block;margin-bottom:16px;}
+.cover-title{font-size:36px;font-weight:800;line-height:1.1;color:#fff;margin-bottom:10px;}
+.cover-title span{color:var(--yellow);}
+.cover-sub{font-size:12px;color:rgba(255,255,255,.65);line-height:1.7;margin-bottom:20px;}
+.cover-wa{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:#fff;border-radius:8px;padding:10px 16px;font-family:'Poppins',sans-serif;font-weight:700;font-size:11px;}
+.cover-trust{position:absolute;bottom:0;left:0;right:0;background:var(--yellow);display:flex;justify-content:space-around;padding:10px 20px;}
+.trust-item{text-align:center;}
+.trust-num{font-family:'Poppins',sans-serif;font-weight:800;font-size:18px;color:#111;line-height:1;}
+.trust-label{font-size:8px;color:rgba(0,0,0,.6);font-weight:500;}
+.cover-logo{position:absolute;top:20px;left:48px;display:flex;align-items:center;gap:10px;}
+.cover-logo img{height:32px;border-radius:4px;}
+
+/* PAGE 2 — SERVICIOS + PROCESO */
+.p2-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;height:100%;}
+.p2-left{background:var(--surface);padding:32px 28px;display:flex;flex-direction:column;}
+.p2-right{background:var(--bg);padding:32px 28px;display:flex;flex-direction:column;border-left:1px solid rgba(255,255,255,.06);}
+.sec-label{font-size:8px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--yellow);margin-bottom:3px;}
+.sec-title{font-family:'Poppins',sans-serif;font-weight:800;font-size:18px;line-height:1.15;margin-bottom:14px;}
+.services-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;flex:1;}
+.svc-card{background:var(--surface2);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:12px;}
+.svc-icon{width:30px;height:30px;border-radius:7px;background:rgba(255,214,0,.12);display:flex;align-items:center;justify-content:center;margin-bottom:8px;}
+.svc-icon svg{width:16px;height:16px;stroke:var(--yellow);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.svc-card h4{font-family:'Poppins',sans-serif;font-size:9px;font-weight:700;margin-bottom:3px;}
+.svc-card p{font-size:8px;color:var(--muted);line-height:1.5;}
+.process-list{display:flex;flex-direction:column;gap:0;flex:1;justify-content:space-around;}
+.p-step{display:flex;gap:12px;align-items:flex-start;position:relative;}
+.p-step:not(:last-child)::after{content:'';position:absolute;left:13px;top:28px;bottom:-12px;width:1px;background:linear-gradient(to bottom,var(--yellow),transparent);}
+.p-num{width:26px;height:26px;border-radius:50%;background:var(--yellow);color:#111;font-family:'Poppins',sans-serif;font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.p-body h4{font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;margin-bottom:2px;}
+.p-body p{font-size:8px;color:var(--muted);line-height:1.5;}
+
+/* PAGE 3 — PORTFOLIO */
+.p3{padding:28px 32px;display:flex;flex-direction:column;}
+.portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr;gap:8px;flex:1;margin-top:14px;}
+.port-item{border-radius:8px;overflow:hidden;position:relative;background:#222;}
+.port-item img{width:100%;height:100%;object-fit:cover;display:block;}
+.port-item.span2{grid-column:span 2;}
+.port-cat{position:absolute;bottom:7px;left:7px;background:var(--yellow);color:#111;font-family:'Poppins',sans-serif;font-weight:700;font-size:7px;letter-spacing:.5px;text-transform:uppercase;padding:2px 7px;border-radius:3px;}
+
+/* PAGE 4 — TESTIMONIOS + FAQ */
+.p4-grid{display:grid;grid-template-columns:1fr 1fr;height:100%;}
+.p4-left{background:var(--surface);padding:28px 24px;display:flex;flex-direction:column;}
+.p4-right{background:var(--bg);padding:28px 24px;display:flex;flex-direction:column;border-left:1px solid rgba(255,255,255,.06);}
+.testi-list{display:flex;flex-direction:column;gap:10px;flex:1;margin-top:14px;}
+.testi-card{background:var(--surface2);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:12px;}
+.testi-stars{color:var(--yellow);font-size:9px;letter-spacing:2px;margin-bottom:6px;}
+.testi-text{font-size:8.5px;color:var(--muted);line-height:1.6;font-style:italic;}
+.testi-author{display:flex;align-items:center;gap:8px;margin-top:8px;padding-top:7px;border-top:1px solid rgba(255,255,255,.08);}
+.testi-av{width:26px;height:26px;border-radius:50%;background:#444;border:1.5px solid var(--yellow);overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:700;font-size:9px;color:var(--yellow);}
+.testi-av img{width:100%;height:100%;object-fit:cover;}
+.testi-name{font-family:'Poppins',sans-serif;font-weight:700;font-size:9px;}
+.testi-city{font-size:7.5px;color:var(--muted);}
+.faq-list{display:flex;flex-direction:column;gap:7px;flex:1;margin-top:14px;}
+.faq-item{background:var(--surface2);border:1px solid rgba(255,255,255,.08);border-radius:7px;padding:10px 12px;}
+.faq-item.open{border-color:rgba(255,214,0,.4);}
+.faq-q{font-family:'Poppins',sans-serif;font-weight:600;font-size:9px;margin-bottom:4px;color:#fff;}
+.faq-a{font-size:8px;color:var(--muted);line-height:1.55;}
+
+/* PAGE 5 — CONTACTO */
+.p5{background:var(--surface);padding:32px;display:flex;flex-direction:column;}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;flex:1;margin-top:20px;align-items:start;}
+.wa-btn{display:flex;align-items:center;gap:12px;background:var(--green);border-radius:10px;padding:14px 16px;margin-bottom:14px;}
+.wa-icon-circle{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.wa-icon-circle svg{width:20px;height:20px;fill:#fff;}
+.wa-main{font-family:'Poppins',sans-serif;font-weight:700;font-size:12px;color:#fff;}
+.wa-sub{font-size:9px;color:rgba(255,255,255,.8);}
+.contact-info-item{display:flex;align-items:center;gap:8px;font-size:9px;color:var(--muted);margin-bottom:8px;}
+.contact-info-item svg{width:13px;height:13px;stroke:var(--yellow);fill:none;stroke-width:1.8;flex-shrink:0;}
+.form-field{background:var(--surface2);border:1px solid rgba(255,255,255,.12);border-radius:6px;padding:9px 10px;color:rgba(255,255,255,.35);font-size:9px;margin-bottom:8px;font-family:'Inter',sans-serif;}
+.form-label{font-size:7.5px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:3px;}
+.form-submit{background:var(--yellow);color:#111;border-radius:8px;padding:11px;text-align:center;font-family:'Poppins',sans-serif;font-weight:700;font-size:10px;margin-top:4px;}
+
+/* PAGE HEADER STRIP */
+.page-strip{height:6px;background:var(--yellow);flex-shrink:0;}
+.page-footer{height:28px;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:space-between;padding:0 28px;flex-shrink:0;}
+.page-footer span{font-size:8px;color:rgba(255,255,255,.3);}
+.page-footer .pf-logo{font-family:'Poppins',sans-serif;font-weight:700;font-size:9px;color:rgba(255,255,255,.4);}
+</style>
+</head>
+<body>
+
+<!-- PAGE 1: COVER -->
+<div class="page cover">
+  <div class="cover-hero">
+    <img src="assets/refor1.jpg" alt="RC Reformas"/>
+    <div class="cover-hero-overlay">
+      <div class="cover-content">
+        <div class="cover-logo"><img src="assets/reformaslogoblanco.jpg" alt="RC Reformas"/></div>
+        <div style="height:24px;"></div>
+        <div class="cover-badge">📍 La Serena · Coquimbo</div>
+        <h1 class="cover-title">Calidad y confianza<br/><span>en cada detalle</span></h1>
+        <p class="cover-sub">Expertos en reformas y construcciones. Transformamos tus espacios con profesionalismo y los mejores materiales.</p>
+        <div class="cover-wa">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.532 5.876L.054 23.25a.75.75 0 00.916.916l5.374-1.478A11.953 11.953 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.946 0-3.77-.503-5.352-1.384l-.383-.22-3.99 1.097 1.098-3.988-.22-.383A9.953 9.953 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Cotiza por WhatsApp · +56 9 8759 3649
+        </div>
+      </div>
+    </div>
+    <div class="cover-trust">
+      <div class="trust-item"><div class="trust-num">+10</div><div class="trust-label">Años de experiencia</div></div>
+      <div class="trust-item"><div class="trust-num">+200</div><div class="trust-label">Proyectos realizados</div></div>
+      <div class="trust-item"><div class="trust-num">4.9★</div><div class="trust-label">Calificación promedio</div></div>
+      <div class="trust-item"><div class="trust-num">24h</div><div class="trust-label">Tiempo de respuesta</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 2: SERVICIOS + PROCESO -->
+<div class="page">
+  <div class="page-strip"></div>
+  <div class="p2-grid" style="flex:1;overflow:hidden;">
+    <div class="p2-left">
+      <div class="sec-label">Lo que hacemos</div>
+      <div class="sec-title">Servicios</div>
+      <div class="services-grid">
+        <div class="svc-card"><div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><h4>Remodelaciones</h4><p>Espacios completos transformados con profesionalismo.</p></div>
+        <div class="svc-card"><div class="svc-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div><h4>Obra Nueva</h4><p>Construcción desde cero con calidad garantizada.</p></div>
+        <div class="svc-card"><div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><h4>Eléctrico</h4><p>Instalaciones seguras y certificadas.</p></div>
+        <div class="svc-card"><div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M12 2c-2.8 0-5 2.2-5 5 0 3.5 5 10 5 10s5-6.5 5-10c0-2.8-2.2-5-5-5z"/><circle cx="12" cy="7" r="2"/></svg></div><h4>Gasfitería</h4><p>Soluciones rápidas y duraderas.</p></div>
+        <div class="svc-card"><div class="svc-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div><h4>Diseño Interior</h4><p>Ambientes funcionales y estéticos.</p></div>
+        <div class="svc-card"><div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div><h4>Pintura y Acabados</h4><p>Alta calidad que renueva tus superficies.</p></div>
+        <div class="svc-card" style="grid-column:span 2;"><div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div><h4>Mantenimiento Comercial</h4><p>Soluciones eficientes para que tu negocio nunca se detenga.</p></div>
+      </div>
+    </div>
+    <div class="p2-right">
+      <div class="sec-label">¿Cómo trabajamos?</div>
+      <div class="sec-title">Proceso Simple</div>
+      <div class="process-list">
+        <div class="p-step"><div class="p-num">1</div><div class="p-body"><h4>Cotiza gratis</h4><p>Escríbenos por WhatsApp o formulario. Respondemos en menos de 24 horas.</p></div></div>
+        <div class="p-step"><div class="p-num">2</div><div class="p-body"><h4>Visita técnica</h4><p>Evaluamos tu espacio y entregamos presupuesto detallado sin costo.</p></div></div>
+        <div class="p-step"><div class="p-num">3</div><div class="p-body"><h4>Aprueba el plan</h4><p>Materiales, plazos y pagos por escrito. Sin cambios inesperados.</p></div></div>
+        <div class="p-step"><div class="p-num">4</div><div class="p-body"><h4>¡Disfruta el resultado!</h4><p>Entregamos a tiempo con garantía de satisfacción en cada trabajo.</p></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer"><span>RC Reformas · rcconstruccionesymantenimiento@gmail.com</span><span class="pf-logo">+56 9 8759 3649</span></div>
+</div>
+
+<!-- PAGE 3: PORTFOLIO -->
+<div class="page">
+  <div class="page-strip"></div>
+  <div class="p3" style="flex:1;overflow:hidden;">
+    <div class="sec-label">Trabajos realizados</div>
+    <div class="sec-title">Proyectos Destacados</div>
+    <div class="portfolio-grid">
+      <div class="port-item span2"><img src="assets/refor3.jpg" alt="Oficina"/><span class="port-cat">Obra Nueva</span></div>
+      <div class="port-item"><img src="assets/refor9.jpg" alt="Comercial"/><span class="port-cat">Comercial</span></div>
+      <div class="port-item"><img src="assets/refor4.jpg" alt="Baño"/><span class="port-cat">Remodelación</span></div>
+      <div class="port-item"><img src="assets/refor5.jpg" alt="Estructura"/><span class="port-cat">Obra Nueva</span></div>
+      <div class="port-item"><img src="assets/refor7.jpg" alt="Living"/><span class="port-cat">Diseño Interior</span></div>
+    </div>
+  </div>
+  <div class="page-footer"><span>RC Reformas · La Serena · Coquimbo, Chile</span><span class="pf-logo">rcreformas.cl</span></div>
+</div>
+
+<!-- PAGE 4: TESTIMONIOS + FAQ -->
+<div class="page">
+  <div class="page-strip"></div>
+  <div class="p4-grid" style="flex:1;overflow:hidden;">
+    <div class="p4-left">
+      <div class="sec-label">Lo que dicen</div>
+      <div class="sec-title">Clientes</div>
+      <div class="testi-list">
+        <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"El equipo de RC transformó completamente la fachada de mi casa. Profesionalismo y atención al detalle que superaron mis expectativas."</div><div class="testi-author"><div class="testi-av"><img src="assets/refor11.jpg" alt="Ana"/></div><div><div class="testi-name">Ana G.</div><div class="testi-city">La Serena</div></div></div></div>
+        <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"Mantención rápida para mi local. Mínima interrupción y trabajo impecable. Gran servicio, los volvería a contratar."</div><div class="testi-author"><div class="testi-av">C</div><div><div class="testi-name">Carlos M.</div><div class="testi-city">Coquimbo</div></div></div></div>
+        <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"Desde el diseño hasta la ejecución fueron transparentes y comunicativos. Estamos muy felices con nuestro nuevo hogar."</div><div class="testi-author"><div class="testi-av">T</div><div><div class="testi-name">Familia Torres</div><div class="testi-city">La Serena</div></div></div></div>
+      </div>
+    </div>
+    <div class="p4-right">
+      <div class="sec-label">Preguntas frecuentes</div>
+      <div class="sec-title">FAQ</div>
+      <div class="faq-list">
+        <div class="faq-item open"><div class="faq-q">¿Hacen cotizaciones gratuitas?</div><div class="faq-a">Sí, siempre. Contáctanos y en menos de 24h te entregamos presupuesto detallado sin costo.</div></div>
+        <div class="faq-item"><div class="faq-q">¿En qué zonas trabajan?</div><div class="faq-a">La Serena, Coquimbo y comunas cercanas de la Región de Coquimbo.</div></div>
+        <div class="faq-item"><div class="faq-q">¿Tienen garantía en sus trabajos?</div><div class="faq-a">Sí. Todos nuestros trabajos cuentan con garantía de satisfacción.</div></div>
+        <div class="faq-item"><div class="faq-q">¿Cuánto demora una remodelación?</div><div class="faq-a">Un baño 5–10 días, remodelación integral 4–8 semanas. Plazos exactos en la cotización.</div></div>
+        <div class="faq-item"><div class="faq-q">¿Cómo son los pagos?</div><div class="faq-a">Anticipo al inicio y cuotas según avance de obra. Todo por escrito antes de comenzar.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer"><span>RC Reformas · rcconstruccionesymantenimiento@gmail.com</span><span class="pf-logo">+56 9 8759 3649</span></div>
+</div>
+
+<!-- PAGE 5: CONTACT -->
+<div class="page">
+  <div class="page-strip"></div>
+  <div class="p5" style="flex:1;overflow:hidden;">
+    <div class="sec-label">Habla con nosotros</div>
+    <div class="sec-title">Cotiza tu Proyecto</div>
+    <div class="contact-grid">
+      <div>
+        <div class="wa-btn">
+          <div class="wa-icon-circle"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.532 5.876L.054 23.25a.75.75 0 00.916.916l5.374-1.478A11.953 11.953 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.946 0-3.77-.503-5.352-1.384l-.383-.22-3.99 1.097 1.098-3.988-.22-.383A9.953 9.953 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg></div>
+          <div><div class="wa-main">Escribir por WhatsApp</div><div class="wa-sub">+56 9 8759 3649 · Respuesta rápida</div></div>
+        </div>
+        <div class="contact-info-item"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.08 1.18 2 2 0 012.07 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>+56 9 8759 3649</div>
+        <div class="contact-info-item"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>rcconstruccionesymantenimiento@gmail.com</div>
+        <div class="contact-info-item"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>La Serena · Coquimbo, Chile</div>
+        <div style="margin-top:20px;background:var(--surface2);border-radius:10px;overflow:hidden;">
+          <img src="assets/refor1.jpg" alt="RC" style="width:100%;height:90px;object-fit:cover;opacity:.6;display:block;"/>
+        </div>
+      </div>
+      <div>
+        <label class="form-label">Nombre</label><div class="form-field">Tu nombre completo</div>
+        <label class="form-label">Teléfono</label><div class="form-field">+56 9 XXXX XXXX</div>
+        <label class="form-label">Tipo de proyecto</label><div class="form-field">Selecciona...</div>
+        <label class="form-label">Descripción</label><div class="form-field" style="height:48px;">Cuéntanos qué necesitas...</div>
+        <div class="form-submit">Enviar solicitud</div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer"><span>© 2024 RC Reformas Construcciones & Mantención · La Serena, Chile</span><span class="pf-logo">rcreformas.cl</span></div>
+</div>
+
+<script>
+window.addEventListener('load', () => {
+  document.fonts.ready.then(() => {
+    setTimeout(() => window.print(), 800);
+  });
+});
+</script>
+</body>
+</html>
