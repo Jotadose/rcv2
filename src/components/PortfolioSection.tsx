@@ -16,6 +16,23 @@ type PortfolioItem = {
 };
 
 const ITEMS: PortfolioItem[] = [
+  // Nuevos proyectos (más recientes primero)
+  { image: "/REFORMAS/IMG-20260422-WA0085.jpg", label: "Remodelación", title: "Proyecto de Reforma", cat: "remodelacion", size: "big" },
+  { image: "/REFORMAS/IMG-20260422-WA0083.jpg", label: "Remodelación", title: "Proyecto de Reforma", cat: "remodelacion", size: "small" },
+  { image: "/REFORMAS/IMG-20260422-WA0081.jpg", label: "Remodelación", title: "Proyecto de Reforma", cat: "remodelacion", size: "small" },
+  { image: "/REFORMAS/IMG-20260422-WA0079.jpg", label: "Remodelación", title: "Proyecto de Reforma", cat: "remodelacion", size: "small" },
+  { image: "/REFORMAS/IMG-20260422-WA0077.jpg", label: "Remodelación", title: "Proyecto de Reforma", cat: "remodelacion", size: "small" },
+  { image: "/REFORMAS/IMG-20260422-WA0075.jpg", label: "Remodelación", title: "Proyecto de Reforma", cat: "remodelacion", size: "big" },
+  { image: "/REFORMAS/IMG-20260422-WA0073.jpg", label: "Remodelación", title: "Proyecto de Reforma", cat: "remodelacion", size: "small" },
+  { image: "/REFORMAS/IMG-20260422-WA0070.jpg", label: "Remodelación", title: "Proyecto de Reforma", cat: "remodelacion", size: "small" },
+  { image: "/REFORMAS/IMG-20260422-WA0068.jpg", label: "Remodelación", title: "Proyecto de Reforma", cat: "remodelacion", size: "small" },
+  { image: "/REFORMAS/IMG-20260422-WA0066.jpg", label: "Remodelación", title: "Proyecto de Reforma", cat: "remodelacion", size: "small" },
+  { image: "/REFORMAS/IMG-20260422-WA0064.jpg", label: "Remodelación", title: "Proyecto de Reforma", cat: "remodelacion", size: "big" },
+  { image: "/REFORMAS/IMG-20260422-WA0062.jpg", label: "Remodelación", title: "Proyecto de Reforma", cat: "remodelacion", size: "small" },
+  { image: "/REFORMAS/IMG-20260422-WA0060.jpg", label: "Remodelación", title: "Proyecto de Reforma", cat: "remodelacion", size: "small" },
+  { image: "/REFORMAS/IMG-20260422-WA0048.jpg", label: "Remodelación", title: "Proyecto de Reforma", cat: "remodelacion", size: "small" },
+  { image: "/REFORMAS/IMG-20260422-WA0046.jpg", label: "Remodelación", title: "Proyecto de Reforma", cat: "remodelacion", size: "small" },
+  // Proyectos anteriores
   { image: "/REFORMAS/refor3.jpg", label: "Obra Nueva", title: "Construcción de Oficina", cat: "obra", size: "big" },
   { image: "/REFORMAS/refor4.jpg", label: "Remodelación", title: "Acabados de Baño", cat: "remodelacion", size: "small" },
   { image: "/REFORMAS/refor5.jpg", label: "Obra Nueva", title: "Estructura Metálica", cat: "obra", size: "small" },

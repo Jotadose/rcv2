@@ -14,7 +14,7 @@ const WA_ICON = (
 
 const slides = [
   {
-    image: "/REFORMAS/refor1.jpg",
+    image: "/REFORMAS/IMG-20260422-WA0085.jpg",
     badge: "📍 La Serena · Coquimbo",
     title: "Calidad y confianza",
     titleHighlight: "en cada detalle",
@@ -22,7 +22,7 @@ const slides = [
       "Expertos en reformas y construcciones. Transformamos tus espacios con profesionalismo y los mejores materiales.",
   },
   {
-    image: "/REFORMAS/refor3.jpg",
+    image: "/REFORMAS/IMG-20260422-WA0083.jpg",
     badge: "🏗️ Obra Nueva",
     title: "Construimos tus",
     titleHighlight: "sueños desde cero",
@@ -30,7 +30,7 @@ const slides = [
       "Estructuras sólidas, plazos cumplidos y transparencia total en cada etapa de tu proyecto.",
   },
   {
-    image: "/REFORMAS/refor13.jpg",
+    image: "/REFORMAS/IMG-20260422-WA0081.jpg",
     badge: "🏠 Remodelación",
     title: "Transformamos",
     titleHighlight: "tus espacios",
