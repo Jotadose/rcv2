@@ -1,53 +1,52 @@
-# RC Reformas
+RC Reformas — Sitio corporativo con estimador de cotización
+Sitio web en producción para RC Reformas, empresa de remodelación y reformas, con un estimador de presupuestos interactivo y captura de leads multicanal.
+🔗 En vivo: https://rcreformas.com
+🧩 Stack: Next.js 15 · React 19 · TypeScript · Tailwind CSS 4
+<!-- Reemplaza esta línea por una captura real del sitio:
+![RC Reformas](docs/screenshot-home.png) -->
 
-Sitio corporativo de RC Reformas construido con Next.js 15, React 19 y Tailwind CSS 4.
+Qué resuelve
+RC Reformas necesitaba un sitio que no solo presentara la empresa, sino que calificara y capturara clientes de forma autónoma. El sitio convierte visitas en leads cualificados sin intervención manual:
 
-## Stack actual
+Estimador de cotización propio: calcula un presupuesto estimado según tipo de proyecto, nivel de calidad y superficie (m²), usando un modelo de multiplicadores configurable por el negocio.
+Captura de leads con fallback: los formularios envían el lead a Formspree y, si el envío falla, redirigen automáticamente a WhatsApp con el resumen pre-cargado — el cliente nunca pierde un contacto.
+Galería de trabajos: sección de proyectos y comparativas "antes / después" para mostrar el trabajo realizado.
 
-- Next.js 15
-- React 19
-- TypeScript
-- Tailwind CSS 4
-- Formspree para formularios
-- WhatsApp como canal de seguimiento
-- Galeria de Instagram basada en assets locales y URLs publicas configurables
+Decisiones técnicas destacadas
 
-## Variables de entorno
+Integración con Instagram iterada: la primera versión usaba la Basic Display API con tokens, OAuth y webhooks. Al volverse demasiado pesada de mantener para el caso de uso, la migré a un enfoque más liviano basado en embeds públicos configurables, dejando los endpoints antiguos respondiendo 410 Gone. Menos superficie de mantenimiento, mismo resultado para el cliente.
+Configuración separada del código: datos del negocio, sitio e integraciones viven en src/config/, de modo que el cliente puede ajustar precios, textos y enlaces sin tocar la lógica.
+Listo para producción: sitemap.ts, páginas de privacidad y eliminación de datos, scripts de verificación pre-deploy y despliegue continuo en Vercel.
 
-```env
-NEXT_PUBLIC_FORMSPREE_ENDPOINT=https://formspree.io/f/YOUR_FORM_ID
-NEXT_PUBLIC_SITE_URL=https://rcreformas.cl
+Arquitectura
+src/
+├── app/
+│   ├── api/            # API routes (contacto, estimador, health)
+│   ├── page.tsx        # Landing principal
+│   ├── sitemap.ts      # SEO
+│   └── privacy/        # Páginas legales
+├── components/         # Secciones de UI (Hero, Servicios, Portfolio, FAQ...)
+├── config/             # Configuración de negocio, sitio e Instagram
+└── lib/
+    └── chat-estimator/ # Lógica del estimador: cálculo, flujo y tipos
+Tecnologías
+CapaHerramientasFrameworkNext.js 15 (App Router), React 19LenguajeTypeScriptEstilosTailwind CSS 4Formularios / leadsFormspree + fallback a WhatsAppDeployVercel
+Correr localmente
+bashgit clone https://github.com/Jotadose/rcv2.git
+cd rcv2
+npm install
+npm run dev          # http://localhost:3000
+Variables de entorno
+Crea un archivo .env.local:
+envNEXT_PUBLIC_FORMSPREE_ENDPOINT=https://formspree.io/f/TU_FORM_ID
+NEXT_PUBLIC_SITE_URL=https://rcreformas.com
+# Opcional: posts públicos para la galería de Instagram
 NEXT_PUBLIC_INSTAGRAM_EMBED_URLS=https://www.instagram.com/p/POST_1/,https://www.instagram.com/p/POST_2/
-```
+Scripts útiles
+bashnpm run build                       # build de producción
+npm run lint                        # linting
+node scripts/pre-deploy-check.js    # verificación previa al despliegue
 
-`NEXT_PUBLIC_INSTAGRAM_EMBED_URLS` es opcional. Si no existe, la home usa una seleccion local curada.
-
-## Scripts utiles
-
-```bash
-npm run dev
-npm run build
-npm run lint
-node scripts/pre-deploy-check.js
-node scripts/setup-env-vars.js
-```
-
-## Instagram
-
-La galeria publica ya no usa tokens, webhooks ni Basic Display API. La estrategia actual es:
-
-1. Mostrar tarjetas optimizadas con `next/image`.
-2. Vincular cada tarjeta a una publicacion publica o al perfil.
-3. Permitir reemplazar esos links desde `NEXT_PUBLIC_INSTAGRAM_EMBED_URLS`.
-
-La documentacion operativa de esta seccion esta en `src/app/instagram-setup/page.tsx` y `INSTAGRAM_AUDIT.md`.
-
-## Contacto
-
-El formulario envia leads directamente a Formspree. Si el envio falla, el flujo redirige a WhatsApp con el resumen del lead.
-
-## Notas
-
-- El proyecto ya no persiste chats ni contactos en el servidor.
-- Los endpoints legacy de Instagram quedaron en estado `410`.
-- El dominio canonico esperado es `https://rcreformas.cl`.
+Autor
+Juan Emilio Elgueda Lillo — Desarrollador Full Stack
+Portafolio · LinkedIn · GitHub
